@@ -127,3 +127,26 @@ import { Search } from '@element-plus/icons-vue';
     <el-icon class="el-input__icon"><search /></el-icon>
   </template>
 </el-input>
+
+-- 安裝 axios : https://axios-http.com/zh/docs/intro
+
+npm install axios
+
+- 在 src 下新建 axios.js
+
+import axios from 'axios';
+
+//https://axios-http.com/zh/docs/instance
+const instance = axios.create({
+baseURL: 'https://some-domain.com/api/',
+});
+
+export default instance;
+
+- 在 src 下新建 api 資料夾
+
+-- 在 vite 配置，解決跨域問題 : https://cn.vite.dev/
+
+https://cn.vite.dev/config/server-options.html#server-proxy
+
+server: {proxy: {'/api': {// 這裡改成 src/axios.js 寫的 baseURLtarget: 'http://localhost:3000',changeOrigin: true,rewrite: (path) => path.replace(/^\/api/, ''),},},},

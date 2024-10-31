@@ -12,5 +12,18 @@ export default defineConfig({
     },
   },
 
+  //https://cn.vite.dev/config/server-options.html#server-proxy
+  //在 vite 配置，解決跨域問題
+  server: {
+    proxy: {
+      '/api': {
+        // 這裡改成 src/axios.js 寫的 baseURL
+        target: 'http://localhost:3000',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/api/, ''),
+      },
+    },
+  },
+
   plugins: [vue()],
 });

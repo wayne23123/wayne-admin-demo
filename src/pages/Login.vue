@@ -3,6 +3,8 @@ import { ref, reactive } from 'vue';
 
 import { User, Lock } from '@element-plus/icons-vue';
 
+import { login } from '@/api/manager';
+
 const form = reactive({
   username: 'admin',
   password: '123456',
@@ -36,6 +38,18 @@ const formRef = ref(null);
 const onSubmit = () => {
   formRef.value.validate((valid) => {
     // console.log('valid', valid);
+    if (!valid) {
+      return false;
+    }
+
+    login(form.username, form.password)
+      .then((res) => {
+        console.log('res', res);
+      })
+      .catch((error) => {
+        // console.log('error', error);
+        console.log('error.response.data', error.response.data);
+      });
   });
 };
 </script>
