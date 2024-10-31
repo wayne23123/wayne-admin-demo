@@ -55,12 +55,12 @@ npm install vue-router@4
 
 - 3. 在 2 的 index.js
 
-import { createMemoryHistory, createRouter } from 'vue-router';
+import { createWebHistory, createRouter } from 'vue-router';
 
 const routes = [];
 
 const router = createRouter({
-history: createMemoryHistory(),
+history: createWebHistory(),
 routes,
 });
 
@@ -97,3 +97,11 @@ component: index,
 <template>
   <router-view></router-view>
 </template>
+
+-- 設定 404 頁面
+
+- 在 router 資料夾下的 index.js
+
+import NotFound from '@/pages/NotFound.vue';
+
+const routes = [ //https://router.vuejs.org/zh/guide/essentials/dynamic-matching.html{path: '/:pathMatch(.*)*', // 放在其他路之後 name: 'NotFound',component: NotFound,},];

@@ -1,6 +1,7 @@
-import { createMemoryHistory, createRouter } from 'vue-router';
+import { createWebHistory, createRouter } from 'vue-router';
 
 import index from '@/pages/index.vue';
+import NotFound from '@/pages/NotFound.vue';
 
 const routes = [
   {
@@ -8,10 +9,18 @@ const routes = [
     name: 'index',
     component: index,
   },
+
+  //https://router.vuejs.org/zh/guide/essentials/dynamic-matching.html
+  // 将匹配所有内容并将其放在 `route.params.pathMatch` 下
+  {
+    path: '/:pathMatch(.*)*', // 放在其他路由之後
+    name: 'NotFound',
+    component: NotFound,
+  },
 ];
 
 const router = createRouter({
-  history: createMemoryHistory(),
+  history: createWebHistory(), // 使用 Web History 模式
   routes,
 });
 
