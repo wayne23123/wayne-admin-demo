@@ -16,6 +16,8 @@ const router = useRouter();
 
 const cookie = useCookies();
 
+const isButtonLoading = ref(false);
+
 const form = reactive({
   username: 'admin',
   password: 'admin',
@@ -52,6 +54,8 @@ const onSubmit = () => {
     if (!valid) {
       return false;
     }
+
+    isButtonLoading.value = true;
 
     login(form.username, form.password)
       .then((response) => {
@@ -91,6 +95,9 @@ const onSubmit = () => {
         //   type: 'error',
         //   duration: 3000,
         // });
+      })
+      .finally(() => {
+        isButtonLoading.value = false;
       });
   });
 };
@@ -165,6 +172,7 @@ const onSubmit = () => {
 
           <el-form-item>
             <el-button
+              :loading="isButtonLoading"
               round
               color="#626aef"
               type="primary"
