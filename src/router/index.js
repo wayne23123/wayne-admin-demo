@@ -1,6 +1,7 @@
 import { createWebHistory, createRouter } from 'vue-router';
 
 import index from '@/pages/index.vue';
+import Login from '@/pages/Login.vue';
 import NotFound from '@/pages/NotFound.vue';
 
 const routes = [
@@ -8,6 +9,12 @@ const routes = [
     path: '/',
     name: 'index',
     component: index,
+  },
+
+  {
+    path: '/login',
+    name: 'Login',
+    component: Login,
   },
 
   //https://router.vuejs.org/zh/guide/essentials/dynamic-matching.html
