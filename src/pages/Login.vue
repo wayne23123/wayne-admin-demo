@@ -1,16 +1,9 @@
 <script setup>
 import { reactive } from 'vue';
 
-// do not use same name with ref
 const form = reactive({
-  name: '',
-  region: '',
-  date1: '',
-  date2: '',
-  delivery: false,
-  type: [],
-  resource: '',
-  desc: '',
+  username: 'admin',
+  password: '123456',
 });
 
 const onSubmit = () => {
@@ -24,9 +17,9 @@ const onSubmit = () => {
     <el-row style="min-height: 100vh">
       <el-col :span="16" class="flex justify-center items-center bg-indigo-500">
         <div>
-          <div class="text-5xl font-bold">歡迎光臨</div>
-          <div class="">歡迎來到 Wayne 的後台演示 Demo</div>
-          <div>
+          <div class="text-gray-50 text-5xl font-bold pb-4">歡迎光臨</div>
+          <div class="text-gray-200 pb-2">歡迎來到 Wayne 的後台演示 Demo</div>
+          <div class="text-gray-200">
             本專案使用【vue3 + vite + element-plus】，
             <a href="https://github.com/wayne23123/wayne-admin-demo"
               >git hub 倉庫</a
@@ -39,23 +32,32 @@ const onSubmit = () => {
         :span="8"
         class="flex flex-col justify-center items-center bg-white-50"
       >
-        <h2>歡迎回來</h2>
-        <div>
-          <span></span>
+        <h2 class="text-gray-800 text-3xl font-bold">歡迎回來</h2>
+        <div
+          class="flex justify-center items-center space-x-2 text-gray-500 my-4"
+        >
+          <span class="h-[1px] w-16 bg-gray-400"></span>
           <span>帳號密碼登入</span>
-          <span></span>
+          <span class="h-[1px] w-16 bg-gray-400"></span>
         </div>
 
-        <el-form :model="form">
+        <el-form :model="form" class="w-[250px]">
           <el-form-item>
-            <el-input v-model="form.name" />
+            <el-input v-model="form.username" placeholder="請輸入帳號" />
           </el-form-item>
           <el-form-item>
-            <el-input v-model="form.name" />
+            <el-input v-model="form.password" placeholder="請輸入密碼" />
           </el-form-item>
 
           <el-form-item>
-            <el-button type="primary" @click="onSubmit">登入</el-button>
+            <el-button
+              round
+              color="#626aef"
+              type="primary"
+              @click="onSubmit"
+              class="w-[250px]"
+              >登入</el-button
+            >
           </el-form-item>
         </el-form>
       </el-col>
