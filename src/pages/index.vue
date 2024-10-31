@@ -4,7 +4,7 @@ import { useCookies } from '@vueuse/integrations/useCookies';
 
 const cookie = useCookies();
 
-console.log('cookie', cookie);
+// console.log('cookie', cookie);
 
 const setCookie = () => {
   cookie.set('admin-token', '123456');

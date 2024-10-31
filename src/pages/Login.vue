@@ -3,7 +3,7 @@ import { ref, reactive } from 'vue';
 
 import { User, Lock } from '@element-plus/icons-vue';
 
-import { login } from '@/api/manager';
+import { login, getinfo } from '@/api/manager';
 
 import { ElNotification } from 'element-plus';
 
@@ -75,6 +75,11 @@ const onSubmit = () => {
 
         // console.log('response.data.data.token', response.data.data.token);
         cookie.set('admin-token', response.data.data.token);
+
+        // 獲取用戶訊息
+        getinfo().then((response) => {
+          console.log('response', response);
+        });
 
         router.push({ path: '/' });
       })
