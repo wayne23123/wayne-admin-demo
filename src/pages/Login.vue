@@ -81,12 +81,11 @@ const onSubmit = () => {
       .catch((error) => {
         // console.log('error', error);
         // console.log('error.response.data', error.response.data);
-
-        ElNotification({
-          message: error.response.data.msg || '請求失敗',
-          type: 'error',
-          duration: 3000,
-        });
+        // ElNotification({
+        //   message: error.response.data.msg || '請求失敗',
+        //   type: 'error',
+        //   duration: 3000,
+        // });
       });
   });
 };
