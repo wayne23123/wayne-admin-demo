@@ -105,3 +105,25 @@ component: index,
 import NotFound from '@/pages/NotFound.vue';
 
 const routes = [ //https://router.vuejs.org/zh/guide/essentials/dynamic-matching.html{path: '/:pathMatch(.*)*', // 放在其他路之後 name: 'NotFound',component: NotFound,},];
+
+--安裝 element-plus icon : https://element-plus.org/zh-CN/component/icon.html
+
+npm install @element-plus/icons-vue
+
+- 使用方法 1. 在 main.js 全局引入
+
+import \* as ElementPlusIconsVue from '@element-plus/icons-vue';
+
+for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
+app.component(key, component)
+}
+
+- 使用方法 2. 組件內引入
+
+import { Search } from '@element-plus/icons-vue';
+
+<el-input v-model="form.username" placeholder="請輸入帳號">
+  <template #prefix>
+    <el-icon class="el-input__icon"><search /></el-icon>
+  </template>
+</el-input>
