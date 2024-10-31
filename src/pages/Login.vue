@@ -9,7 +9,12 @@ import { ElNotification } from 'element-plus';
 
 import { useRouter } from 'vue-router';
 
+//https://vueuse.org/integrations/useCookies/#usecookies
+import { useCookies } from '@vueuse/integrations/useCookies';
+
 const router = useRouter();
+
+const cookie = useCookies();
 
 const form = reactive({
   username: 'admin',
@@ -50,7 +55,7 @@ const onSubmit = () => {
 
     login(form.username, form.password)
       .then((response) => {
-        console.log('response', response);
+        // console.log('response', response);
 
         // 檢查回應碼是否不在 200-299 範圍（表示發生錯誤）
         if (response.data.code < 200 || response.data.code >= 300) {
@@ -67,6 +72,9 @@ const onSubmit = () => {
           type: 'success',
           duration: 3000,
         });
+
+        // console.log('response.data.data.token', response.data.data.token);
+        cookie.set('admin-token', response.data.data.token);
 
         router.push({ path: '/' });
       })
