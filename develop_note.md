@@ -35,3 +35,13 @@ npx tailwindcss init -p
   <div class="text-center p-4 bg-blue-500 text-white">
     <h1 class="text-2xl font-bold">Hello, Tailwind CSS in Vue 3!</h1>
   </div>
+
+-- 引入 vue router : https://router.vuejs.org/zh/
+
+npm install vue-router@4
+
+- 1. 在 src 下新建 router 資料夾
+
+- 2. 在 router 資料夾下新建 index.js
+
+- 3.
