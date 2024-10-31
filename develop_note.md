@@ -98,6 +98,8 @@ component: index,
   <router-view></router-view>
 </template>
 
+--- / -----------------------------------------------------------------------------------------------------------------------
+
 -- 設定 404 頁面
 
 - 在 router 資料夾下的 index.js
@@ -128,6 +130,8 @@ import { Search } from '@element-plus/icons-vue';
   </template>
 </el-input>
 
+--- / -----------------------------------------------------------------------------------------------------------------------
+
 -- 安裝 axios : https://axios-http.com/zh/docs/intro
 
 npm install axios
@@ -151,6 +155,8 @@ https://cn.vite.dev/config/server-options.html#server-proxy
 
 server: {proxy: {'/api': {// 這裡改成 src/axios.js 寫的 baseURLtarget: 'http://localhost:3000',changeOrigin: true,rewrite: (path) => path.replace(/^\/api/, ''),},},},
 
+--- / -----------------------------------------------------------------------------------------------------------------------
+
 -- 安裝 mock : http://mockjs.com/
 
 npm install vite-plugin-mock -D
@@ -172,3 +178,30 @@ export default [ { url: '/api/user', // 請求的 API 路徑 method: 'get', // H
 import { login } from '@/api/manager';
 
 const onSubmit = () => { login(form.username, form.password) .then((res) => { console.log('res', res); })};
+
+--- / -----------------------------------------------------------------------------------------------------------------------
+
+-- 安裝 vueuse 的 useCookies 方法 : https://vueuse.org/integrations/useCookies/#usecookies
+
+npm i @vueuse/integrations
+
+npm i universal-cookie
+
+- 在元件中
+
+import { useCookies } from '@vueuse/integrations/useCookies';
+
+const cookie = useCookies();
+
+console.log('cookie', cookie);
+
+- 測試
+
+const setCookie = () => {cookie.set('admin-token', '123456');};
+const getCookie = () => {console.log(cookie.get('admin-token'));};
+const removeCookie = () => {cookie.remove('admin-token');};
+<el-button @click="setCookie">設定 cookie</el-button>
+<el-button @click="getCookie">讀取 cookie</el-button>
+<el-button @click="removeCookie">刪除 cookie</el-button>
+
+--- / -----------------------------------------------------------------------------------------------------------------------

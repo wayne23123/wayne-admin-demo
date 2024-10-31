@@ -7,9 +7,13 @@ import { login } from '@/api/manager';
 
 import { ElNotification } from 'element-plus';
 
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+
 const form = reactive({
   username: 'admin',
-  password: '123456',
+  password: 'admin',
 });
 
 const rules = {
@@ -45,12 +49,36 @@ const onSubmit = () => {
     }
 
     login(form.username, form.password)
-      .then((res) => {
-        console.log('res', res);
+      .then((response) => {
+        console.log('response', response);
+
+        // 檢查回應碼是否不在 200-299 範圍（表示發生錯誤）
+        if (response.data.code < 200 || response.data.code >= 300) {
+          ElNotification({
+            message: response.data.message || '發生錯誤',
+            type: 'error',
+            duration: 3000,
+          });
+          return;
+        }
+
+        ElNotification({
+          message: response.data.message || '登入成功',
+          type: 'success',
+          duration: 3000,
+        });
+
+        router.push({ path: '/' });
       })
       .catch((error) => {
         // console.log('error', error);
-        console.log('error.response.data', error.response.data);
+        // console.log('error.response.data', error.response.data);
+
+        ElNotification({
+          message: error.response.data.msg || '請求失敗',
+          type: 'error',
+          duration: 3000,
+        });
       });
   });
 };
