@@ -4,6 +4,8 @@ import vue from '@vitejs/plugin-vue';
 // node path 模塊 處理路徑
 import path from 'path';
 
+import { viteMockServe } from 'vite-plugin-mock';
+
 // https://vite.dev/config/
 export default defineConfig({
   resolve: {
@@ -25,5 +27,12 @@ export default defineConfig({
     },
   },
 
-  plugins: [vue()],
+  plugins: [
+    vue(),
+
+    viteMockServe({
+      mockPath: 'mock', // 設定模擬數據的檔案夾名稱
+      localEnabled: true, // 設置是否在本地開發時啟用 mock
+    }),
+  ],
 });

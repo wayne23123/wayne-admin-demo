@@ -150,3 +150,25 @@ export default instance;
 https://cn.vite.dev/config/server-options.html#server-proxy
 
 server: {proxy: {'/api': {// 這裡改成 src/axios.js 寫的 baseURLtarget: 'http://localhost:3000',changeOrigin: true,rewrite: (path) => path.replace(/^\/api/, ''),},},},
+
+-- 安裝 mock : http://mockjs.com/
+
+npm install vite-plugin-mock -D
+
+- 在 vite.config.js 配置
+
+import { viteMockServe } from 'vite-plugin-mock';
+
+plugins: [ vue(), viteMockServe({ mockPath: 'mock', // 設定模擬數據的檔案夾名稱 localEnabled: true, // 設置是否本地開發時啟用 mock }), ],
+
+- 在專案的根目錄下創建一個名為 mock 的文件夾
+
+- 新建 login.js
+
+export default [ { url: '/api/user', // 請求的 API 路徑 method: 'get', // HTTP 請求方法 response: () => { return { code: 200, data: { id: 1, name: 'John Doe', age: 30, }, }; }, }, { url: '/api/users', // 多筆數據的 API 路徑 method: 'get', response: () => { return { code: 200, ata: [ { id: 1, name: 'John Doe', age: 30 }, { id: 2, name: 'Jane Doe', age: 25 }, ], }; }, },];
+
+- 在元件
+
+import { login } from '@/api/manager';
+
+const onSubmit = () => { login(form.username, form.password) .then((res) => { console.log('res', res); })};

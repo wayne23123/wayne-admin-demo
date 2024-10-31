@@ -5,6 +5,8 @@ import { User, Lock } from '@element-plus/icons-vue';
 
 import { login } from '@/api/manager';
 
+import { ElNotification } from 'element-plus';
+
 const form = reactive({
   username: 'admin',
   password: '123456',
