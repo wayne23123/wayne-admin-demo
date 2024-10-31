@@ -1,5 +1,5 @@
 <script setup>
-import { reactive } from 'vue';
+import { ref, reactive } from 'vue';
 
 import { User, Lock } from '@element-plus/icons-vue';
 
@@ -8,15 +8,42 @@ const form = reactive({
   password: '123456',
 });
 
+const rules = {
+  username: [
+    {
+      required: true,
+      message: '用戶帳號不能為空',
+      trigger: 'blur',
+    },
+    {
+      min: 1,
+      max: 50,
+      message: '用戶名稱長度必須為 1 到 50 之間',
+      trigger: 'blur',
+    },
+  ],
+  password: [
+    {
+      required: true,
+      message: '用戶帳號不能為空',
+      trigger: 'blur',
+    },
+  ],
+};
+
+const formRef = ref(null);
+
 const onSubmit = () => {
-  console.log('submit!');
+  formRef.value.validate((valid) => {
+    // console.log('valid', valid);
+  });
 };
 </script>
 
 <template>
   <!-- https://element-plus.org/zh-CN/component/layout.html -->
   <div>
-    <el-row style="min-height: 100vh">
+    <el-row class="login-container">
       <!-- lg -> 1200px ， md -> 992px ， sm -> 768px ， xs -> 576px -->
       <el-col
         :lg="16"
@@ -49,8 +76,11 @@ const onSubmit = () => {
           <span class="h-[1px] w-16 bg-gray-400"></span>
         </div>
 
-        <el-form :model="form" class="w-[250px]">
-          <el-form-item>
+        <!-- <el-form :model="form" class="w-[250px]"> -->
+        <!-- <el-form :rules="rules" :model="form" class="w-[250px]"> -->
+        <el-form ref="formRef" :rules="rules" :model="form" class="w-[250px]">
+          <!-- <el-form-item> -->
+          <el-form-item prop="username">
             <el-input v-model="form.username" placeholder="請輸入帳號">
               <!-- https://element-plus.org/zh-CN/component/icon.html -->
               <template #prefix>
@@ -59,8 +89,14 @@ const onSubmit = () => {
             </el-input>
           </el-form-item>
 
-          <el-form-item>
-            <el-input v-model="form.password" placeholder="請輸入密碼">
+          <!-- <el-form-item> -->
+          <el-form-item prop="password">
+            <el-input
+              type="password"
+              show-password
+              v-model="form.password"
+              placeholder="請輸入密碼"
+            >
               <template #prefix>
                 <el-icon><Lock /></el-icon>
               </template>
@@ -87,4 +123,8 @@ const onSubmit = () => {
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+.login-container {
+  @apply min-h-screen;
+}
+</style>
