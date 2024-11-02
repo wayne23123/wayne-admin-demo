@@ -2,7 +2,8 @@ import axios from 'axios';
 
 import { ElNotification } from 'element-plus';
 
-import { useCookies } from '@vueuse/integrations/useCookies';
+// import { useCookies } from '@vueuse/integrations/useCookies';
+import { getToken } from '@/composables/auth';
 
 //https://axios-http.com/zh/docs/instance
 const instance = axios.create({
@@ -19,9 +20,10 @@ instance.interceptors.request.use(
     // 在发送请求之前做些什么
 
     // 往 header 中添加 token
-    const cookie = useCookies();
+    // const cookie = useCookies();
+    // const token = cookie.get('admin-token');
 
-    const token = cookie.get('admin-token');
+    const token = getToken();
 
     if (token) {
       config.headers['token'] = token;

@@ -12,6 +12,8 @@ import { useRouter } from 'vue-router';
 //https://vueuse.org/integrations/useCookies/#usecookies
 import { useCookies } from '@vueuse/integrations/useCookies';
 
+import { setToken } from '@/composables/auth';
+
 const router = useRouter();
 
 const cookie = useCookies();
@@ -78,7 +80,8 @@ const onSubmit = () => {
         });
 
         // console.log('response.data.data.token', response.data.data.token);
-        cookie.set('admin-token', response.data.data.token);
+        // cookie.set('admin-token', response.data.data.token);
+        setToken(response.data.data.token);
 
         // 獲取用戶訊息
         getinfo().then((response) => {
