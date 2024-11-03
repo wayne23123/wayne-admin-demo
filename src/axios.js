@@ -1,6 +1,7 @@
 import axios from 'axios';
 
-import { ElNotification } from 'element-plus';
+// import { ElNotification } from 'element-plus';
+import { toast } from '@/composables/util';
 
 // import { useCookies } from '@vueuse/integrations/useCookies';
 import { getToken } from '@/composables/auth';
@@ -48,11 +49,12 @@ instance.interceptors.response.use(
     // 超出 2xx 范围的状态码都会触发该函数。
     // 对响应错误做点什么
 
-    ElNotification({
-      message: error.response.data.msg || '請求失敗',
-      type: 'error',
-      duration: 3000,
-    });
+    // ElNotification({
+    //   message: error.response.data.msg || '請求失敗',
+    //   type: 'error',
+    //   duration: 3000,
+    // });
+    toast(error.response.data.msg || '請求失敗', 'error', true);
 
     return Promise.reject(error);
   }

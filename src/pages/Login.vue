@@ -5,7 +5,8 @@ import { User, Lock } from '@element-plus/icons-vue';
 
 import { login, getinfo } from '@/api/manager';
 
-import { ElNotification } from 'element-plus';
+// import { ElNotification } from 'element-plus';
+import { toast } from '@/composables/util';
 
 import { useRouter } from 'vue-router';
 
@@ -65,19 +66,21 @@ const onSubmit = () => {
 
         // 檢查回應碼是否不在 200-299 範圍（表示發生錯誤）
         if (response.data.code < 200 || response.data.code >= 300) {
-          ElNotification({
-            message: response.data.message || '發生錯誤',
-            type: 'error',
-            duration: 3000,
-          });
+          // ElNotification({
+          //   message: response.data.message || '發生錯誤',
+          //   type: 'error',
+          //   duration: 3000,
+          // });
+          toast('發生錯誤', 'error');
           return;
         }
 
-        ElNotification({
-          message: response.data.message || '登入成功',
-          type: 'success',
-          duration: 3000,
-        });
+        // ElNotification({
+        //   message: response.data.message || '登入成功',
+        //   type: 'success',
+        //   duration: 3000,
+        // });
+        toast('登入成功');
 
         // console.log('response.data.data.token', response.data.data.token);
         // cookie.set('admin-token', response.data.data.token);
