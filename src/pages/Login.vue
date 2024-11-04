@@ -15,9 +15,13 @@ import { useCookies } from '@vueuse/integrations/useCookies';
 
 import { setToken } from '@/composables/auth';
 
+import { useStore } from 'vuex';
+
 const router = useRouter();
 
 const cookie = useCookies();
+
+const store = useStore();
 
 const isButtonLoading = ref(false);
 
@@ -88,7 +92,9 @@ const onSubmit = () => {
 
         // 獲取用戶訊息
         getinfo().then((response) => {
-          console.log('response', response);
+          // console.log('response', response);
+
+          store.commit('SET_USERINFO', response.data.data);
         });
 
         router.push({ path: '/' });

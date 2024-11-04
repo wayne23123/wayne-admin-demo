@@ -25,5 +25,7 @@ const removeCookie = () => {
     <el-button @click="setCookie">設定 cookie</el-button>
     <el-button @click="getCookie">讀取 cookie</el-button>
     <el-button @click="removeCookie">刪除 cookie</el-button>
+
+    {{ $store.state.user }}
   </div>
 </template>

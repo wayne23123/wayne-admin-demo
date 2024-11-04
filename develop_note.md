@@ -207,3 +207,22 @@ const removeCookie = () => {cookie.remove('admin-token');};
 --- / -----------------------------------------------------------------------------------------------------------------------
 
 -- axios 請求 & 響應攔截器
+
+--- / -----------------------------------------------------------------------------------------------------------------------
+
+-- 安裝 vue x : https://vuex.vuejs.org/zh/guide/#%E6%9C%80%E7%AE%80%E5%8D%95%E7%9A%84-store
+
+npm install vuex@next --save
+
+- 在 src 下新建 store 資料夾
+
+- 新建 index.js
+
+import { createStore } from 'vuex';
+
+const store = createStore({state() {return {user: {},};},mutations: {SET_USERINFO(state, user) {state.user = user;},},});export default store;
+
+- 在 src 下 index.js
+
+import store from './store';
+app.use(store);
