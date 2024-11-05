@@ -4,7 +4,7 @@ import { ref, reactive } from 'vue';
 import { User, Lock } from '@element-plus/icons-vue';
 
 // import { login, getinfo } from '@/api/manager';
-import { login } from '@/api/manager';
+// import { login } from '@/api/manager';
 
 // import { ElNotification } from 'element-plus';
 import { toast } from '@/composables/util';
@@ -65,52 +65,62 @@ const onSubmit = () => {
 
     isButtonLoading.value = true;
 
-    login(form.username, form.password)
+    store
+      .dispatch('login', form)
       .then((response) => {
-        // console.log('response', response);
-
-        // 檢查回應碼是否不在 200-299 範圍（表示發生錯誤）
-        if (response.data.code < 200 || response.data.code >= 300) {
-          // ElNotification({
-          //   message: response.data.message || '發生錯誤',
-          //   type: 'error',
-          //   duration: 3000,
-          // });
-          toast('發生錯誤', 'error');
-          return;
-        }
-
-        // ElNotification({
-        //   message: response.data.message || '登入成功',
-        //   type: 'success',
-        //   duration: 3000,
-        // });
         toast('登入成功');
 
-        // console.log('response.data.data.token', response.data.data.token);
-        // cookie.set('admin-token', response.data.data.token);
-        setToken(response.data.data.token);
-
-        // // 獲取用戶訊息，改放到 permission.js
-        // getinfo().then((response) => {
-        //   // console.log('response', response);
-        //   store.commit('SET_USERINFO', response.data.data);
-        // });
-
-        router.push({ path: '/' });
-      })
-      .catch((error) => {
-        // console.log('error', error);
-        // console.log('error.response.data', error.response.data);
-        // ElNotification({
-        //   message: error.response.data.msg || '請求失敗',
-        //   type: 'error',
-        //   duration: 3000,
-        // });
+        router.push('/');
       })
       .finally(() => {
         isButtonLoading.value = false;
       });
+    // login(form.username, form.password)
+    //   .then((response) => {
+    //     // console.log('response', response);
+
+    //     // 檢查回應碼是否不在 200-299 範圍（表示發生錯誤）
+    //     if (response.data.code < 200 || response.data.code >= 300) {
+    //       // ElNotification({
+    //       //   message: response.data.message || '發生錯誤',
+    //       //   type: 'error',
+    //       //   duration: 3000,
+    //       // });
+    //       toast('發生錯誤', 'error');
+    //       return;
+    //     }
+
+    //     // ElNotification({
+    //     //   message: response.data.message || '登入成功',
+    //     //   type: 'success',
+    //     //   duration: 3000,
+    //     // });
+    //     toast('登入成功');
+
+    //     // console.log('response.data.data.token', response.data.data.token);
+    //     // cookie.set('admin-token', response.data.data.token);
+    //     setToken(response.data.data.token);
+
+    //     // // 獲取用戶訊息，改放到 permission.js
+    //     // getinfo().then((response) => {
+    //     //   // console.log('response', response);
+    //     //   store.commit('SET_USERINFO', response.data.data);
+    //     // });
+
+    //     router.push({ path: '/' });
+    //   })
+    //   .catch((error) => {
+    //     // console.log('error', error);
+    //     // console.log('error.response.data', error.response.data);
+    //     // ElNotification({
+    //     //   message: error.response.data.msg || '請求失敗',
+    //     //   type: 'error',
+    //     //   duration: 3000,
+    //     // });
+    //   })
+    //   .finally(() => {
+    //     isButtonLoading.value = false;
+    //   });
   });
 };
 </script>

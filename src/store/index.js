@@ -1,6 +1,8 @@
 import { createStore } from 'vuex';
 
-import { getinfo } from '@/api/manager';
+import { login, getinfo } from '@/api/manager';
+
+import { setToken } from '@/composables/auth';
 
 const store = createStore({
   state() {
@@ -16,6 +18,20 @@ const store = createStore({
     },
   },
   actions: {
+    login({ commit }, { username, password }) {
+      return new Promise((resolve, reject) => {
+        login(username, password)
+          .then((response) => {
+            setToken(response.data.data.token);
+
+            resolve(response);
+          })
+          .catch((error) => {
+            reject(error);
+          });
+      });
+    },
+
     // 獲取當前登入用戶訊息
     getInfo({ commit }) {
       return new Promise((resolve, reject) => {
