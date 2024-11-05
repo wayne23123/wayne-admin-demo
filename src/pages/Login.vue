@@ -3,7 +3,8 @@ import { ref, reactive } from 'vue';
 
 import { User, Lock } from '@element-plus/icons-vue';
 
-import { login, getinfo } from '@/api/manager';
+// import { login, getinfo } from '@/api/manager';
+import { login } from '@/api/manager';
 
 // import { ElNotification } from 'element-plus';
 import { toast } from '@/composables/util';
@@ -90,12 +91,11 @@ const onSubmit = () => {
         // cookie.set('admin-token', response.data.data.token);
         setToken(response.data.data.token);
 
-        // 獲取用戶訊息
-        getinfo().then((response) => {
-          // console.log('response', response);
-
-          store.commit('SET_USERINFO', response.data.data);
-        });
+        // // 獲取用戶訊息，改放到 permission.js
+        // getinfo().then((response) => {
+        //   // console.log('response', response);
+        //   store.commit('SET_USERINFO', response.data.data);
+        // });
 
         router.push({ path: '/' });
       })
