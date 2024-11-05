@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref, reactive, onMounted, onBeforeUnmount } from 'vue';
 
 import { User, Lock } from '@element-plus/icons-vue';
 
@@ -123,6 +123,23 @@ const onSubmit = () => {
     //   });
   });
 };
+
+// 監聽 enter 事件
+const onKeyUp = (event) => {
+  // console.log('event', event);
+
+  if (event.key === 'Enter') {
+    onSubmit();
+  }
+};
+
+onMounted(() => {
+  document.addEventListener('keyup', onKeyUp);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener('keyup', onKeyUp);
+});
 </script>
 
 <template>
