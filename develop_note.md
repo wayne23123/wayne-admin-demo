@@ -226,3 +226,17 @@ const store = createStore({state() {return {user: {},};},mutations: {SET_USERINF
 
 import store from './store';
 app.use(store);
+
+--- / -----------------------------------------------------------------------------------------------------------------------
+
+-- 安裝全局 loading
+
+-- npm : https://www.npmjs.com/
+
+-- https://www.npmjs.com/package/nprogress
+
+npm i nprogress
+
+ - 在 main.js
+
+ import 'nprogress/nprogress.css'

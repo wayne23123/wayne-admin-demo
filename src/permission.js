@@ -4,13 +4,21 @@ import router from '@/router';
 
 import { getToken } from '@/composables/auth';
 
-import { toast } from '@/composables/util';
+import {
+  toast,
+  showFullScreenLoading,
+  hideFullScreenLoading,
+} from '@/composables/util';
 
 import store from '@/store';
+import { h } from 'vue';
 
 // https://router.vuejs.org/zh/guide/advanced/navigation-guards.html
 // 全局路由守卫
 router.beforeEach(async (to, from, next) => {
+  // 顯示全屏loading
+  showFullScreenLoading();
+
   const token = getToken();
 
   if (!token && to.path !== '/login') {
@@ -32,4 +40,10 @@ router.beforeEach(async (to, from, next) => {
   }
 
   next();
+});
+
+//https://router.vuejs.org/zh/guide/advanced/navigation-guards.html#%E5%85%A8%E5%B1%80%E5%90%8E%E7%BD%AE%E9%92%A9%E5%AD%90
+// 全局后置钩子
+router.afterEach((to, from) => {
+  hideFullScreenLoading();
 });

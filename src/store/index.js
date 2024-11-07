@@ -2,7 +2,7 @@ import { createStore } from 'vuex';
 
 import { login, getinfo } from '@/api/manager';
 
-import { setToken } from '@/composables/auth';
+import { setToken, removeToken } from '@/composables/auth';
 
 const store = createStore({
   state() {
@@ -48,6 +48,15 @@ const store = createStore({
           });
       });
     },
+
+    // 退出登入
+    logout({ commit }) {
+      // 移除 cookie 裡的 token
+      removeToken();
+
+      // 清除當前用戶狀態 vuex
+      commit('SET_USERINFO', {});
+    }
   },
 });
 
