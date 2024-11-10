@@ -9,12 +9,18 @@ const routes = [
     path: '/',
     name: 'index',
     component: index,
+    meta: {
+      title: 'wayne-後台首頁',
+    },
   },
 
   {
     path: '/login',
     name: 'Login',
     component: Login,
+    meta: {
+      title: 'wayne-登入頁面',
+    },
   },
 
   //https://router.vuejs.org/zh/guide/essentials/dynamic-matching.html

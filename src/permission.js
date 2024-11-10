@@ -39,6 +39,11 @@ router.beforeEach(async (to, from, next) => {
     await store.dispatch('getInfo');
   }
 
+  // 設置頁面標題
+  // console.log(to);
+  let title = to.meta.title ? to.meta.title : '' + 'wayne後台';
+  document.title = title;
+
   next();
 });
 
