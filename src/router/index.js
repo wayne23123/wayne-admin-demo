@@ -4,14 +4,26 @@ import index from '@/pages/index.vue';
 import Login from '@/pages/Login.vue';
 import NotFound from '@/pages/NotFound.vue';
 
+import admin from '@/layouts/admin.vue';
+
 const routes = [
   {
     path: '/',
     name: 'index',
-    component: index,
-    meta: {
-      title: 'wayne-後台首頁',
-    },
+    // component: index,
+    component: admin,
+    // meta: {
+    //   title: 'wayne-後台首頁',
+    // },
+    children: [
+      {
+        path: '/',
+        component: index,
+        meta: {
+          title: 'wayne-後台首頁',
+        },
+      },
+    ],
   },
 
   {
