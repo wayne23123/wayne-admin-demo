@@ -33,21 +33,21 @@ const removeCookie = () => {
 };
 
 const handleLogout = () => {
-   showModal('是否要退出登入').then(res => {
+  showModal('是否要退出登入').then((res) => {
     // console.log('退出登入')
-    logout().finally(res => {
+    logout().finally((res) => {
       // 移除 cookie 裡的 token
       // 清除當前用戶狀態 vuex
-      store.dispatch('logout')
+      store.dispatch('logout');
 
       // 跳轉到登入頁面
-      router.push('/login')
+      router.push('/login');
 
       // 提示退出登入
-      toast('退出登入成功')
-    })
-   })
-}
+      toast('退出登入成功');
+    });
+  });
+};
 </script>
 
 <template>
@@ -60,6 +60,6 @@ const handleLogout = () => {
     <!-- {{ $store.state.user }} -->
     {{ $store.state.user.data.data.username }}
 
-    <el-button @click='handleLogout'>退出登入</el-button>
+    <el-button @click="handleLogout">退出登入</el-button>
   </div>
 </template>
