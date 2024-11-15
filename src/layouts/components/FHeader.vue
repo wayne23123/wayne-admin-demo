@@ -9,6 +9,12 @@ import { useRouter } from 'vue-router';
 
 import { useStore } from 'vuex';
 
+// https://vueuse.org/core/useFullscreen/#usefullscreen
+import { useFullscreen } from '@vueuse/core';
+import { FullScreen } from '@element-plus/icons-vue';
+
+const { isFullscreen, toggle } = useFullscreen();
+
 const router = useRouter();
 
 const store = useStore();
@@ -23,6 +29,10 @@ const handleCommand = (c) => {
       console.log('修改密碼');
       break;
   }
+};
+
+const handleRefresh = () => {
+  location.reload();
 };
 
 const handleLogout = () => {
@@ -50,9 +60,19 @@ const handleLogout = () => {
       <span class="ml-2">Wayne 後台</span>
     </span>
     <el-icon class="icon-btn"><fold /></el-icon>
-    <el-icon class="icon-btn"><refresh /></el-icon>
+
+    <el-tooltip effect="dark" content="重新整理" placement="bottom">
+      <el-icon class="icon-btn" @click="handleRefresh"><refresh /></el-icon>
+    </el-tooltip>
+
     <div class="ml-auto flex items-center">
-      <el-icon class="icon-btn"><full-screen /></el-icon>
+      <el-tooltip effect="dark" content="全螢幕" placement="bottom">
+        <el-icon class="icon-btn" @click="toggle"
+          ><full-screen v-if="!isFullscreen" />
+          <aim v-else />
+        </el-icon>
+      </el-tooltip>
+
       <!-- https://element-plus.org/zh-CN/component/dropdown.html#dropdown-%E4%B8%8B%E6%8B%89%E8%8F%9C%E5%8D%95 -->
       <el-dropdown class="dropdown" @command="handleCommand">
         <span class="flex items-center text-light-50">

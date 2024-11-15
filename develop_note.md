@@ -237,6 +237,12 @@ app.use(store);
 
 npm i nprogress
 
- - 在 main.js
+- 在 main.js
 
- import 'nprogress/nprogress.css'
+import 'nprogress/nprogress.css'
+
+--- / -----------------------------------------------------------------------------------------------------------------------
+
+-- 安裝 VueUse
+
+npm i @vueuse/core
