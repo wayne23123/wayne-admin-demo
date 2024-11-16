@@ -1,7 +1,9 @@
 <script setup>
+import { ref, reactive } from 'vue';
+
 import { showModal } from '@/composables/util';
 
-import { logout } from '@/api/manager';
+import { logout, updatepassword } from '@/api/manager';
 
 import { toast } from '@/composables/util';
 
@@ -19,6 +21,62 @@ const router = useRouter();
 
 const store = useStore();
 
+const showDrawer = ref(false);
+
+const form = reactive({
+  oldpassword: '',
+  password: '',
+  repassword: '',
+});
+
+const rules = {
+  oldpassword: [
+    {
+      required: true,
+      message: '舊密碼不能為空',
+      trigger: 'blur',
+    },
+  ],
+  password: [
+    {
+      required: true,
+      message: '新密碼不能為空',
+      trigger: 'blur',
+    },
+  ],
+  repassword: [
+    {
+      required: true,
+      message: '確認密碼不能為空',
+      trigger: 'blur',
+    },
+  ],
+};
+
+const formRef = ref(null);
+
+const onSubmit = () => {
+  formRef.value.validate((valid) => {
+    if (!valid) {
+      return false;
+    }
+
+    isButtonLoading.value = true;
+
+    updatepassword(form)
+      .then((response) => {
+        toast('修改密碼成功, 請重新登入');
+
+        store.dispatch('logout');
+
+        router.push('/login');
+      })
+      .finally(() => {
+        isButtonLoading.value = false;
+      });
+  });
+};
+
 const handleCommand = (c) => {
   // console.log('c', c)
   switch (c) {
@@ -26,7 +84,7 @@ const handleCommand = (c) => {
       handleLogout();
       break;
     case 'rePassword':
-      console.log('修改密碼');
+      showDrawer.value = true;
       break;
   }
 };
@@ -93,6 +151,68 @@ const handleLogout = () => {
     </div>
 
     <!-- {{ $store.state.user }} -->
+
+    <!-- https://element-plus.org/zh-CN/component/drawer.html#drawer-%E6%8A%BD%E5%B1%89 -->
+    <el-drawer
+      v-model="showDrawer"
+      title="修改密碼"
+      size="45%"
+      :close-on-click-modal="false"
+    >
+      <el-form ref="formRef" :rules="rules" :model="form">
+        <!-- <el-form-item> -->
+        <el-form-item
+          prop="oldpassword"
+          label="舊密碼"
+          label-width="80px"
+          size="small"
+        >
+          <el-input v-model="form.oldpassword" placeholder="請輸入舊密碼">
+          </el-input>
+        </el-form-item>
+
+        <!-- <el-form-item> -->
+        <el-form-item
+          prop="password"
+          label="新密碼"
+          label-width="80px"
+          size="small"
+        >
+          <el-input
+            type="password"
+            show-password
+            v-model="form.password"
+            placeholder="請輸入密碼"
+          >
+          </el-input>
+        </el-form-item>
+
+        <el-form-item
+          prop="repassword"
+          label="確認密碼"
+          label-width="80px"
+          size="small"
+        >
+          <el-input
+            type="password"
+            show-password
+            v-model="form.repassword"
+            placeholder="請輸入確認密碼"
+          >
+          </el-input>
+        </el-form-item>
+
+        <!-- <el-form-item>
+            <el-input v-model="form.password" placeholder="請輸入密碼" />
+          </el-form-item> -->
+
+        <el-form-item>
+          <el-button :loading="isButtonLoading" type="primary" @click="onSubmit"
+            >提交</el-button
+          >
+        </el-form-item>
+      </el-form>
+    </el-drawer>
   </div>
 </template>
 

@@ -6,6 +6,8 @@ import { toast } from '@/composables/util';
 // import { useCookies } from '@vueuse/integrations/useCookies';
 import { getToken } from '@/composables/auth';
 
+import store from './store';
+
 //https://axios-http.com/zh/docs/instance
 const instance = axios.create({
   //   baseURL: 'https://some-domain.com/api/',
@@ -54,7 +56,16 @@ instance.interceptors.response.use(
     //   type: 'error',
     //   duration: 3000,
     // });
-    toast(error.response.data.msg || '請求失敗', 'error', true);
+
+    const message = error.response.data.msg || '請求失敗';
+
+    if (message == '非法token,請先登入!') {
+      store.dispatch('logout').finally(() => {
+        location.reload();
+      });
+    }
+
+    toast(message, 'error', true);
 
     return Promise.reject(error);
   }
