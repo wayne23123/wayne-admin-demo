@@ -15,11 +15,15 @@ import { useStore } from 'vuex';
 import { useFullscreen } from '@vueuse/core';
 import { FullScreen } from '@element-plus/icons-vue';
 
+import FormDrawer from '@/components/FormDrawer.vue';
+
 const { isFullscreen, toggle } = useFullscreen();
 
 const router = useRouter();
 
 const store = useStore();
+
+const formDrawerRef = ref(null);
 
 const showDrawer = ref(false);
 
@@ -84,7 +88,8 @@ const handleCommand = (c) => {
       handleLogout();
       break;
     case 'rePassword':
-      showDrawer.value = true;
+      // showDrawer.value = true;
+      formDrawerRef.value.open();
       break;
   }
 };
@@ -153,14 +158,15 @@ const handleLogout = () => {
     <!-- {{ $store.state.user }} -->
 
     <!-- https://element-plus.org/zh-CN/component/drawer.html#drawer-%E6%8A%BD%E5%B1%89 -->
-    <el-drawer
+    <form-drawer ref="formDrawerRef"> 123 </form-drawer>
+    <!-- <el-drawer
       v-model="showDrawer"
       title="修改密碼"
       size="45%"
       :close-on-click-modal="false"
     >
-      <el-form ref="formRef" :rules="rules" :model="form">
-        <!-- <el-form-item> -->
+      <el-form ref="formRef" :rules="rules" :model="form"
+        >>
         <el-form-item
           prop="oldpassword"
           label="舊密碼"
@@ -171,7 +177,6 @@ const handleLogout = () => {
           </el-input>
         </el-form-item>
 
-        <!-- <el-form-item> -->
         <el-form-item
           prop="password"
           label="新密碼"
@@ -202,17 +207,13 @@ const handleLogout = () => {
           </el-input>
         </el-form-item>
 
-        <!-- <el-form-item>
-            <el-input v-model="form.password" placeholder="請輸入密碼" />
-          </el-form-item> -->
-
         <el-form-item>
           <el-button :loading="isButtonLoading" type="primary" @click="onSubmit"
             >提交</el-button
           >
         </el-form-item>
       </el-form>
-    </el-drawer>
+    </el-drawer> -->
   </div>
 </template>
 
