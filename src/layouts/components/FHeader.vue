@@ -158,7 +158,10 @@ const handleLogout = () => {
     <!-- {{ $store.state.user }} -->
 
     <!-- https://element-plus.org/zh-CN/component/drawer.html#drawer-%E6%8A%BD%E5%B1%89 -->
-    <form-drawer ref="formDrawerRef"> 123 </form-drawer>
+    <form-drawer ref="formDrawerRef">
+      123
+      <div clas="bg-rose-400" style="height: 1000px"></div>
+    </form-drawer>
     <!-- <el-drawer
       v-model="showDrawer"
       title="修改密碼"
