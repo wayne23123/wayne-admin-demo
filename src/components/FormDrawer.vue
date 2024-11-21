@@ -1,6 +1,32 @@
 <script setup>
 import { ref } from 'vue';
+
+const props = defineProps({
+  title: String,
+  size: {
+    type: String,
+    default: '45%',
+  },
+  destroyOnClose: {
+    type: Boolean,
+    default: false,
+  },
+  confirmText: {
+    type: String,
+    default: '提交',
+  },
+});
+
 const showDrawer = ref(false);
+
+const isButtonLoading = ref(false);
+const showLoadingButton = () => {
+  isButtonLoading.value = true;
+};
+
+const hideLoadingButton = () => {
+  isButtonLoading.value = false;
+};
 
 const open = () => {
   showDrawer.value = true;
@@ -10,11 +36,18 @@ const close = () => {
   showDrawer.value = false;
 };
 
+const emit = defineEmits(['submit']);
+const submit = () => {
+  emit('submit');
+};
+
 // https://cn.vuejs.org/api/sfc-script-setup.html#defineexpose
 // 向父組件暴露方法
 defineExpose({
   open,
   close,
+  showLoadingButton,
+  hideLoadingButton,
 });
 </script>
 
@@ -22,8 +55,9 @@ defineExpose({
   <el-drawer
     v-model="showDrawer"
     title="修改密碼"
-    size="45%"
+    :size="size"
     :close-on-click-modal="false"
+    :destroy-on-close="destroyOnClose"
   >
     <div class="formDrawer">
       <div class="body">
@@ -31,7 +65,12 @@ defineExpose({
       </div>
 
       <div class="actions">
-        <el-button type="primary">提交</el-button>
+        <el-button
+          @click="submit"
+          :isButtonLoading="isButtonLoading"
+          type="primary"
+          >{{ confirmText }}</el-button
+        >
 
         <el-button @click="close" type="default">取消</el-button>
       </div>

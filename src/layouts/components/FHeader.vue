@@ -25,7 +25,7 @@ const store = useStore();
 
 const formDrawerRef = ref(null);
 
-const showDrawer = ref(false);
+//const showDrawer = ref(false);
 
 const form = reactive({
   oldpassword: '',
@@ -58,6 +58,7 @@ const rules = {
 };
 
 const formRef = ref(null);
+//const isButtonLoading = ref(false);
 
 const onSubmit = () => {
   formRef.value.validate((valid) => {
@@ -65,7 +66,8 @@ const onSubmit = () => {
       return false;
     }
 
-    isButtonLoading.value = true;
+    // isButtonLoading.value = true;
+    formDrawerRef.value.showLoadingButton();
 
     updatepassword(form)
       .then((response) => {
@@ -76,7 +78,8 @@ const onSubmit = () => {
         router.push('/login');
       })
       .finally(() => {
-        isButtonLoading.value = false;
+        // isButtonLoading.value = false;
+        formDrawerRef.value.hideLoadingButton();
       });
   });
 };
@@ -158,9 +161,51 @@ const handleLogout = () => {
     <!-- {{ $store.state.user }} -->
 
     <!-- https://element-plus.org/zh-CN/component/drawer.html#drawer-%E6%8A%BD%E5%B1%89 -->
-    <form-drawer ref="formDrawerRef">
-      123
-      <div clas="bg-rose-400" style="height: 1000px"></div>
+    <form-drawer
+      ref="formDrawerRef"
+      title="修改密碼"
+      destoryOnClose
+      @submit="onSubmit"
+    >
+      <el-form-item
+        prop="oldpassword"
+        label="舊密碼"
+        label-width="80px"
+        size="small"
+      >
+        <el-input v-model="form.oldpassword" placeholder="請輸入舊密碼">
+        </el-input>
+      </el-form-item>
+
+      <el-form-item
+        prop="password"
+        label="新密碼"
+        label-width="80px"
+        size="small"
+      >
+        <el-input
+          type="password"
+          show-password
+          v-model="form.password"
+          placeholder="請輸入密碼"
+        >
+        </el-input>
+      </el-form-item>
+
+      <el-form-item
+        prop="repassword"
+        label="確認密碼"
+        label-width="80px"
+        size="small"
+      >
+        <el-input
+          type="password"
+          show-password
+          v-model="form.repassword"
+          placeholder="請輸入確認密碼"
+        >
+        </el-input>
+      </el-form-item>
     </form-drawer>
     <!-- <el-drawer
       v-model="showDrawer"
