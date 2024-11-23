@@ -6,6 +6,8 @@ import NotFound from '@/pages/NotFound.vue';
 
 import admin from '@/layouts/admin.vue';
 
+import GoodList from '@/pages/goods/list.vue';
+
 const routes = [
   {
     path: '/',
@@ -21,6 +23,14 @@ const routes = [
         component: index,
         meta: {
           title: 'wayne-後台首頁',
+        },
+      },
+
+      {
+        path: '/goods/list',
+        component: GoodList,
+        meta: {
+          title: 'wayne-商品管理',
         },
       },
     ],
