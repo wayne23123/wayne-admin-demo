@@ -59,6 +59,8 @@ const handleLogout = () => {
 
     <!-- {{ $store.state.user }} -->
     {{ $store.state.user.data.data.username }}
+    <!-- {{ $store.state.user.data.data.menus }} -->
+    <!-- {{ $store.state.user.data.data.ruleNames }} -->
 
     <el-button @click="handleLogout">退出登入</el-button>
   </div>

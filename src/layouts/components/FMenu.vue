@@ -18,33 +18,33 @@ const isCollapse = computed(() => {
   return !(store.state.asideWidth == '250px');
 });
 
-const asideMenu = [
-  {
-    name: '後臺面板',
-    icon: 'help',
-    child: [
-      {
-        name: '控制台',
-        icon: 'home-filled',
-        frontpath: '/',
-      },
-    ],
-  },
-  {
-    name: '商城管理',
-    icon: 'shopping-bag',
-    child: [
-      {
-        name: '商品管理',
-        icon: 'shopping-cart-full',
-        frontpath: '/goods/list',
-      },
-    ],
-  },
-];
-// const asideMenu = computed(() => {
-//   return store.state.menus;
-// });
+// const asideMenu = [
+//   {
+//     name: '後臺面板',
+//     icon: 'help',
+//     child: [
+//       {
+//         name: '控制台',
+//         icon: 'home-filled',
+//         frontpath: '/',
+//       },
+//     ],
+//   },
+//   {
+//     name: '商城管理',
+//     icon: 'shopping-bag',
+//     child: [
+//       {
+//         name: '商品管理',
+//         icon: 'shopping-cart-full',
+//         frontpath: '/goods/list',
+//       },
+//     ],
+//   },
+// ];
+const asideMenu = computed(() => {
+  return store.state.menus;
+});
 
 const handleSelect = (e) => {
   // console.log('e', e);
