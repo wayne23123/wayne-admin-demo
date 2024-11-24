@@ -8,6 +8,8 @@ import admin from '@/layouts/admin.vue';
 
 import GoodList from '@/pages/goods/list.vue';
 
+import CategoryList from '@/pages/category/list.vue';
+
 const routes = [
   {
     path: '/',
@@ -31,6 +33,14 @@ const routes = [
         component: GoodList,
         meta: {
           title: 'wayne-商品管理',
+        },
+      },
+
+      {
+        path: '/category/list',
+        component: CategoryList,
+        meta: {
+          title: 'wayne-分類列表',
         },
       },
     ],

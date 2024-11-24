@@ -32,7 +32,7 @@ const asideMenu = [
   },
   {
     name: '商城管理',
-    icon: 'hopping-bag',
+    icon: 'shopping-bag',
     child: [
       {
         name: '商品管理',
@@ -42,6 +42,9 @@ const asideMenu = [
     ],
   },
 ];
+// const asideMenu = computed(() => {
+//   return store.state.menus;
+// });
 
 const handleSelect = (e) => {
   // console.log('e', e);
