@@ -1,13 +1,18 @@
 <script setup>
-import { computed } from 'vue';
+import { ref, computed } from 'vue';
 
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 
 import { useStore } from 'vuex';
 
 const router = useRouter();
 
 const store = useStore();
+
+const route = useRoute();
+
+// 預設選中
+const defaultActive = ref(route.path);
 
 const isCollapse = computed(() => {
   return !(store.state.asideWidth == '250px');
@@ -48,6 +53,7 @@ const handleSelect = (e) => {
   <div class="f-menu" :style="{ width: $store.state.asideWidth }">
     <!-- https://element-plus.org/zh-CN/component/menu.html -->
     <el-menu
+      :default-active="defaultActive"
       unique-opened="true"
       @select="handleSelect"
       :collapse="isCollapse"
