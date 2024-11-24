@@ -125,8 +125,11 @@ const handleLogout = () => {
       <el-icon class="mr-1"><eleme-filled /></el-icon>
       <span class="ml-2">Wayne 後台</span>
     </span>
-    <el-icon class="icon-btn"><fold /></el-icon>
-
+    <el-icon @click="$store.commit('handleAsideWidth')" class="icon-btn"
+      ><fold v-if="$store.state.asideWidth == '250px'" />
+      <Expand v-else />
+    </el-icon>
+    <!-- {{ $store.state.asideWidth }} -->
     <el-tooltip effect="dark" content="重新整理" placement="bottom">
       <el-icon class="icon-btn" @click="handleRefresh"><refresh /></el-icon>
     </el-tooltip>

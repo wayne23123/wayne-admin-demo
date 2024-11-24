@@ -1,7 +1,17 @@
 <script setup>
+import { computed } from 'vue';
+
 import { useRouter } from 'vue-router';
 
+import { useStore } from 'vuex';
+
 const router = useRouter();
+
+const store = useStore();
+
+const isCollapse = computed(() => {
+  return !(store.state.asideWidth == '250px');
+});
 
 const asideMenu = [
   {
@@ -35,9 +45,16 @@ const handleSelect = (e) => {
 </script>
 
 <template>
-  <div class="f-menu">
+  <div class="f-menu" :style="{ width: $store.state.asideWidth }">
     <!-- https://element-plus.org/zh-CN/component/menu.html -->
-    <el-menu @select="handleSelect" default-active="2" class="border-0">
+    <el-menu
+      unique-opened="true"
+      @select="handleSelect"
+      :collapse="isCollapse"
+      :collapse-transition="false"
+      default-active="2"
+      class="border-0"
+    >
       <template v-for="(item, index) in asideMenu" :key="index">
         <el-sub-menu
           v-if="item.child && item.child.length > 0"
@@ -70,10 +87,13 @@ const handleSelect = (e) => {
 
 <style scoped>
 .f-menu {
-  width: 250px;
+  /* width: 250px; */
   top: 64px;
   bottom: 0;
   left: 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  transition: all 0.2s ease-in-out;
 
   @apply shadow-md fixed bg-gray-50;
 }
