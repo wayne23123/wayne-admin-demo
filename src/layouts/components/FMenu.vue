@@ -106,4 +106,8 @@ const handleSelect = (e) => {
 
   @apply shadow-md fixed bg-gray-50;
 }
+
+.f-menu::-webkit-scrollbar {
+  width: 0px;
+}
 </style>
