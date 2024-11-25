@@ -1,9 +1,13 @@
 <script setup>
 import { ref } from 'vue';
 
-import { useRoute } from 'vue-router';
+import { useRoute, onBeforeRouteUpdate } from 'vue-router';
+
+import { useCookies } from '@vueuse/integrations/useCookies';
 
 const route = useRoute();
+
+const cookie = useCookies();
 
 const activeTab = ref(route.path);
 const tabList = ref([
@@ -11,11 +15,49 @@ const tabList = ref([
     title: '後台首頁',
     path: '/',
   },
-  {
-    title: '商品管理',
-    path: '/goods/list',
-  },
 ]);
+
+const addTab = (tab) => {
+  let noTab =
+    tabList.value.findIndex((item) => {
+      return item.path == tab.path;
+    }) == -1;
+  if (noTab) {
+    tabList.value.push(tab);
+  }
+
+  cookie.set('tabList', tabList.value);
+};
+
+const changeTab = (tab) => {
+  // console.log('tab', tab);
+  activeTab.value = tab;
+  routerKey.push(tab);
+};
+
+// 初始化 tab 導覽列
+const initTabList = () => {
+  let tabs = cookie.get('tabList');
+  if (tabs) {
+    tabList.value = tabs;
+  }
+};
+initTabList();
+
+onBeforeRouteUpdate((to, from) => {
+  // console.log('to', to);
+  // console.log({
+  //   title: to.meta.title,
+  //   path: to.path,
+  // });
+
+  activeTab.value = to.path;
+
+  addTab({
+    title: to.meta.title,
+    path: to.path,
+  });
+});
 
 const removeTab = (targetName) => {};
 </script>
@@ -29,6 +71,7 @@ const removeTab = (targetName) => {};
       class="demo-tabs"
       style="min-width: 100px"
       @tab-remove="removeTab"
+      @tab-change="changeTab"
     >
       <el-tab-pane
         :closable="item.path !== '/'"
@@ -59,6 +102,7 @@ const removeTab = (targetName) => {};
       </el-dropdown>
     </span>
   </div>
+  <div style="height: 44px"></div>
 </template>
 
 <style scoped>
@@ -77,9 +121,10 @@ const removeTab = (targetName) => {};
 }
 
 :deep(.el-tabs__header) {
+  border: 0 !important;
   @apply mb-0;
 }
-:deep(.el-tabs__header) {
+:deep(.el-tabs__nav) {
   border: 0 !important;
 }
 
