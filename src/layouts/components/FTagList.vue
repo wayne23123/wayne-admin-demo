@@ -1,65 +1,41 @@
 <script setup>
 import { ref } from 'vue';
 
-let tabIndex = 2;
-const editableTabsValue = ref('2');
-const editableTabs = ref([
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+
+const activeTab = ref(route.path);
+const tabList = ref([
   {
-    title: 'Tab 1',
-    name: '1',
-    content: 'Tab 1 content',
+    title: '後台首頁',
+    path: '/',
   },
   {
-    title: 'Tab 2',
-    name: '2',
-    content: 'Tab 2 content',
+    title: '商品管理',
+    path: '/goods/list',
   },
 ]);
 
-const addTab = (targetName) => {
-  const newTabName = `${++tabIndex}`;
-  editableTabs.value.push({
-    title: 'New Tab',
-    name: newTabName,
-    content: 'New Tab content',
-  });
-  editableTabsValue.value = newTabName;
-};
-const removeTab = (targetName) => {
-  const tabs = editableTabs.value;
-  let activeName = editableTabsValue.value;
-  if (activeName === targetName) {
-    tabs.forEach((tab, index) => {
-      if (tab.name === targetName) {
-        const nextTab = tabs[index + 1] || tabs[index - 1];
-        if (nextTab) {
-          activeName = nextTab.name;
-        }
-      }
-    });
-  }
-
-  editableTabsValue.value = activeName;
-  editableTabs.value = tabs.filter((tab) => tab.name !== targetName);
-};
+const removeTab = (targetName) => {};
 </script>
 
 <template>
   <div class="f-tag-list" :style="{ left: $store.state.asideWidth }">
     <!-- https://element-plus.org/zh-CN/component/tabs.html#%E5%A2%9E%E5%8A%A0%E6%A0%87%E7%AD%BE%E9%A1%B5%E8%A7%A6%E5%8F%91%E5%99%A8%E8%87%AA%E5%AE%9A%E4%B9%89 -->
     <el-tabs
-      v-model="editableTabsValue"
+      v-model="activeTab"
       type="card"
       class="demo-tabs"
       style="min-width: 100px"
-      closable
       @tab-remove="removeTab"
     >
       <el-tab-pane
-        v-for="item in editableTabs"
-        :key="item.name"
+        :closable="item.path !== '/'"
+        v-for="item in tabList"
+        :key="item.path"
         :label="item.title"
-        :name="item.name"
+        :name="item.path"
       >
       </el-tab-pane>
     </el-tabs>
@@ -67,7 +43,7 @@ const removeTab = (targetName) => {
     <span class="tag-btn">
       <el-dropdown>
         <span class="el-dropdown-link">
-          <el-icon class="el-icon--right">
+          <el-icon>
             <arrow-down />
           </el-icon>
         </span>
