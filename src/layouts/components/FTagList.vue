@@ -1,11 +1,13 @@
 <script setup>
 import { ref } from 'vue';
 
-import { useRoute, onBeforeRouteUpdate } from 'vue-router';
+import { useRoute, useRouter, onBeforeRouteUpdate } from 'vue-router';
 
 import { useCookies } from '@vueuse/integrations/useCookies';
 
 const route = useRoute();
+
+const router = useRouter();
 
 const cookie = useCookies();
 
@@ -32,7 +34,33 @@ const addTab = (tab) => {
 const changeTab = (tab) => {
   // console.log('tab', tab);
   activeTab.value = tab;
-  routerKey.push(tab);
+  router.push(tab);
+};
+
+const removeTab = (value) => {
+  // console.log('value', value);
+
+  let tabs = tabList.value;
+  let active = activeTab.value;
+
+  if (active == value) {
+    tabs.forEach((item, index) => {
+      if (item.path == value) {
+        const nextTab = tabs[index + 1] || tabs[index - 1];
+        if (nextTab) {
+          active = nextTab.path;
+        }
+      }
+    });
+  }
+
+  activeTab.value = active;
+
+  changeTab(active);
+
+  tabList.value = tabList.value.filter((item) => item.path != value);
+
+  cookie.set('tabList', tabList.value);
 };
 
 // 初始化 tab 導覽列
@@ -58,8 +86,6 @@ onBeforeRouteUpdate((to, from) => {
     path: to.path,
   });
 });
-
-const removeTab = (targetName) => {};
 </script>
 
 <template>
