@@ -72,6 +72,30 @@ const initTabList = () => {
 };
 initTabList();
 
+const handleClose = (value) => {
+  // console.log('value', value);
+
+  if (value == 'clearAll') {
+    // 切換回首頁
+    activeTab.value = '/';
+
+    // 過濾只剩下首頁
+    tabList.value = [
+      {
+        title: '後台首頁',
+        path: '/',
+      },
+    ];
+  } else if (value == 'clearOther') {
+    // 過濾只剩下首頁和當前頁面
+    tabList.value = tabList.value.filter((item) => {
+      return item.path == '/' || item.path == activeTab.value;
+    });
+  }
+
+  cookie.set('tabList', tabList.value);
+};
+
 onBeforeRouteUpdate((to, from) => {
   // console.log('to', to);
   // console.log({
@@ -110,7 +134,7 @@ onBeforeRouteUpdate((to, from) => {
     </el-tabs>
 
     <span class="tag-btn">
-      <el-dropdown>
+      <el-dropdown @command="handleClose">
         <span class="el-dropdown-link">
           <el-icon>
             <arrow-down />
@@ -118,11 +142,8 @@ onBeforeRouteUpdate((to, from) => {
         </span>
         <template #dropdown>
           <el-dropdown-menu>
-            <el-dropdown-item>Action 1</el-dropdown-item>
-            <el-dropdown-item>Action 2</el-dropdown-item>
-            <el-dropdown-item>Action 3</el-dropdown-item>
-            <el-dropdown-item disabled>Action 4</el-dropdown-item>
-            <el-dropdown-item divided>Action 5</el-dropdown-item>
+            <el-dropdown-item command="clearOther">關閉其他</el-dropdown-item>
+            <el-dropdown-item command="clearAll">全部關閉</el-dropdown-item>
           </el-dropdown-menu>
         </template>
       </el-dropdown>
