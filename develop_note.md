@@ -246,3 +246,7 @@ import 'nprogress/nprogress.css'
 -- 安裝 VueUse
 
 npm i @vueuse/core
+
+--- / -----------------------------------------------------------------------------------------------------------------------
+
+https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.css
