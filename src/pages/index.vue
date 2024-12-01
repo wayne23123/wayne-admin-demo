@@ -3,6 +3,8 @@ import { ref } from "vue";
 
 import { getStatistics1 } from "@/api/index.js";
 
+import CountTo from "@/components/CountTo.vue";
+
 const panels = ref([]);
 
 getStatistics1().then((response) => {
@@ -114,7 +116,11 @@ getStatistics1().then((response) => {
             </div>
           </template>
 
-          <span class="text-3xl font-bold text-gray-500">{{ item.value }}</span>
+          <span class="text-3xl font-bold text-gray-500">
+            <!-- {{ item.value }} -->
+
+            <CountTo :value="item.value" />
+          </span>
 
           <!-- https://element-plus.org/zh-CN/component/divider.html#divider-%E5%88%86%E5%89%B2%E7%BA%BF -->
           <el-divider />
