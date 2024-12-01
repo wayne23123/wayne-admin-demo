@@ -1,67 +1,116 @@
 <script setup>
+import { ref } from "vue";
+
+import { getStatistics1 } from "@/api/index.js";
+
+const penels = ref([]);
+
+getStatistics1().then((response) => {
+  // console.log("response", response);
+
+  penels.value = response.data.data.panels;
+});
+
 //https://vueuse.org/integrations/useCookies/#usecookies
-import { useCookies } from '@vueuse/integrations/useCookies';
+// import { useCookies } from '@vueuse/integrations/useCookies';
 
-import { showModal } from '@/composables/util';
+// import { showModal } from '@/composables/util';
 
-import { logout } from '@/api/manager';
+// import { logout } from '@/api/manager';
 
-import { toast } from '../composables/util';
+// import { toast } from '../composables/util';
 
-import { useRouter } from 'vue-router';
+// import { useRouter } from 'vue-router';
 
-import { useStore } from 'vuex';
+// import { useStore } from 'vuex';
 
-const cookie = useCookies();
+// const cookie = useCookies();
 
-const router = useRouter();
+// const router = useRouter();
 
-const store = useStore();
+// const store = useStore();
 
 // console.log('cookie', cookie);
 
-const setCookie = () => {
-  cookie.set('admin-token', '123456');
-};
+// const setCookie = () => {
+//   cookie.set('admin-token', '123456');
+// };
 
-const getCookie = () => {
-  console.log(cookie.get('admin-token'));
-};
+// const getCookie = () => {
+//   console.log(cookie.get('admin-token'));
+// };
 
-const removeCookie = () => {
-  cookie.remove('admin-token');
-};
+// const removeCookie = () => {
+//   cookie.remove('admin-token');
+// };
 
-const handleLogout = () => {
-  showModal('是否要退出登入').then((res) => {
-    // console.log('退出登入')
-    logout().finally((res) => {
-      // 移除 cookie 裡的 token
-      // 清除當前用戶狀態 vuex
-      store.dispatch('logout');
+// const handleLogout = () => {
+//   showModal('是否要退出登入').then((res) => {
+//     // console.log('退出登入')
+//     logout().finally((res) => {
+//       // 移除 cookie 裡的 token
+//       // 清除當前用戶狀態 vuex
+//       store.dispatch('logout');
 
-      // 跳轉到登入頁面
-      router.push('/login');
+//       // 跳轉到登入頁面
+//       router.push('/login');
 
-      // 提示退出登入
-      toast('退出登入成功');
-    });
-  });
-};
+//       // 提示退出登入
+//       toast('退出登入成功');
+//     });
+//   });
+// };
 </script>
 
 <template>
+  <!-- https://element-plus.org/zh-CN/component/layout.html#layout-%E5%B8%83%E5%B1%80 -->
   <div>
+    <el-row :gutter="20">
+      <el-col
+        :span="6"
+        :offset="0"
+        v-for="(item, index) in penels"
+        :key="index"
+      >
+        <!-- https://element-plus.org/zh-CN/component/card.html#card-%E5%8D%A1%E7%89%87 -->
+        <el-card shadow="hover" class="border-0">
+          <template #header>
+            <div class="flex justify-between">
+              <span class="text-sm">{{ item.title }}</span>
+
+              <!-- https://element-plus.org/zh-CN/component/tag.html#tag-%E6%A0%87%E7%AD%BE -->
+              <el-tag :type="item.unitColor" effect="plain">
+                {{ item.unit }}
+              </el-tag>
+            </div>
+          </template>
+
+          <span class="text-3xl font-bold text-gray-500">{{ item.value }}</span>
+
+          <!-- https://element-plus.org/zh-CN/component/divider.html#divider-%E5%88%86%E5%89%B2%E7%BA%BF -->
+          <el-divider />
+
+          <div class="flex justify-between text-sm text-gray-500">
+            <span>{{ item.subTitle }}</span>
+
+            <span>{{ item.subValue }}</span>
+          </div>
+        </el-card>
+      </el-col>
+    </el-row>
+  </div>
+
+  <!-- <div>
     home
     <el-button @click="setCookie">設定 cookie</el-button>
     <el-button @click="getCookie">讀取 cookie</el-button>
     <el-button @click="removeCookie">刪除 cookie</el-button>
 
-    <!-- {{ $store.state.user }} -->
+    {{ $store.state.user }}
     {{ $store.state.user.data.data.username }}
-    <!-- {{ $store.state.user.data.data.menus }} -->
-    <!-- {{ $store.state.user.data.data.ruleNames }} -->
+    {{ $store.state.user.data.data.menus }}
+    {{ $store.state.user.data.data.ruleNames }}
 
     <el-button @click="handleLogout">退出登入</el-button>
-  </div>
+  </div> -->
 </template>

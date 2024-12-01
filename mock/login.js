@@ -583,4 +583,77 @@ export default [
       };
     },
   },
+
+  {
+    url: '/api/admin/statistics1', // 模擬 /admin/login 路徑
+    method: 'get', // 使用 POST 方法
+    response: ({ }) => {
+      return {
+        code: 200,
+        msg: "ok",
+        data: {
+          "panels": [
+            {
+              "title": "付款訂單",
+              "value": 51,
+              "unit": "年",
+              "unitColor": "success",
+              "subTitle": "總付款訂單",
+              "subValue": 51,
+              "subUnit": ""
+            },
+            {
+              "title": "訂單量",
+              "value": 555,
+              "unit": "周",
+              "unitColor": "danger",
+              "subTitle": "轉換率",
+              "subValue": "60%",
+              "subUnit": ""
+            },
+            {
+              "title": "銷售額",
+              "value": 3.74,
+              "unit": "年",
+              "unitColor": "",
+              "subTitle": "總銷售額",
+              "subValue": 3.74,
+              "subUnit": ""
+            },
+            {
+              "title": "新增用戶",
+              "value": 17,
+              "unit": "年",
+              "unitColor": "warning",
+              "subTitle": "總用戶",
+              "subValue": 17,
+              "subUnit": "人"
+            }
+          ]
+        },
+      };
+    },
+  },
+
+  {
+    url: '/api/admin/example', // 模擬 /admin/login 路徑
+    method: 'post', // 使用 POST 方法
+    response: ({ body }) => {
+      const { username, password } = body;
+      if (username === 'admin' && password === 'admin') {
+        return {
+          code: 200,
+          data: {
+            token: 'mock-token-123456',
+            message: '模擬的 mock API 登入成功',
+          },
+        };
+      } else {
+        return {
+          code: 401,
+          message: '帳號密碼錯誤',
+        };
+      }
+    },
+  },
 ];
