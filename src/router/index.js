@@ -10,6 +10,20 @@ import GoodList from '@/pages/goods/list.vue';
 
 import CategoryList from '@/pages/category/list.vue';
 
+import UserList from '@/pages/user/list.vue';
+
+import OrderList from '@/pages/order/list.vue';
+
+import CommentList from '@/pages/comment/list.vue';
+
+import ImageList from '@/pages/image/list.vue';
+
+import NoticeList from '@/pages/notice/list.vue';
+
+import CouponList from '@/pages/coupon/list.vue';
+
+import SettingBase from '@/pages/setting/base.vue';
+
 // const routes = [
 //   {
 //     path: '/',
@@ -121,6 +135,69 @@ const asyncRoutes = [
     component: CategoryList,
     meta: {
       title: 'wayne-分類列表',
+    },
+  },
+
+  {
+    path: '/user/list',
+    name: '/user/list',
+    component: UserList,
+    meta: {
+      title: 'wayne-用戶列表',
+    },
+  },
+
+  {
+    path: '/order/list',
+    name: '/order/list',
+    component: OrderList,
+    meta: {
+      title: 'wayne-訂單列表',
+    },
+  },
+
+  {
+    path: '/comment/list',
+    name: '/comment/list',
+    component: CommentList,
+    meta: {
+      title: 'wayne-評價列表',
+    },
+  },
+
+  {
+    path: '/image/list',
+    name: '/image/list',
+    component: ImageList,
+    meta: {
+      title: 'wayne-圖庫列表',
+    },
+  },
+
+  {
+    path: '/notice/list',
+    name: '/notice/list',
+    component: NoticeList,
+    meta: {
+      title: 'wayne-公告列表',
+    },
+  },
+
+  {
+    path: '/setting/base',
+    name: '/setting/base',
+    component: SettingBase,
+    meta: {
+      title: 'wayne-設定',
+    },
+  },
+
+  {
+    path: '/coupon/list',
+    name: '/coupon/list',
+    component: CouponList,
+    meta: {
+      title: 'wayne-優惠券列表',
     },
   },
 ];
