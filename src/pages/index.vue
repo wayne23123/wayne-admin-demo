@@ -3,12 +3,12 @@ import { ref } from "vue";
 
 import { getStatistics1 } from "@/api/index.js";
 
-const penels = ref([]);
+const panels = ref([]);
 
 getStatistics1().then((response) => {
   // console.log("response", response);
 
-  penels.value = response.data.data.panels;
+  panels.value = response.data.data.panels;
 });
 
 //https://vueuse.org/integrations/useCookies/#usecookies
@@ -66,10 +66,39 @@ getStatistics1().then((response) => {
   <!-- https://element-plus.org/zh-CN/component/layout.html#layout-%E5%B8%83%E5%B1%80 -->
   <div>
     <el-row :gutter="20">
+      <template v-if="panels.length == 0">
+        <el-col :span="6" v-for="i in 4" :key="i">
+          <el-skeleton animated loading style="width: 100%">
+            <template #template>
+              <el-card shadow="hover" class="border-0">
+                <template #header>
+                  <div class="flex justify-between">
+                    <el-skeleton-item variant="text" style="width: 50%" />
+
+                    <el-skeleton-item variant="text" style="width: 10%" />
+                  </div>
+                </template>
+
+                <el-skeleton-item variant="h3" style="width: 80%" />
+
+                <el-divider />
+
+                <div class="flex justify-between text-sm text-gray-500">
+                  <el-skeleton-item variant="text" style="width: 50%" />
+
+                  <el-skeleton-item variant="text" style="width: 10%" />
+                </div>
+              </el-card>
+            </template>
+          </el-skeleton>
+        </el-col>
+      </template>
+      <!-- https://element-plus.org/zh-CN/component/skeleton.html#skeleton-%E9%AA%A8%E6%9E%B6%E5%B1%8F -->
+
       <el-col
         :span="6"
         :offset="0"
-        v-for="(item, index) in penels"
+        v-for="(item, index) in panels"
         :key="index"
       >
         <!-- https://element-plus.org/zh-CN/component/card.html#card-%E5%8D%A1%E7%89%87 -->
