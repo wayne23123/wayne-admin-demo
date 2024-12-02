@@ -636,6 +636,82 @@ export default [
   },
 
   {
+    url: '/api/admin/statistics3',
+    method: 'get',
+    response: ({ query }) => {
+      const type = query.type;
+      let data;
+      switch (type) {
+        case 'hour':
+          data = {
+            x: ["07-24", "07-23", "07-22", "07-21"],
+            y: [51, 0, 1, 1],
+          };
+          break;
+        case 'week':
+          data = {
+            x: ["Week 1", "Week 2", "Week 3", "Week 4"],
+            y: [100, 200, 150, 300],
+          };
+          break;
+        case 'month':
+          data = {
+            x: ["Jan", "Feb", "Mar", "Apr"],
+            y: [300, 400, 350, 450],
+          };
+          break;
+        default:
+          data = {
+            "x": [
+              "07-24",
+              "07-23",
+              "07-22",
+              "07-21",
+              "07-20",
+              "07-19",
+              "07-18"
+            ],
+            "y": [
+              51,
+              0,
+              1,
+              1,
+              0,
+              2,
+              1
+            ]
+          };
+      }
+
+      return {
+        code: 200,
+        msg: "ok",
+        // data: {
+        //   "x": [
+        //     "07-24",
+        //     "07-23",
+        //     "07-22",
+        //     "07-21",
+        //     "07-20",
+        //     "07-19",
+        //     "07-18"
+        //   ],
+        //   "y": [
+        //     51,
+        //     0,
+        //     1,
+        //     1,
+        //     0,
+        //     2,
+        //     1
+        //   ]
+        // },
+        data: data,
+      };
+    },
+  },
+
+  {
     url: '/api/admin/example', // 模擬 /admin/login 路徑
     method: 'post', // 使用 POST 方法
     response: ({ body }) => {

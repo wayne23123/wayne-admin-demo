@@ -272,6 +272,7 @@ const handleLogout = () => {
 .f-header {
   height: 64px;
   @apply flex items-center bg-indigo-700 text-slate-50 fixed top-0 left-0 right-0;
+  z-index: 1000;
 }
 
 .logo {

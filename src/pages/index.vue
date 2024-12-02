@@ -1,11 +1,13 @@
 <script setup>
-import { ref } from "vue";
+import { ref } from 'vue';
 
-import { getStatistics1 } from "@/api/index.js";
+import { getStatistics1 } from '@/api/index.js';
 
-import CountTo from "@/components/CountTo.vue";
+import CountTo from '@/components/CountTo.vue';
 
-import IndexNavs from "@/components/IndexNavs.vue";
+import IndexNavs from '@/components/IndexNavs.vue';
+
+import IndexChart from '@/components/indexChart.vue';
 
 const panels = ref([]);
 
@@ -137,6 +139,13 @@ getStatistics1().then((response) => {
     </el-row>
 
     <IndexNavs />
+
+    <el-row :gutter="20" class="mt-5">
+      <el-col :span="12" :offset="0">
+        <IndexChart />
+      </el-col>
+      <el-col :span="12" :offset="0"></el-col>
+    </el-row>
   </div>
 
   <!-- <div>
