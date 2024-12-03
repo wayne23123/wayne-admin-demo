@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 
-import { getStatistics1 } from '@/api/index.js';
+import { getStatistics1, getStatistics2 } from '@/api/index.js';
 
 import CountTo from '@/components/CountTo.vue';
 
@@ -9,12 +9,24 @@ import IndexNavs from '@/components/IndexNavs.vue';
 
 import IndexChart from '@/components/indexChart.vue';
 
+import IndexCard from '../components/IndexCard.vue';
+
 const panels = ref([]);
 
 getStatistics1().then((response) => {
   // console.log("response", response);
 
   panels.value = response.data.data.panels;
+});
+
+const goods = ref([]);
+const order = ref([]);
+getStatistics2().then((response) => {
+  // console.log('response', response);
+
+  goods.value = response.data.data.goods;
+
+  order.value = response.data.data.order;
 });
 
 //https://vueuse.org/integrations/useCookies/#usecookies
@@ -144,7 +156,19 @@ getStatistics1().then((response) => {
       <el-col :span="12" :offset="0">
         <IndexChart />
       </el-col>
-      <el-col :span="12" :offset="0"></el-col>
+      <el-col :span="12" :offset="0">
+        <IndexCard
+          title="商店和商品提示"
+          tip="商店和商品提示"
+          :btns="goods"
+          class="mb-3"
+        />
+        <IndexCard
+          title="交易提示"
+          tip="需要立即除裡的交易訂單"
+          :btns="order"
+        />
+      </el-col>
     </el-row>
   </div>
 

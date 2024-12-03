@@ -712,6 +712,57 @@ export default [
   },
 
   {
+    url: '/api/admin/statistics2', // 模擬 /admin/login 路徑
+    method: 'get', // 使用 POST 方法
+    response: ({ }) => {
+      return {
+        code: 200,
+        msg: "ok",
+        data: {
+          "goods": [
+            {
+              "label": "審核中",
+              "value": 0
+            },
+            {
+              "label": "銷售中",
+              "value": 98
+            },
+            {
+              "label": "已下架",
+              "value": 48
+            },
+            {
+              "label": "庫存",
+              "value": 6
+            }
+          ],
+          "order": [
+            {
+              "label": "待付款",
+              "value": 171
+            },
+            {
+              "label": "等發貨",
+              "value": 16
+            },
+            {
+              "label": "已發貨",
+              "value": 1
+            },
+            {
+              "label": "退款中",
+              "value": 17
+            }
+          ]
+        },
+
+      };
+
+    },
+  },
+
+  {
     url: '/api/admin/example', // 模擬 /admin/login 路徑
     method: 'post', // 使用 POST 方法
     response: ({ body }) => {
