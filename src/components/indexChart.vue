@@ -96,9 +96,11 @@ useResizeObserver(el, (entries) => {
 
 onMounted(() => {
   var chartDom = document.getElementById('chart');
-  myChart = echarts.init(chartDom);
+  if (chartDom) {
+    myChart = echarts.init(chartDom);
 
-  getData();
+    getData();
+  }
 });
 
 // 銷毀組件，解決白屏問題

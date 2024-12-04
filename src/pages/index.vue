@@ -83,7 +83,7 @@ getStatistics2().then((response) => {
 <template>
   <!-- https://element-plus.org/zh-CN/component/layout.html#layout-%E5%B8%83%E5%B1%80 -->
   <div>
-    <el-row :gutter="20">
+    <el-row :gutter="20" v-permission="['getStatistics1,GET']">
       <template v-if="panels.length == 0">
         <el-col :span="6" v-for="i in 4" :key="i">
           <el-skeleton animated loading style="width: 100%">
@@ -154,9 +154,9 @@ getStatistics2().then((response) => {
 
     <el-row :gutter="20" class="mt-5">
       <el-col :span="12" :offset="0">
-        <IndexChart />
+        <IndexChart v-permission="['getStatistics3,GET']" />
       </el-col>
-      <el-col :span="12" :offset="0">
+      <el-col :span="12" :offset="0" v-permission="['getStatistics2,GET']">
         <IndexCard
           title="商店和商品提示"
           tip="商店和商品提示"

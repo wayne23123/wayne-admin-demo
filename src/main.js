@@ -32,4 +32,7 @@ import '@/permission';
 
 import 'nprogress/nprogress.css';
 
+import premission from '@/directives/permission';
+app.use(premission);
+
 app.mount('#app');
