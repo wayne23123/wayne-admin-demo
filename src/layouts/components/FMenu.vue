@@ -57,7 +57,7 @@ const handleSelect = (e) => {
     <!-- https://element-plus.org/zh-CN/component/menu.html -->
     <el-menu
       :default-active="defaultActive"
-      unique-opened="true"
+      :unique-opened="true"
       @select="handleSelect"
       :collapse="isCollapse"
       :collapse-transition="false"
