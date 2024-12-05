@@ -146,9 +146,12 @@ const handleLogout = () => {
 
       <!-- https://element-plus.org/zh-CN/component/dropdown.html#dropdown-%E4%B8%8B%E6%8B%89%E8%8F%9C%E5%8D%95 -->
       <el-dropdown class="dropdown" @command="handleCommand">
-        <span class="flex items-center text-light-50">
-          <el-avatar class="mr-2" :size="25" :icon="UserFilled" />
-          <!-- <el-avatar :size="25" :src="$store.state.user.data.data.avatar" /> -->
+        <span class="flex items-center text-white">
+          <!-- <el-avatar class="mr-2" :size="25" :icon="UserFilled" /> -->
+          <el-avatar
+            :size="25"
+            :src="$store.state.user.data.data.avatar || 'default-avatar.png'"
+          />
           {{ $store.state.user?.data?.data?.username || '用戶名載入中' }}
           <el-icon class="el-icon--right">
             <arrow-down />
