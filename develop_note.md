@@ -9,6 +9,10 @@ npm install element-plus --save
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 
+const app = createApp(App);
+app.use(ElementPlus);
+app.mount('#app');
+
 - 測試
 
 <el-button type="primary">Primary</el-button>
@@ -22,7 +26,7 @@ npx tailwindcss init -p
 
 - 在 tailwind.config.js 改
 
-  content: [ "./index.html", "./src/**/*.{js,ts,jsx,tsx}", ],
+  content: [ "./index.html", "./src/**/*.{vue,js,ts,jsx,tsx}", ],
 
 - 在 主要 css 文件引入
 
@@ -106,7 +110,11 @@ component: index,
 
 import NotFound from '@/pages/NotFound.vue';
 
-const routes = [ //https://router.vuejs.org/zh/guide/essentials/dynamic-matching.html{path: '/:pathMatch(.*)*', // 放在其他路之後 name: 'NotFound',component: NotFound,},];
+const routes = [ //https://router.vuejs.org/zh/guide/essentials/dynamic-matching.html
+{path: '/:pathMatch(.*)*', name: 'NotFound',component: NotFound,}
+,];
+
+--- / -----------------------------------------------------------------------------------------------------------------------
 
 --安裝 element-plus icon : https://element-plus.org/zh-CN/component/icon.html
 
@@ -142,7 +150,7 @@ import axios from 'axios';
 
 //https://axios-http.com/zh/docs/instance
 const instance = axios.create({
-baseURL: 'https://some-domain.com/api/',
+baseURL: '/api',
 });
 
 export default instance;
@@ -153,7 +161,15 @@ export default instance;
 
 https://cn.vite.dev/config/server-options.html#server-proxy
 
-server: {proxy: {'/api': {// 這裡改成 src/axios.js 寫的 baseURLtarget: 'http://localhost:3000',changeOrigin: true,rewrite: (path) => path.replace(/^\/api/, ''),},},},
+server: {
+proxy: {
+'/api': {
+target: 'http://localhost:3000',
+changeOrigin: true,
+rewrite: (path) => path.replace(/^\/api/, ''),
+},
+},
+},
 
 --- / -----------------------------------------------------------------------------------------------------------------------
 
