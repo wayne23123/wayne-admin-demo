@@ -126,7 +126,7 @@ getStatistics2().then((response) => {
               <span class="text-sm">{{ item.title }}</span>
 
               <!-- https://element-plus.org/zh-CN/component/tag.html#tag-%E6%A0%87%E7%AD%BE -->
-              <el-tag :type="item.unitColor" effect="plain">
+              <el-tag :type="item.unitColor || 'info'" effect="plain">
                 {{ item.unit }}
               </el-tag>
             </div>
