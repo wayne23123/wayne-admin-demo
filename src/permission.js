@@ -15,7 +15,11 @@ import {
 import store from '@/store';
 import { h } from 'vue';
 
-let hasGetInfo = false;
+// let hasGetInfo = false;
+
+const hasGetInfo = () => {
+  return store.state.user && Object.keys(store.state.user).length > 0;
+};
 
 // https://router.vuejs.org/zh/guide/advanced/navigation-guards.html
 // 全局路由守卫
@@ -41,7 +45,7 @@ router.beforeEach(async (to, from, next) => {
   let hasNewRoutes = false;
 
   // 如果用戶登入了，自動獲取用戶資料，並存在 vuex
-  if (token && !hasGetInfo) {
+  if (token && !hasGetInfo()) {
     // await store.dispatch('getInfo');
 
     let response = await store.dispatch('getInfo');
@@ -50,7 +54,7 @@ router.beforeEach(async (to, from, next) => {
     let menus = response.data.data.menus;
     // console.log(menus);
 
-    hasGetInfo = true;
+    // hasGetInfo = true;
 
     // 動態添加路由
     hasNewRoutes = addRoutes(menus);

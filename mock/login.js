@@ -23,6 +23,17 @@ export default [
     },
   },
 
+  {
+    url: '/api/admin/logout',
+    method: 'post',
+    response: ({ }) => {
+      return {
+        code: 200,
+        data: "退出登录成功",
+      };
+    },
+  },
+
   // 新增 /admin/info 模擬 API
   {
     url: '/api/admin/info', // 模擬 /admin/info 路徑

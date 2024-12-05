@@ -109,8 +109,10 @@ const handleLogout = () => {
       // 清除當前用戶狀態 vuex
       store.dispatch('logout');
 
-      // 跳轉到登入頁面
-      router.push('/login');
+      setTimeout(() => {
+        // 跳轉到登入頁面
+        router.push('/login');
+      }, 100);
 
       // 提示退出登入
       toast('退出登入成功');
@@ -147,7 +149,7 @@ const handleLogout = () => {
         <span class="flex items-center text-light-50">
           <el-avatar class="mr-2" :size="25" :icon="UserFilled" />
           <!-- <el-avatar :size="25" :src="$store.state.user.data.data.avatar" /> -->
-          {{ $store.state.user.data.data.username }}
+          {{ $store.state.user?.data?.data?.username || '用戶名載入中' }}
           <el-icon class="el-icon--right">
             <arrow-down />
           </el-icon>
