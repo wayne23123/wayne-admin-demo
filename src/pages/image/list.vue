@@ -1,3 +1,61 @@
+<script setup>
+const windowHeight = window.innerHeight || document.body.clientHeight;
+
+const h = windowHeight - 64 - 44 - 40;
+</script>
+
 <template>
-  <div>圖庫列表</div>
+  <el-container class="bg-white rounded" :style="{ height: h + 'px' }">
+    <el-header class="image-header">Header</el-header>
+    <el-container>
+      <el-aside width="220px" class="image-aside">
+        <div class="top">
+          <div v-for="i in 100" key="i">{{ i }}</div>
+        </div>
+        <div class="bottom">分頁</div>
+      </el-aside>
+      <el-main class="image-main">
+        <div class="top">
+          <div v-for="i in 100" key="i">{{ i }}</div>
+        </div>
+        <div class="bottom">分頁</div>
+      </el-main>
+    </el-container>
+  </el-container>
 </template>
+
+<style scoped>
+.image-header {
+  border-bottom: 1px solid #eee;
+  @apply flex items-center;
+}
+
+.image-aside {
+  border-right: 1px solid #eee;
+  position: relative;
+}
+
+.image-aside .top,
+.image-main .top {
+  position: absolute;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 50px;
+  overflow-y: auto;
+}
+
+.image-main {
+  position: relative;
+}
+
+.image-aside .bottom,
+.image-main .bottom {
+  position: absolute;
+  bottom: 0;
+  height: 50px;
+  left: 0;
+  right: 0;
+  @apply flex items-center justify-center;
+}
+</style>
