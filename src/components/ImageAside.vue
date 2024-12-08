@@ -1,7 +1,35 @@
+<script setup>
+import AsideList from './AsideList.vue';
+</script>
+
 <template>
   <el-aside width="220px" class="image-aside">
     <div class="top">
-      <div v-for="i in 100" key="i">{{ i }}</div>
+      <AsideList>分類標題</AsideList>
+
+      <AsideList active>分類標題</AsideList>
+
+      <!-- <div class="aside-list active">
+        <span class="truncate">分類標題:</span>
+        <el-button
+          text="true"
+          type="primary"
+          size="small"
+          @click=""
+          class="ml-auto px-1"
+        >
+          <el-icon :size="12"><Edit /></el-icon>
+        </el-button>
+        <el-button
+          text="true"
+          type="primary"
+          size="small"
+          @click=""
+          class="px-1"
+        >
+          <el-icon :size="12"><Close /></el-icon>
+        </el-button>
+      </div> -->
     </div>
     <div class="bottom">分頁</div>
   </el-aside>
@@ -29,5 +57,15 @@
   left: 0;
   right: 0;
   @apply flex items-center justify-center;
+}
+
+.aside-list {
+  border-bottom: 1px solid #f4f4f4;
+  @apply flex items-center p-3 text-sm text-gray-600 cursor-pointer;
+}
+
+.aside-list:hover,
+.active {
+  @apply bg-blue-50;
 }
 </style>
