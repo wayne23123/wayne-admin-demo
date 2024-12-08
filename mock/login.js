@@ -44,7 +44,7 @@ export default [
         code: 200,
         data: {
           id: 3,
-          username: 'admin',
+          username: '超級管理員',
           avatar: '',
           super: 1,
           role: { id: 2, name: '超級管理員' },

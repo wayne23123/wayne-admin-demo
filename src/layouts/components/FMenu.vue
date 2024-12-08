@@ -68,20 +68,22 @@ const handleSelect = (e) => {
         <el-sub-menu
           v-if="item.child && item.child.length > 0"
           :index="item.name"
+          class="bg-slate-200"
         >
           <template #title>
             <el-icon><component :is="item.icon" /></el-icon>
-            <span>{{ item.name }}</span>
+            <span class="select-none">{{ item.name }}</span>
           </template>
 
           <el-menu-item
             v-for="(item2, index2) in item.child"
             :key="index2"
             :index="item2.frontpath"
+            class="bg-zinc-50"
           >
             <el-icon><component :is="item2.icon" /></el-icon>
 
-            <span>{{ item2.name }}</span>
+            <span class="select-none">{{ item2.name }}</span>
           </el-menu-item>
         </el-sub-menu>
         <el-menu-item v-else :index="item.frontpath">
@@ -104,7 +106,7 @@ const handleSelect = (e) => {
   overflow-x: hidden;
   transition: all 0.2s ease-in-out;
 
-  @apply shadow-md fixed bg-gray-50;
+  @apply shadow-md fixed bg-gray-50 bg-slate-200;
 }
 
 .f-menu::-webkit-scrollbar {

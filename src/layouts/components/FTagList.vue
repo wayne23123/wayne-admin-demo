@@ -79,6 +79,8 @@ const handleClose = (value) => {
     // 切換回首頁
     activeTab.value = '/';
 
+    changeTab(activeTab.value);
+
     // 過濾只剩下首頁
     tabList.value = [
       {
