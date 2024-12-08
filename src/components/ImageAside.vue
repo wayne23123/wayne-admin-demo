@@ -11,12 +11,25 @@ const list = ref([]);
 
 const activeId = ref(0);
 
-const getData = () => {
+// 分頁
+const currentPage = ref(1);
+const total = ref(0);
+const limit = ref(10);
+
+const getData = (page) => {
+  // console.log('value', value);
+  if (typeof page == 'number') {
+    currentPage.value = page;
+  }
+
   isLoading.value = true;
 
-  getImageClassList(1)
+  // getImageClassList(1)
+  getImageClassList(currentPage.value)
     .then((response) => {
       // console.log('response', response);
+
+      total.value = response.data.data.totalCount;
 
       list.value = response.data.data.list;
 
@@ -67,7 +80,18 @@ getData();
         </el-button>
       </div> -->
     </div>
-    <div class="bottom">分頁</div>
+
+    <!-- https://element-plus.org/zh-CN/component/pagination.html#pagination-%E5%88%86%E9%A1%B5 -->
+    <div class="bottom">
+      <el-pagination
+        background
+        layout="prev, pager, next"
+        @current-change="getData"
+        :total="total"
+        v-model:current-page="currentPage"
+        v-model:page-size="limit"
+      />
+    </div>
   </el-aside>
 </template>
 
