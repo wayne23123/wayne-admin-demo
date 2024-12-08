@@ -1,5 +1,57 @@
 // login.js
 export default [
+  // 範例
+  {
+    url: '/api/admin/userinfo',
+    method: 'post',
+    response: ({ body, headers }) => {
+      const token = headers.token;
+      if (token === 'mock-token-123456') {
+        const { email, username } = body;
+        return {
+          code: 200,
+          data: {
+            username: username || 'admin',
+            email: email || 'admin@example.com',
+          },
+          message: '用戶資訊更新成功',
+        };
+      } else {
+        return {
+          code: 401,
+          message: '操作未授權',
+        };
+      }
+    },
+  },
+  // 帶查詢參數的範例
+  {
+    url: '/api/admin/items',
+    method: 'get',
+    response: ({ query }) => {
+      // 簡單判斷 query 帶了哪些參數
+      if (query.page && query.limit) {
+        return {
+          code: 200,
+          data: {
+            items: `你查詢了第 ${query.page} 頁，每頁顯示 ${query.limit} 條數據`,
+          },
+        };
+      } else if (query.category) {
+        return {
+          code: 200,
+          data: {
+            items: `你查詢的類別是 ${query.category}`,
+          },
+        };
+      } else {
+        return {
+          code: 400,
+          message: '請提供正確的查詢參數',
+        };
+      }
+    },
+  },
   // 新增 /admin/login 模擬 API
   {
     url: '/api/admin/login', // 模擬 /admin/login 路徑
@@ -26,10 +78,10 @@ export default [
   {
     url: '/api/admin/logout',
     method: 'post',
-    response: ({ }) => {
+    response: ({}) => {
       return {
         code: 200,
-        data: "退出登录成功",
+        data: '退出登录成功',
       };
     },
   },
@@ -598,49 +650,49 @@ export default [
   {
     url: '/api/admin/statistics1', // 模擬 /admin/login 路徑
     method: 'get', // 使用 POST 方法
-    response: ({ }) => {
+    response: ({}) => {
       return {
         code: 200,
-        msg: "ok",
+        msg: 'ok',
         data: {
-          "panels": [
+          panels: [
             {
-              "title": "付款訂單",
-              "value": 51,
-              "unit": "年",
-              "unitColor": "success",
-              "subTitle": "總付款訂單",
-              "subValue": 51,
-              "subUnit": ""
+              title: '付款訂單',
+              value: 51,
+              unit: '年',
+              unitColor: 'success',
+              subTitle: '總付款訂單',
+              subValue: 51,
+              subUnit: '',
             },
             {
-              "title": "訂單量",
-              "value": 555,
-              "unit": "周",
-              "unitColor": "danger",
-              "subTitle": "轉換率",
-              "subValue": "60%",
-              "subUnit": ""
+              title: '訂單量',
+              value: 555,
+              unit: '周',
+              unitColor: 'danger',
+              subTitle: '轉換率',
+              subValue: '60%',
+              subUnit: '',
             },
             {
-              "title": "銷售額",
-              "value": 3.74,
-              "unit": "年",
-              "unitColor": "",
-              "subTitle": "總銷售額",
-              "subValue": 3.74,
-              "subUnit": ""
+              title: '銷售額',
+              value: 3.74,
+              unit: '年',
+              unitColor: '',
+              subTitle: '總銷售額',
+              subValue: 3.74,
+              subUnit: '',
             },
             {
-              "title": "新增用戶",
-              "value": 17,
-              "unit": "年",
-              "unitColor": "warning",
-              "subTitle": "總用戶",
-              "subValue": 17,
-              "subUnit": "人"
-            }
-          ]
+              title: '新增用戶',
+              value: 17,
+              unit: '年',
+              unitColor: 'warning',
+              subTitle: '總用戶',
+              subValue: 17,
+              subUnit: '人',
+            },
+          ],
         },
       };
     },
@@ -655,48 +707,32 @@ export default [
       switch (type) {
         case 'hour':
           data = {
-            x: ["07-24", "07-23", "07-22", "07-21"],
+            x: ['07-24', '07-23', '07-22', '07-21'],
             y: [51, 0, 1, 1],
           };
           break;
         case 'week':
           data = {
-            x: ["Week 1", "Week 2", "Week 3", "Week 4"],
+            x: ['Week 1', 'Week 2', 'Week 3', 'Week 4'],
             y: [100, 200, 150, 300],
           };
           break;
         case 'month':
           data = {
-            x: ["Jan", "Feb", "Mar", "Apr"],
+            x: ['Jan', 'Feb', 'Mar', 'Apr'],
             y: [300, 400, 350, 450],
           };
           break;
         default:
           data = {
-            "x": [
-              "07-24",
-              "07-23",
-              "07-22",
-              "07-21",
-              "07-20",
-              "07-19",
-              "07-18"
-            ],
-            "y": [
-              51,
-              0,
-              1,
-              1,
-              0,
-              2,
-              1
-            ]
+            x: ['07-24', '07-23', '07-22', '07-21', '07-20', '07-19', '07-18'],
+            y: [51, 0, 1, 1, 0, 2, 1],
           };
       }
 
       return {
         code: 200,
-        msg: "ok",
+        msg: 'ok',
         // data: {
         //   "x": [
         //     "07-24",
@@ -725,51 +761,49 @@ export default [
   {
     url: '/api/admin/statistics2', // 模擬 /admin/login 路徑
     method: 'get', // 使用 POST 方法
-    response: ({ }) => {
+    response: ({}) => {
       return {
         code: 200,
-        msg: "ok",
+        msg: 'ok',
         data: {
-          "goods": [
+          goods: [
             {
-              "label": "審核中",
-              "value": 0
+              label: '審核中',
+              value: 0,
             },
             {
-              "label": "銷售中",
-              "value": 98
+              label: '銷售中',
+              value: 98,
             },
             {
-              "label": "已下架",
-              "value": 48
+              label: '已下架',
+              value: 48,
             },
             {
-              "label": "庫存",
-              "value": 6
-            }
+              label: '庫存',
+              value: 6,
+            },
           ],
-          "order": [
+          order: [
             {
-              "label": "待付款",
-              "value": 171
+              label: '待付款',
+              value: 171,
             },
             {
-              "label": "等發貨",
-              "value": 16
+              label: '等發貨',
+              value: 16,
             },
             {
-              "label": "已發貨",
-              "value": 1
+              label: '已發貨',
+              value: 1,
             },
             {
-              "label": "退款中",
-              "value": 17
-            }
-          ]
+              label: '退款中',
+              value: 17,
+            },
+          ],
         },
-
       };
-
     },
   },
 
@@ -790,6 +824,86 @@ export default [
         return {
           code: 401,
           message: '帳號密碼錯誤',
+        };
+      }
+    },
+  },
+
+  {
+    // 使用正則匹配動態參數，例如 /api/admin/image_class/:id
+    url: /^\/api\/admin\/image_class\/\d+$/,
+    method: 'get',
+    response: ({ url }) => {
+      // 從 URL 提取動態參數（例如 id）
+      const id = url.split('/').pop(); // 獲取最後一段作為 id
+      if (id === '1') {
+        return {
+          msg: 'ok',
+          data: {
+            list: [
+              {
+                id: 168,
+                name: '化妝品',
+                order: 1001,
+                images_count: 27,
+              },
+              {
+                id: 133,
+                name: '家電',
+                order: 1001,
+                images_count: 7,
+              },
+              {
+                id: 174,
+                name: '123',
+                order: 50,
+                images_count: 1,
+              },
+              {
+                id: 173,
+                name: '服裝服飾',
+                order: 50,
+                images_count: 1,
+              },
+              {
+                id: 172,
+                name: '衛浴用品',
+                order: 50,
+                images_count: 1,
+              },
+              {
+                id: 171,
+                name: '其他',
+                order: 50,
+                images_count: 1,
+              },
+              {
+                id: 170,
+                name: '手機3C',
+                order: 50,
+                images_count: 1,
+              },
+              {
+                id: 169,
+                name: '健身用品',
+                order: 50,
+                images_count: 1,
+              },
+              {
+                id: 107,
+                name: '露營旅行',
+                order: 9,
+                images_count: 5,
+              },
+              {
+                id: 126,
+                name: '居家生活',
+                order: 8,
+                images_count: 2,
+              },
+            ],
+            totalCount: 12,
+          },
         };
       }
     },

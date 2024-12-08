@@ -1,13 +1,49 @@
 <script setup>
+import { ref } from 'vue';
+
+import { getImageClassList } from '@/api/image_class';
+
 import AsideList from './AsideList.vue';
+
+const isLoading = ref(false);
+
+const list = ref([]);
+
+const activeId = ref(0);
+
+const getData = () => {
+  isLoading.value = true;
+
+  getImageClassList(1)
+    .then((response) => {
+      // console.log('response', response);
+
+      list.value = response.data.data.list;
+
+      let item = list.value[0];
+
+      if (item) {
+        activeId.value = item.id;
+      }
+    })
+    .finally(() => {
+      isLoading.value = false;
+    });
+};
+getData();
 </script>
 
 <template>
-  <el-aside width="220px" class="image-aside">
+  <el-aside width="220px" class="image-aside" v-loading="isLoading">
     <div class="top">
-      <AsideList>分類標題</AsideList>
+      <AsideList
+        :active="activeId == item.id"
+        v-for="(item, index) in list"
+        :key="index"
+        >{{ item.name }}</AsideList
+      >
 
-      <AsideList active>分類標題</AsideList>
+      <!-- <AsideList active>分類標題</AsideList> -->
 
       <!-- <div class="aside-list active">
         <span class="truncate">分類標題:</span>
