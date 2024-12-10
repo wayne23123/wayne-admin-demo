@@ -1,5 +1,7 @@
 <script setup>
-import { ref } from 'vue';
+import { reactive, ref } from 'vue';
+
+import FormDrawer from './FormDrawer.vue';
 
 import { getImageClassList } from '@/api/image_class';
 
@@ -44,6 +46,43 @@ const getData = (page) => {
     });
 };
 getData();
+
+const formDrawerRef = ref(null);
+
+const handleCreate = () => {
+  formDrawerRef.value.open();
+};
+
+const form = reactive({
+  name: '',
+  order: 50,
+});
+
+const rules = {
+  name: [
+    {
+      required: true,
+      message: '圖庫分類名稱不能為空',
+      trigger: 'blur',
+    },
+  ],
+};
+
+const formRef = ref(null);
+
+const handelSubmit = () => {
+  console.log('提交表單');
+
+  formRef.value.validate((valid) => {
+    if (!valid) return;
+
+    console.log('表單驗證成功');
+  });
+};
+
+defineExpose({
+  handleCreate,
+});
 </script>
 
 <template>
@@ -93,6 +132,27 @@ getData();
       />
     </div>
   </el-aside>
+
+  <FormDrawer ref="formDrawerRef" title="新增" @submit="handelSubmit">
+    <el-form
+      :model="form"
+      ref="formRef"
+      :rules="rules"
+      label-width="80px"
+      :inline="false"
+    >
+      <el-form-item label="分類名稱" prop="name">
+        <el-input v-model="form.name"></el-input>
+      </el-form-item>
+      <el-form-item label="排序" name="order">
+        <el-input-number
+          v-model="form.order"
+          :min="0"
+          :max="1000"
+        ></el-input-number>
+      </el-form-item>
+    </el-form>
+  </FormDrawer>
 </template>
 
 <style scoped>

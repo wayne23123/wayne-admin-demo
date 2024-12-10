@@ -1,17 +1,28 @@
 <script setup>
+import { ref } from 'vue';
 import ImageAside from '@/components/ImageAside.vue';
 import ImageMain from '@/components/ImageMain.vue';
 
 const windowHeight = window.innerHeight || document.body.clientHeight;
 
 const h = windowHeight - 64 - 44 - 40;
+
+const ImageAsideRef = ref(null);
+
+const handleOpenCreate = () => {
+  ImageAsideRef.value.handleCreate();
+};
 </script>
 
 <template>
   <el-container class="bg-white rounded" :style="{ height: h + 'px' }">
-    <el-header class="image-header">Header</el-header>
+    <el-header class="image-header">
+      <el-button type="primary" size="small" @click="handleOpenCreate"
+        >新增圖片分類</el-button
+      >
+    </el-header>
     <el-container>
-      <Image-aside />
+      <ImageAside ref="ImageAsideRef" />
       <!-- <el-aside width="220px" class="image-aside">
         <div class="top">
           <div v-for="i in 100" key="i">{{ i }}</div>

@@ -54,7 +54,7 @@ defineExpose({
 <template>
   <el-drawer
     v-model="showDrawer"
-    title="修改密碼"
+    :title="title"
     :size="size"
     :close-on-click-modal="false"
     :destroy-on-close="destroyOnClose"
