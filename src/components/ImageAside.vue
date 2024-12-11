@@ -3,9 +3,11 @@ import { reactive, ref } from 'vue';
 
 import FormDrawer from './FormDrawer.vue';
 
-import { getImageClassList } from '@/api/image_class';
+import { getImageClassList, createImageClass } from '@/api/image_class';
 
 import AsideList from './AsideList.vue';
+
+import { toast } from '@/composables/util';
 
 const isLoading = ref(false);
 
@@ -76,7 +78,21 @@ const handelSubmit = () => {
   formRef.value.validate((valid) => {
     if (!valid) return;
 
-    console.log('表單驗證成功');
+    // console.log('表單驗證成功');
+
+    formDrawerRef.value.showLoadingButton();
+
+    createImageClass(form)
+      .then((res) => {
+        toast('新增成功');
+
+        getData(1);
+
+        formDrawerRef.value.close();
+      })
+      .finally(() => {
+        formDrawerRef.value.hideLoadingButton();
+      });
   });
 };
 

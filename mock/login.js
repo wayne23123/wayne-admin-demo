@@ -908,4 +908,24 @@ export default [
       }
     },
   },
+
+  {
+    url: '/api/admin/image_class', // 模擬 /api/admin/image_class 路徑
+    method: 'post', // 使用 POST 方法
+    response: ({ body }) => {
+      // 處理 form-data 格式的 key: name 和 order
+      const { name, order } = body;
+
+      // 返回模擬資料
+      return {
+        code: 200,
+        msg: 'ok', // 固定消息
+        data: {
+          name: name || 'default-name', // 使用傳入的 name 或預設值
+          order: order || 'default-order', // 使用傳入的 order 或預設值
+          id: '1305', // 固定 id
+        },
+      };
+    },
+  },
 ];
