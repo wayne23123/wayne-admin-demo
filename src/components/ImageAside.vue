@@ -1,9 +1,13 @@
 <script setup>
-import { reactive, ref } from 'vue';
+import { computed, reactive, ref } from 'vue';
 
 import FormDrawer from './FormDrawer.vue';
 
-import { getImageClassList, createImageClass } from '@/api/image_class';
+import {
+  getImageClassList,
+  createImageClass,
+  updateImageClass,
+} from '@/api/image_class';
 
 import AsideList from './AsideList.vue';
 
@@ -49,11 +53,12 @@ const getData = (page) => {
 };
 getData();
 
-const formDrawerRef = ref(null);
+const editId = ref(0);
+const drawerTitle = computed(() => {
+  return editId.value ? '修改' : '新增';
+});
 
-const handleCreate = () => {
-  formDrawerRef.value.open();
-};
+const formDrawerRef = ref(null);
 
 const form = reactive({
   name: '',
@@ -82,18 +87,53 @@ const handelSubmit = () => {
 
     formDrawerRef.value.showLoadingButton();
 
-    createImageClass(form)
-      .then((res) => {
-        toast('新增成功');
+    const fun = editId.value
+      ? updateImageClass(editId.value, form)
+      : createImageClass(form);
 
-        getData(1);
+    fun
+      .then((res) => {
+        toast(drawerTitle.value + '成功');
+
+        getData(editId.value ? currentPage.value : 1);
 
         formDrawerRef.value.close();
       })
       .finally(() => {
         formDrawerRef.value.hideLoadingButton();
       });
+    // createImageClass(form)
+    //   .then((res) => {
+    //     toast('新增成功');
+
+    //     getData(1);
+
+    //     formDrawerRef.value.close();
+    //   })
+    //   .finally(() => {
+    //     formDrawerRef.value.hideLoadingButton();
+    //   });
   });
+};
+
+const handleCreate = () => {
+  editId.value = 0;
+
+  form.name = '';
+  form.order = 50;
+
+  formDrawerRef.value.open();
+};
+
+const handleEdit = (row) => {
+  // console.log('row', row);
+
+  editId.value = row.id;
+
+  form.name = row.name;
+  form.order = row.order;
+
+  formDrawerRef.value.open();
 };
 
 defineExpose({
@@ -108,6 +148,7 @@ defineExpose({
         :active="activeId == item.id"
         v-for="(item, index) in list"
         :key="index"
+        @edit="handleEdit(item)"
         >{{ item.name }}</AsideList
       >
 
@@ -149,7 +190,8 @@ defineExpose({
     </div>
   </el-aside>
 
-  <FormDrawer ref="formDrawerRef" title="新增" @submit="handelSubmit">
+  <!-- <FormDrawer ref="formDrawerRef" title="新增" @submit="handelSubmit"> -->
+  <FormDrawer ref="formDrawerRef" :title="drawerTitle" @submit="handelSubmit">
     <el-form
       :model="form"
       ref="formRef"
