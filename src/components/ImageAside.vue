@@ -7,6 +7,7 @@ import {
   getImageClassList,
   createImageClass,
   updateImageClass,
+  deleteImageClass,
 } from '@/api/image_class';
 
 import AsideList from './AsideList.vue';
@@ -136,6 +137,21 @@ const handleEdit = (row) => {
   formDrawerRef.value.open();
 };
 
+const handleDelete = (id) => {
+  console.log(111);
+  isLoading.value = true;
+
+  deleteImageClass(id)
+    .then((response) => {
+      toast('刪除成功');
+
+      getData();
+    })
+    .finally(() => {
+      loading.value = false;
+    });
+};
+
 defineExpose({
   handleCreate,
 });
@@ -149,6 +165,7 @@ defineExpose({
         v-for="(item, index) in list"
         :key="index"
         @edit="handleEdit(item)"
+        @delete="handleDelete(item.id)"
         >{{ item.name }}</AsideList
       >
 

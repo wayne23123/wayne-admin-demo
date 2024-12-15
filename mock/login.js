@@ -52,6 +52,69 @@ export default [
       }
     },
   },
+  {
+    // 使用正則匹配動態參數，例如 /api/admin/image_class/:id
+    url: /^\/api\/admin\/test\/\d+$/,
+    method: 'get',
+    response: ({ url }) => {
+      // 從 URL 提取動態參數（例如 id）
+      const id = url.split('/').pop(); // 獲取最後一段作為 id
+
+      if (id === '1') {
+        return {
+          msg: 'ok',
+          data: {
+            list: [
+              {
+                id: 168,
+                name: '化妆品',
+                order: 1001,
+                images_count: 27,
+              },
+            ],
+            totalCount: 12,
+          },
+        };
+      } else {
+        return {
+          code: 404,
+          message: `Image class with id ${id} not found.`,
+        };
+      }
+    },
+  },
+
+  {
+    // 使用正則匹配動態參數，例如 /api/admin/image_class/:id/delete
+    url: /^\/api\/admin\/test\/\d+\/delete$/,
+    method: 'post', // 如果你的請求是 POST，請保留這行
+    response: ({ url }) => {
+      try {
+        // 從 URL 提取動態參數（例如 id）
+        const id = url.split('/').slice(-2, -1)[0]; // 倒數第二段作為 id
+
+        if (id === '168') {
+          return {
+            msg: 'ok',
+            data: {
+              message: `Image class with id ${id} has been successfully deleted.`,
+            },
+          };
+        } else {
+          return {
+            code: 404,
+            message: `Image class with id ${id} not found.`,
+          };
+        }
+      } catch (error) {
+        return {
+          code: 500,
+          message: `Internal Server Error: ${error.message}`,
+        };
+      }
+    },
+  },
+
   // 新增 /admin/login 模擬 API
   {
     url: '/api/admin/login', // 模擬 /admin/login 路徑
@@ -926,6 +989,37 @@ export default [
           id: '1305', // 固定 id
         },
       };
+    },
+  },
+
+  {
+    // 使用正則匹配動態參數，例如 /api/admin/image_class/:id/delete
+    url: /^\/api\/admin\/image_class\/\d+\/delete$/,
+    method: 'post', // 如果你的請求是 POST，請保留這行
+    response: ({ url }) => {
+      try {
+        // 從 URL 提取動態參數（例如 id）
+        const id = url.split('/').slice(-2, -1)[0]; // 倒數第二段作為 id
+
+        if (id === '168') {
+          return {
+            msg: 'ok',
+            data: {
+              message: `Image class with id ${id} has been successfully deleted.`,
+            },
+          };
+        } else {
+          return {
+            code: 404,
+            message: `Image class with id ${id} not found.`,
+          };
+        }
+      } catch (error) {
+        return {
+          code: 500,
+          message: `Internal Server Error: ${error.message}`,
+        };
+      }
     },
   },
 ];
