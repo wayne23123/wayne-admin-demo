@@ -1022,4 +1022,52 @@ export default [
       }
     },
   },
+
+  {
+    // 使用正則匹配動態參數，例如 /api/admin/image_class/:id/image/:page
+    url: /^\/api\/admin\/image_class\/\d+\/image\/\d+$/,
+    method: 'get', // 改為 GET
+    response: ({ url }) => {
+      try {
+        // 從 URL 提取動態參數（例如 id）
+        const segments = url.split('/');
+        const id = segments[segments.length - 3]; // 倒數第三段作為 id
+        const page = segments[segments.length - 1]; // 倒數第一段作為 page
+
+        // 返回的 mock 數據
+        return {
+          msg: 'ok',
+          data: {
+            list: [
+              {
+                id: 1507,
+                url: 'https://picsum.photos/150/150?random=1',
+                name: '龍',
+                path: 'public/675fd38cca07c.jpg',
+                create_time: '2024-12-16 15:15:24',
+                update_time: '2024-12-16 15:15:29',
+                image_class_id: parseInt(id, 10),
+              },
+              {
+                id: 493,
+                url: 'https://picsum.photos/150/150?random=2',
+                name: '3.333',
+                path: 'public/62af04afe39fa.jpg',
+                create_time: '2022-06-19 19:12:48',
+                update_time: '2024-12-16 15:08:59',
+                image_class_id: parseInt(id, 10),
+              },
+            ],
+            // page: parseInt(page, 10), // 返回 page 信息
+            totalCount: 25,
+          },
+        };
+      } catch (error) {
+        return {
+          msg: 'error',
+          error: error.message,
+        };
+      }
+    },
+  },
 ];

@@ -18,15 +18,13 @@ const isLoading = ref(false);
 
 const list = ref([]);
 
-const activeId = ref(0);
-
 // 分頁
 const currentPage = ref(1);
 const total = ref(0);
 const limit = ref(10);
 
-const getData = (page) => {
-  // console.log('value', value);
+const getData = (page = null) => {
+  // console.log('page', page);
   if (typeof page == 'number') {
     currentPage.value = page;
   }
@@ -45,7 +43,9 @@ const getData = (page) => {
       let item = list.value[0];
 
       if (item) {
-        activeId.value = item.id;
+        // activeId.value = item.id;
+
+        handleChangeActiveId(item.id);
       }
     })
     .finally(() => {
@@ -152,6 +152,18 @@ const handleDelete = (id) => {
     });
 };
 
+// 選中圖庫分類 id
+const activeId = ref(0);
+
+const emit = defineEmits(['change']);
+
+// 切換分類
+const handleChangeActiveId = (id) => {
+  activeId.value = id;
+
+  emit('change', id);
+};
+
 defineExpose({
   handleCreate,
 });
@@ -166,6 +178,7 @@ defineExpose({
         :key="index"
         @edit="handleEdit(item)"
         @delete="handleDelete(item.id)"
+        @click="handleChangeActiveId(item.id)"
         >{{ item.name }}</AsideList
       >
 

@@ -12,6 +12,14 @@ const ImageAsideRef = ref(null);
 const handleOpenCreate = () => {
   ImageAsideRef.value.handleCreate();
 };
+
+const ImageMainRef = ref(null);
+
+const handleAsideChange = (imageClaseeId) => {
+  // console.log('imageClaseeId', imageClaseeId);
+
+  ImageMainRef.value.loadData(imageClaseeId);
+};
 </script>
 
 <template>
@@ -22,14 +30,14 @@ const handleOpenCreate = () => {
       >
     </el-header>
     <el-container>
-      <ImageAside ref="ImageAsideRef" />
+      <ImageAside ref="ImageAsideRef" @change="handleAsideChange" />
       <!-- <el-aside width="220px" class="image-aside">
         <div class="top">
           <div v-for="i in 100" key="i">{{ i }}</div>
         </div>
         <div class="bottom">分頁</div>
       </el-aside> -->
-      <ImageMain />
+      <ImageMain ref="ImageMainRef" />
       <!-- <el-main class="image-main">
         <div class="top">
           <div v-for="i in 100" key="i">{{ i }}</div>
