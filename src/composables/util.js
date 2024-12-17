@@ -36,3 +36,13 @@ export function showFullScreenLoading() {
 export function hideFullScreenLoading() {
   nprogress.done();
 }
+
+// 彈出輸入框
+// https://element-plus.org/zh-CN/component/message-box.html#%E6%8F%90%E4%BA%A4%E5%86%85%E5%AE%B9
+export function showPrompt(tip, value = '') {
+  return ElMessageBox.prompt(tip, '', {
+    confirmButtonText: '確定',
+    cancelButtonText: '取消',
+    inputValue: value,
+  });
+}

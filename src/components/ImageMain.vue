@@ -65,6 +65,8 @@ defineExpose({
             <el-image
               :src="item.url"
               fit="cover"
+              :preview-src-list="[item.url]"
+              :initial-index="0"
               class="w-full h-[150px]"
             ></el-image>
             <div class="image-title">{{ item.name }}</div>
