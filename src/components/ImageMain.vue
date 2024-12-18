@@ -1,6 +1,9 @@
 <script setup>
 import { ref } from 'vue';
-import { getImageList } from '@/api/image.js';
+
+import { getImageList, updateImageList } from '@/api/image.js';
+
+import { showPrompt, toast } from '@/composables/util.js';
 
 const isLoading = ref(false);
 
@@ -41,6 +44,23 @@ const loadData = (id) => {
   getData();
 };
 
+// 重命名圖片
+const handleEdit = (item) => {
+  showPrompt('重新命名', item.name).then(({ value }) => {
+    isLoading.value = true;
+
+    updateImageList(item.id, value)
+      .then((response) => {
+        toast('修改成功');
+
+        getData();
+      })
+      .finally(() => {
+        isLoading.value = false;
+      });
+  });
+};
+
 defineExpose({
   loadData,
 });
@@ -71,7 +91,11 @@ defineExpose({
             ></el-image>
             <div class="image-title">{{ item.name }}</div>
             <div class="flex items-center justify-center p-2">
-              <el-button type="primary" size="small" text="true"
+              <el-button
+                @click="handleEdit(item)"
+                type="primary"
+                size="small"
+                text="true"
                 >重新命名</el-button
               >
               <el-button type="primary" size="small" text="true"
