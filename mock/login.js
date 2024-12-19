@@ -1070,4 +1070,34 @@ export default [
       }
     },
   },
+
+  {
+    url: /^\/api\/admin\/image\/\d+$/, // 使用正則表達式匹配類似 /api/admin/image/1507 的路徑
+    method: 'post',
+    response: ({ url, body, headers }) => {
+      const id = url.split('/').pop(); // 從 URL 中提取 id
+      const { name } = body;
+
+      // 驗證 headers 中的 cookie 是否正確
+      if (
+        !headers['cookie'] ||
+        !headers['cookie'].includes('admin-token=mock-token-123456')
+      ) {
+        return {
+          code: 401,
+          msg: 'Unauthorized: Invalid or missing token',
+        };
+      }
+
+      // 返回模擬資料
+      return {
+        code: 200,
+        msg: 'Image updated successfully',
+        data: {
+          id: id,
+          name: name || 'default-name',
+        },
+      };
+    },
+  },
 ];

@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 
-import { getImageList, updateImageList } from '@/api/image.js';
+import { getImageList, updateImage } from '@/api/image.js';
 
 import { showPrompt, toast } from '@/composables/util.js';
 
@@ -49,7 +49,7 @@ const handleEdit = (item) => {
   showPrompt('重新命名', item.name).then(({ value }) => {
     isLoading.value = true;
 
-    updateImageList(item.id, value)
+    updateImage(item.id, value)
       .then((response) => {
         toast('修改成功');
 
