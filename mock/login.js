@@ -1100,4 +1100,40 @@ export default [
       };
     },
   },
+
+  {
+    url: '/api/admin/image/delete_all', // 精確匹配 API 路徑
+    method: 'post',
+    response: ({ body, headers }) => {
+      const { ids } = body;
+
+      // 驗證 headers 中的 cookie 是否正確
+      if (
+        !headers['cookie'] ||
+        !headers['cookie'].includes('admin-token=mock-token-123456')
+      ) {
+        return {
+          code: 401,
+          msg: 'Unauthorized: Invalid or missing token',
+        };
+      }
+
+      // 驗證 ids 是否為陣列
+      if (!Array.isArray(ids) || ids.length === 0) {
+        return {
+          code: 400,
+          msg: 'Invalid request: ids must be a non-empty array',
+        };
+      }
+
+      // 模擬成功回應
+      return {
+        code: 200,
+        msg: 'Images deleted successfully',
+        data: {
+          deletedIds: ids,
+        },
+      };
+    },
+  },
 ];

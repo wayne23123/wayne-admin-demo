@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 
-import { getImageList, updateImage } from '@/api/image.js';
+import { getImageList, updateImage, deleteImage } from '@/api/image.js';
 
 import { showPrompt, toast } from '@/composables/util.js';
 
@@ -61,6 +61,21 @@ const handleEdit = (item) => {
   });
 };
 
+// 刪除圖片
+const handleDelete = (id) => {
+  isLoading.value = true;
+
+  deleteImage([id])
+    .then((response) => {
+      toast('刪除成功');
+
+      getData();
+    })
+    .finally(() => {
+      isLoading.value = false;
+    });
+};
+
 defineExpose({
   loadData,
 });
@@ -98,9 +113,19 @@ defineExpose({
                 text="true"
                 >重新命名</el-button
               >
-              <el-button type="primary" size="small" text="true"
-                >刪除</el-button
+
+              <el-popconfirm
+                title="是否刪除該圖片"
+                confirmButtonText="確定"
+                cancelButtonText="取消"
+                @confirm="handleDelete(item.id)"
               >
+                <template #reference>
+                  <el-button type="primary" size="small" text="true"
+                    >刪除</el-button
+                  >
+                </template>
+              </el-popconfirm>
             </div>
           </el-card>
         </el-col>
