@@ -20,6 +20,8 @@ const handleAsideChange = (imageClaseeId) => {
 
   ImageMainRef.value.loadData(imageClaseeId);
 };
+
+const handleUpload = () => ImageMainRef.value.openUploadFile();
 </script>
 
 <template>
@@ -28,7 +30,12 @@ const handleAsideChange = (imageClaseeId) => {
       <el-button type="primary" size="small" @click="handleOpenCreate"
         >新增圖片分類</el-button
       >
+
+      <el-button type="warning" size="small" @click="handleUpload"
+        >上傳圖片</el-button
+      >
     </el-header>
+
     <el-container>
       <ImageAside ref="ImageAsideRef" @change="handleAsideChange" />
       <!-- <el-aside width="220px" class="image-aside">

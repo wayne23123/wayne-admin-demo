@@ -5,7 +5,15 @@ import { getImageList, updateImage, deleteImage } from '@/api/image.js';
 
 import { showPrompt, toast } from '@/composables/util.js';
 
+import UploadFile from './UploadFile.vue';
+
 const isLoading = ref(false);
+
+// 上傳圖片
+const drawer = ref(false);
+const openUploadFile = () => {
+  drawer.value = true;
+};
 
 // 分頁
 const currentPage = ref(1);
@@ -76,8 +84,12 @@ const handleDelete = (id) => {
     });
 };
 
+// 上傳成功
+const handleUploadSuccess = () => getData(1);
+
 defineExpose({
   loadData,
+  openUploadFile,
 });
 </script>
 
@@ -146,6 +158,10 @@ defineExpose({
       </div>
     </div>
   </el-main>
+
+  <el-drawer v-model="drawer" title="上傳圖片">
+    <UploadFile :data="{ imageClassId }" @success="handleUploadSuccess" />
+  </el-drawer>
 </template>
 
 <style scoped>

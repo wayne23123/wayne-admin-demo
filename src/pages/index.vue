@@ -7,7 +7,7 @@ import CountTo from '@/components/CountTo.vue';
 
 import IndexNavs from '@/components/IndexNavs.vue';
 
-import IndexChart from '@/components/indexChart.vue';
+import IndexChart from '@/components/IndexChart.vue';
 
 import IndexCard from '../components/IndexCard.vue';
 
