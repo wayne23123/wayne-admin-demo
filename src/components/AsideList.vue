@@ -22,19 +22,27 @@ defineEmits(['edit', 'delete']);
       <el-icon :size="12"><Edit /></el-icon>
     </el-button>
 
-    <!-- https://element-plus.org/zh-CN/component/popconfirm.html#popconfirm-%E6%B0%94%E6%B3%A1%E7%A1%AE%E8%AE%A4%E6%A1%86 -->
-    <el-popconfirm
+    <span @click.stop="() => {}">
+      <!-- https://element-plus.org/zh-CN/component/popconfirm.html#popconfirm-%E6%B0%94%E6%B3%A1%E7%A1%AE%E8%AE%A4%E6%A1%86 -->
+      <!-- <el-popconfirm
       title="是否要刪除該分類"
       confirmButtonText="確定"
       cancelButtonText="取消"
-      @confirm="$emit('delete')"
-    >
-      <template #reference>
-        <el-button text="true" type="primary" size="small" class="px-1">
-          <el-icon :size="12"><Close /></el-icon>
-        </el-button>
-      </template>
-    </el-popconfirm>
+      @confirm.stop="$emit('delete')"
+    > -->
+      <el-popconfirm
+        title="是否要刪除該分類"
+        confirmButtonText="確定"
+        cancelButtonText="取消"
+        @confirm="$emit('delete')"
+      >
+        <template #reference>
+          <el-button text="true" type="primary" size="small" class="px-1">
+            <el-icon :size="12"><Close /></el-icon>
+          </el-button>
+        </template>
+      </el-popconfirm>
+    </span>
 
     <!-- <el-button
       text="true"
