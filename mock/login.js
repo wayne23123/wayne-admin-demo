@@ -1136,4 +1136,54 @@ export default [
       };
     },
   },
+
+  {
+    // 使用正則匹配動態參數，例如 /api/admin/image_class/:id
+    url: /^\/api\/admin\/notice\/\d+$/,
+    method: 'get',
+    response: ({ url }) => {
+      // 從 URL 提取動態參數（例如 id）
+      const id = url.split('/').pop(); // 獲取最後一段作為 id
+
+      if (id === '1') {
+        return {
+          msg: 'ok',
+          data: {
+            list: [
+              {
+                id: 1226,
+                title: '公告',
+                content: '公告',
+                order: 50,
+                create_time: '2024-12-25 21:15:08',
+                update_time: '2024-12-25 21:15:35',
+              },
+              {
+                id: 1224,
+                title: '安安你好',
+                content: '安安你好',
+                order: 50,
+                create_time: '2024-12-25 20:16:54',
+                update_time: '2024-12-25 20:17:00',
+              },
+              {
+                id: 1215,
+                title: '第一條公告',
+                content: '第一條公告',
+                order: 50,
+                create_time: '2024-12-25 11:44:52',
+                update_time: '2024-12-25 11:44:52',
+              },
+            ],
+            totalCount: 3,
+          },
+        };
+      } else {
+        return {
+          code: 404,
+          message: `Image class with id ${id} not found.`,
+        };
+      }
+    },
+  },
 ];
