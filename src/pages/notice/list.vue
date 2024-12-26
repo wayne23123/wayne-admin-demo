@@ -1,7 +1,11 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, reactive } from 'vue';
 
-import { getNoticeList } from '@/api/notice';
+import { getNoticeList, createNotice } from '@/api/notice';
+
+import FormDrawer from '@/components/FormDrawer.vue';
+
+import { toast } from '@/composables/util';
 
 const isLoading = ref(false);
 
@@ -52,13 +56,55 @@ getData();
 const handleDelete = (id) => {
   console.log(id);
 };
+
+// 表單
+const formDrawerRef = ref(null);
+
+const formRef = ref(null);
+
+const form = reactive({
+  title: '',
+  content: '',
+});
+
+const rules = {
+  title: [],
+  content: [],
+};
+
+const handleSubmit = () => {
+  formRef.value.validate((valid) => {
+    if (!valid) return;
+
+    formDrawerRef.value.showLoadingButton();
+
+    createNotice(form)
+      .then((res) => {
+        toast('新增成功');
+
+        getData(1);
+
+        formDrawerRef.value.close();
+      })
+      .finally(() => {
+        formDrawerRef.value.hideLoadingButton();
+      });
+  });
+};
+
+// 新增
+const handleCreate = () => {
+  formDrawerRef.value.open();
+};
 </script>
 
 <template>
   <!-- rpcard -->
   <el-card shadow="never" class="border-0">
     <div class="flex items-center justify-between mb-4">
-      <el-button type="primary" size="small">新增</el-button>
+      <el-button @click="handleCreate" type="primary" size="small"
+        >新增</el-button
+      >
       <el-toolttip effect="dark" content="重新整理" placement="top">
         <el-button @click="getData" text>
           <el-icon :size="20"> <Refresh /> </el-icon
@@ -104,5 +150,29 @@ const handleDelete = (id) => {
         v-model:page-size="limit"
       />
     </div>
+
+    <FormDrawer ref="formDrawerRef" title="新增公告" @submit="handleSubmit">
+      <!-- epf -->
+      <el-form
+        :model="form"
+        ref="formRef"
+        :rules="rules"
+        label-width="80px"
+        :inline="false"
+      >
+        <el-form-item label="公告標題" prop="title">
+          <el-input v-model="form.title" placeholder="公告標題"></el-input>
+        </el-form-item>
+
+        <el-form-item label="公告內容" prop="content">
+          <el-input
+            v-model="form.content"
+            placeholder="公告內容"
+            type="textarea"
+            :row="5"
+          ></el-input>
+        </el-form-item>
+      </el-form>
+    </FormDrawer>
   </el-card>
 </template>
