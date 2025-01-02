@@ -5,5 +5,5 @@ export function getNoticeList(page) {
 }
 
 export function createNotice(data) {
-  return axios.post(`/admin/notice/`, data);
+  return axios.post(`/admin/notice`, data);
 }
