@@ -68,8 +68,20 @@ const form = reactive({
 });
 
 const rules = {
-  title: [],
-  content: [],
+  title: [
+    {
+      required: true,
+      message: '公告標題不能為空',
+      trigger: 'blur',
+    },
+  ],
+  content: [
+    {
+      required: true,
+      message: '公告內容不能為空',
+      trigger: 'blur',
+    },
+  ],
 };
 
 const handleSubmit = () => {
