@@ -1205,4 +1205,19 @@ export default [
       };
     },
   },
+
+  {
+    url: /^\/api\/admin\/notice\/\d+\/delete$/, // 使用正则匹配动态路由
+    method: 'post',
+    response: ({ url }) => {
+      // 从 URL 中提取动态参数（例如 ID）
+      const id = url.split('/').slice(-2, -1)[0]; // 获取倒数第二段作为 ID
+      return {
+        msg: 'ok',
+        data: {
+          id,
+        },
+      };
+    },
+  },
 ];

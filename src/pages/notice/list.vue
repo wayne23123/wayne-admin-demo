@@ -1,7 +1,12 @@
 <script setup>
 import { ref, reactive } from 'vue';
 
-import { getNoticeList, createNotice } from '@/api/notice';
+import {
+  getNoticeList,
+  createNotice,
+  updateNotice,
+  deleteNotice,
+} from '@/api/notice';
 
 import FormDrawer from '@/components/FormDrawer.vue';
 
@@ -54,7 +59,21 @@ getData();
 // getData();
 
 const handleDelete = (id) => {
-  console.log(id);
+  // console.log('id', id);
+
+  isLoading.value = true;
+
+  deleteNotice(id)
+    .then((response) => {
+      // console.log('response', response);
+
+      toast('刪除成功');
+
+      getData(1);
+    })
+    .finally(() => {
+      isLoading.value = false;
+    });
 };
 
 // 表單
