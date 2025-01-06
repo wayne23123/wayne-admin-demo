@@ -1220,4 +1220,19 @@ export default [
       };
     },
   },
+
+  {
+    url: /^\/api\/admin\/notice\/\d+$/, // 正则匹配动态路由，结尾不包含斜杠
+    method: 'post',
+    response: ({ url }) => {
+      // 从 URL 中提取动态参数（例如 ID）
+      const id = url.split('/').slice(-1)[0]; // 获取最后一段作为 ID
+      return {
+        msg: 'ok',
+        data: {
+          id,
+        },
+      };
+    },
+  },
 ];

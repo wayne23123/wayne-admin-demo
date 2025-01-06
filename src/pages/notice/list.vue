@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref, reactive, computed } from 'vue';
 
 import {
   getNoticeList,
@@ -14,7 +14,7 @@ import { toast } from '@/composables/util';
 
 const isLoading = ref(false);
 
-// 分頁
+// 分页
 const currentPage = ref(1);
 const total = ref(0);
 const limit = ref(10);
@@ -67,7 +67,7 @@ const handleDelete = (id) => {
     .then((response) => {
       // console.log('response', response);
 
-      toast('刪除成功');
+      toast('删除成功');
 
       getData(1);
     })
@@ -76,7 +76,7 @@ const handleDelete = (id) => {
     });
 };
 
-// 表單
+// 表单
 const formDrawerRef = ref(null);
 
 const formRef = ref(null);
@@ -90,18 +90,23 @@ const rules = {
   title: [
     {
       required: true,
-      message: '公告標題不能為空',
+      message: '公告标题不能为空',
       trigger: 'blur',
     },
   ],
   content: [
     {
       required: true,
-      message: '公告內容不能為空',
+      message: '公告内容不能为空',
       trigger: 'blur',
     },
   ],
 };
+
+const editId = ref(0);
+const drawerTitle = computed(() => {
+  return editId.value ? '修改' : '新增';
+});
 
 const handleSubmit = () => {
   formRef.value.validate((valid) => {
@@ -109,11 +114,19 @@ const handleSubmit = () => {
 
     formDrawerRef.value.showLoadingButton();
 
-    createNotice(form)
-      .then((res) => {
-        toast('新增成功');
+    const operation = editId.value ? updateNotice : createNotice;
 
-        getData(1);
+    // createNotice(form)
+    operation(editId.value || form, form)
+      .then((res) => {
+        console.log('res', res);
+
+        // toast('新增成功');
+        toast(drawerTitle.value + '成功');
+
+        // getData(1);
+        // 修改刷新当前页，新增刷新第一页
+        getData(editId.value ? false : 1);
 
         formDrawerRef.value.close();
       })
@@ -123,8 +136,39 @@ const handleSubmit = () => {
   });
 };
 
+// 重置表单
+const resetForm = (row = false) => {
+  if (formRef.value) {
+    formRef.value.clearValidate();
+  }
+
+  if (row) {
+    for (const key in form) {
+      form[key] = row[key];
+    }
+  }
+};
+
 // 新增
 const handleCreate = () => {
+  editId.value = 0;
+
+  resetForm({
+    title: '',
+    content: '',
+  });
+
+  formDrawerRef.value.open();
+};
+
+// 编辑
+const handleEdit = (row) => {
+  // console.log('row', row);
+
+  editId.value = row.id;
+
+  resetForm(row);
+
   formDrawerRef.value.open();
 };
 </script>
@@ -149,21 +193,27 @@ const handleCreate = () => {
       style="width: 100%"
       v-loading="isLoading"
     >
-      <el-table-column prop="title" label="公告標題" />
-      <el-table-column prop="create_time" label="發布時間" width="300" />
+      <el-table-column prop="title" label="公告标题" />
+      <el-table-column prop="create_time" label="发布时间" width="300" />
       <el-table-column label="操作" width="180" align="center">
         <template #default="scope">
-          <el-button type="primary" text size="small">修改</el-button>
+          <el-button
+            @click="handleEdit(scope.row)"
+            type="primary"
+            text
+            size="small"
+            >修改</el-button
+          >
 
           <el-popconfirm
-            title="是否要刪除該公告?"
-            confirmButtonText="確定"
+            title="是否要删除该公告?"
+            confirmButtonText="确定"
             cancelButtonText="取消"
             @confirm="handleDelete(scope.row.id)"
           >
             <template #reference>
               <el-button text="true" type="primary" size="small" class="px-1">
-                刪除
+                删除
               </el-button>
             </template>
           </el-popconfirm>
@@ -182,7 +232,8 @@ const handleCreate = () => {
       />
     </div>
 
-    <FormDrawer ref="formDrawerRef" title="新增公告" @submit="handleSubmit">
+    <!-- <FormDrawer ref="formDrawerRef" title="新增公告" @submit="handleSubmit"> -->
+    <FormDrawer ref="formDrawerRef" :title="drawerTitle" @submit="handleSubmit">
       <!-- epf -->
       <el-form
         :model="form"
@@ -191,14 +242,14 @@ const handleCreate = () => {
         label-width="80px"
         :inline="false"
       >
-        <el-form-item label="公告標題" prop="title">
-          <el-input v-model="form.title" placeholder="公告標題"></el-input>
+        <el-form-item label="公告标题" prop="title">
+          <el-input v-model="form.title" placeholder="公告标题"></el-input>
         </el-form-item>
 
-        <el-form-item label="公告內容" prop="content">
+        <el-form-item label="公告内容" prop="content">
           <el-input
             v-model="form.content"
-            placeholder="公告內容"
+            placeholder="公告内容"
             type="textarea"
             :row="5"
           ></el-input>
