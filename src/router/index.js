@@ -24,6 +24,8 @@ import CouponList from '@/pages/coupon/list.vue';
 
 import SettingBase from '@/pages/setting/base.vue';
 
+import ManagerList from '@/pages/manager/list.vue';
+
 // const routes = [
 //   {
 //     path: '/',
@@ -31,14 +33,14 @@ import SettingBase from '@/pages/setting/base.vue';
 //     // component: index,
 //     component: Admin,
 //     // meta: {
-//     //   title: 'wayne-後台首頁',
+//     //   title: 'wayne-后台首页',
 //     // },
 //     children: [
 //       {
 //         path: '/',
 //         component: index,
 //         meta: {
-//           title: 'wayne-後台首頁',
+//           title: 'wayne-后台首页',
 //         },
 //       },
 
@@ -54,7 +56,7 @@ import SettingBase from '@/pages/setting/base.vue';
 //         path: '/category/list',
 //         component: CategoryList,
 //         meta: {
-//           title: 'wayne-分類列表',
+//           title: 'wayne-分类列表',
 //         },
 //       },
 //     ],
@@ -65,14 +67,14 @@ import SettingBase from '@/pages/setting/base.vue';
 //     name: 'Login',
 //     component: Login,
 //     meta: {
-//       title: 'wayne-登入頁面',
+//       title: 'wayne-登入页面',
 //     },
 //   },
 
 //   //https://router.vuejs.org/zh/guide/essentials/dynamic-matching.html
 //   // 将匹配所有内容并将其放在 `route.params.pathMatch` 下
 //   {
-//     path: '/:pathMatch(.*)*', // 放在其他路由之後
+//     path: '/:pathMatch(.*)*', // 放在其他路由之后
 //     name: 'NotFound',
 //     component: NotFound,
 //   },
@@ -85,7 +87,7 @@ import SettingBase from '@/pages/setting/base.vue';
 
 // export default router;
 
-// 預設路由，所有用戶可見
+// 预设路由，所有用户可见
 const routes = [
   {
     path: '/',
@@ -98,7 +100,7 @@ const routes = [
     name: 'Login',
     component: Login,
     meta: {
-      title: 'wayne-登入頁面',
+      title: 'wayne-登入页面',
     },
   },
 
@@ -109,14 +111,14 @@ const routes = [
   },
 ];
 
-// 動態路由，用於匹配菜單動態添加路由
+// 动态路由，用于匹配菜单动态添加路由
 const asyncRoutes = [
   {
     path: '/',
     name: '/',
     component: index,
     meta: {
-      title: 'wayne-後台首頁',
+      title: 'wayne-后台首页',
     },
   },
 
@@ -134,7 +136,7 @@ const asyncRoutes = [
     name: '/category/list',
     component: CategoryList,
     meta: {
-      title: 'wayne-分類列表',
+      title: 'wayne-分类列表',
     },
   },
 
@@ -143,7 +145,7 @@ const asyncRoutes = [
     name: '/user/list',
     component: UserList,
     meta: {
-      title: 'wayne-用戶列表',
+      title: 'wayne-用户列表',
     },
   },
 
@@ -152,7 +154,7 @@ const asyncRoutes = [
     name: '/order/list',
     component: OrderList,
     meta: {
-      title: 'wayne-訂單列表',
+      title: 'wayne-订单列表',
     },
   },
 
@@ -161,7 +163,7 @@ const asyncRoutes = [
     name: '/comment/list',
     component: CommentList,
     meta: {
-      title: 'wayne-評價列表',
+      title: 'wayne-评价列表',
     },
   },
 
@@ -170,7 +172,7 @@ const asyncRoutes = [
     name: '/image/list',
     component: ImageList,
     meta: {
-      title: 'wayne-圖庫列表',
+      title: 'wayne-图库列表',
     },
   },
 
@@ -188,7 +190,7 @@ const asyncRoutes = [
     name: '/setting/base',
     component: SettingBase,
     meta: {
-      title: 'wayne-設定',
+      title: 'wayne-设定',
     },
   },
 
@@ -197,18 +199,26 @@ const asyncRoutes = [
     name: '/coupon/list',
     component: CouponList,
     meta: {
-      title: 'wayne-優惠券列表',
+      title: 'wayne-优惠券列表',
+    },
+  },
+  {
+    path: '/manager/list',
+    name: '/manager/list',
+    component: ManagerList,
+    meta: {
+      title: 'wayne-管理员管理',
     },
   },
 ];
 
-// 去 main.js 、 permission.js 做設定
+// 去 main.js 、 permission.js 做设定
 export const router = createRouter({
   history: createWebHistory(),
   routes,
 });
 
-// 動態添加路由
+// 动态添加路由
 export function addRoutes(menus) {
   // 是否有新的路由
   let hasNewRoute = false;
