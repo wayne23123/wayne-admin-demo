@@ -1236,125 +1236,232 @@ export default [
     },
   },
 
+  // {
+  //   url: /^\/api\/admin\/manager\/\d+$/, // 正則匹配動態路由
+  //   method: 'get', // 如果是 GET 方法
+  //   response: ({ url }) => {
+  //     const id = url.split('/').slice(-1)[0]; // 提取動態參數 ID
+  //     return {
+  //       msg: 'ok',
+  //       data: {
+  //         list: [
+  //           {
+  //             id: 1040,
+  //             status: 1,
+  //             create_time: '2025-01-07 22:45:24',
+  //             update_time: '2025-01-07 22:45:24',
+  //             username: 'test',
+  //             avatar: '',
+  //             role_id: 31,
+  //             super: 0,
+  //             role: {
+  //               id: 31,
+  //               name: 'test',
+  //             },
+  //           },
+  //           {
+  //             id: 1039,
+  //             status: 1,
+  //             create_time: '2025-01-07 19:04:47',
+  //             update_time: '2025-01-07 19:04:47',
+  //             username: '運營test',
+  //             avatar: '',
+  //             role_id: 3,
+  //             super: 0,
+  //             role: {
+  //               id: 3,
+  //               name: '運營',
+  //             },
+  //           },
+  //           {
+  //             id: 50,
+  //             status: 1,
+  //             create_time: '2022-06-18 16:22:43',
+  //             update_time: '2022-06-18 16:22:43',
+  //             username: 'admin',
+  //             avatar: '',
+  //             role_id: 2,
+  //             super: 0,
+  //             role: {
+  //               id: 2,
+  //               name: '超級管理員',
+  //             },
+  //           },
+  //           {
+  //             id: 49,
+  //             status: 1,
+  //             create_time: '1970-01-01 08:32:50',
+  //             update_time: '2025-01-05 16:40:23',
+  //             username: '技術測試看看',
+  //             avatar: '',
+  //             role_id: 21,
+  //             super: 0,
+  //             role: {
+  //               id: 21,
+  //               name: '技術',
+  //             },
+  //           },
+
+  //           {
+  //             id: 44,
+  //             status: 1,
+  //             create_time: '2021-01-14 00:28:37',
+  //             update_time: '2024-12-24 09:51:35',
+  //             username: 'admin22',
+  //             avatar: '-',
+  //             role_id: 38,
+  //             super: 0,
+  //             role: {
+  //               id: 38,
+  //               name: '測試角色',
+  //             },
+  //           },
+  //         ],
+  //         totalCount: 6,
+  //         roles: [
+  //           {
+  //             id: 2,
+  //             name: '超級管理員',
+  //           },
+  //           {
+  //             id: 3,
+  //             name: '運營',
+  //           },
+  //           {
+  //             id: 9,
+  //             name: '測試',
+  //           },
+  //           {
+  //             id: 19,
+  //             name: '銷售',
+  //           },
+  //           {
+  //             id: 21,
+  //             name: '技術',
+  //           },
+  //           {
+  //             id: 31,
+  //             name: '測試的故',
+  //           },
+  //           {
+  //             id: 35,
+  //             name: '普通管理員',
+  //           },
+  //           {
+  //             id: 36,
+  //             name: '後勤1',
+  //           },
+  //           {
+  //             id: 38,
+  //             name: '測試角色',
+  //           },
+  //         ],
+  //       },
+  //     };
+  //   },
+  // },
   {
-    url: /^\/api\/admin\/manager\/\d+$/, // 正則匹配動態路由
-    method: 'get', // 如果是 GET 方法
-    response: ({ url }) => {
-      const id = url.split('/').slice(-1)[0]; // 提取動態參數 ID
+    url: /^\/api\/admin\/manager\/\d+$/, // 修正為包含 /api
+    method: 'get',
+    response: ({ url, query }) => {
+      // 提取動態參數 ID
+      const id = url.split('/').slice(-1)[0];
+      const keyword = query?.keyword || ''; // 過濾條件：關鍵字
+
+      // Mock 數據
+      const allData = [
+        {
+          id: 1040,
+          status: 1,
+          create_time: '2025-01-07 22:45:24',
+          update_time: '2025-01-07 22:45:24',
+          username: 'test',
+          avatar: '',
+          role_id: 31,
+          super: 0,
+          role: {
+            id: 31,
+            name: '測試角色1',
+          },
+        },
+        {
+          id: 1039,
+          status: 1,
+          create_time: '2025-01-07 19:04:47',
+          update_time: '2025-01-07 19:04:47',
+          username: '運營測試',
+          avatar: '',
+          role_id: 3,
+          super: 0,
+          role: {
+            id: 3,
+            name: '運營',
+          },
+        },
+        {
+          id: 50,
+          status: 1,
+          create_time: '2022-06-18 16:22:43',
+          update_time: '2022-06-18 16:22:43',
+          username: 'admin',
+          avatar: '',
+          role_id: 2,
+          super: 0,
+          role: {
+            id: 2,
+            name: '超級管理員',
+          },
+        },
+        {
+          id: 49,
+          status: 1,
+          create_time: '1970-01-01 08:32:50',
+          update_time: '2025-01-05 16:40:23',
+          username: '技術測試看看',
+          avatar: '',
+          role_id: 21,
+          super: 0,
+          role: {
+            id: 21,
+            name: '技術',
+          },
+        },
+        {
+          id: 44,
+          status: 1,
+          create_time: '2021-01-14 00:28:37',
+          update_time: '2024-12-24 09:51:35',
+          username: 'admin22',
+          avatar: '-',
+          role_id: 38,
+          super: 0,
+          role: {
+            id: 38,
+            name: '測試角色2',
+          },
+        },
+      ];
+
+      // 過濾數據
+      const filteredData = allData.filter((item) =>
+        keyword ? item.username.includes(keyword) : true
+      );
+
       return {
         msg: 'ok',
         data: {
-          list: [
-            {
-              id: 1040,
-              status: 1,
-              create_time: '2025-01-07 22:45:24',
-              update_time: '2025-01-07 22:45:24',
-              username: 'test',
-              avatar: '',
-              role_id: 31,
-              super: 0,
-              role: {
-                id: 31,
-                name: 'test',
-              },
-            },
-            {
-              id: 1039,
-              status: 1,
-              create_time: '2025-01-07 19:04:47',
-              update_time: '2025-01-07 19:04:47',
-              username: '運營test',
-              avatar: '',
-              role_id: 3,
-              super: 0,
-              role: {
-                id: 3,
-                name: '運營',
-              },
-            },
-            {
-              id: 50,
-              status: 1,
-              create_time: '2022-06-18 16:22:43',
-              update_time: '2022-06-18 16:22:43',
-              username: 'admin',
-              avatar: '',
-              role_id: 2,
-              super: 0,
-              role: {
-                id: 2,
-                name: '超級管理員',
-              },
-            },
-            {
-              id: 49,
-              status: 1,
-              create_time: '1970-01-01 08:32:50',
-              update_time: '2025-01-05 16:40:23',
-              username: '技術測試看看',
-              avatar: '',
-              role_id: 21,
-              super: 0,
-              role: {
-                id: 21,
-                name: '技術',
-              },
-            },
-
-            {
-              id: 44,
-              status: 1,
-              create_time: '2021-01-14 00:28:37',
-              update_time: '2024-12-24 09:51:35',
-              username: 'admin22',
-              avatar: '-',
-              role_id: 38,
-              super: 0,
-              role: {
-                id: 38,
-                name: '測試角色',
-              },
-            },
-          ],
-          totalCount: 6,
+          list: filteredData,
+          totalCount: filteredData.length,
           roles: [
-            {
-              id: 2,
-              name: '超級管理員',
-            },
-            {
-              id: 3,
-              name: '運營',
-            },
-            {
-              id: 9,
-              name: '測試',
-            },
-            {
-              id: 19,
-              name: '銷售',
-            },
-            {
-              id: 21,
-              name: '技術',
-            },
-            {
-              id: 31,
-              name: '測試的故',
-            },
-            {
-              id: 35,
-              name: '普通管理員',
-            },
-            {
-              id: 36,
-              name: '後勤1',
-            },
-            {
-              id: 38,
-              name: '測試角色',
-            },
+            { id: 2, name: '超級管理員' },
+            { id: 3, name: '運營' },
+            { id: 9, name: '測試' },
+            { id: 19, name: '銷售' },
+            { id: 21, name: '技術' },
+            { id: 31, name: '測試角色1' },
+            { id: 35, name: '普通管理員' },
+            { id: 36, name: '後勤1' },
+            { id: 38, name: '測試角色2' },
           ],
         },
       };

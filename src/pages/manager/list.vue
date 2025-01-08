@@ -21,6 +21,14 @@ const currentPage = ref(1);
 const total = ref(0);
 const limit = ref(10);
 
+const searchForm = reactive({
+  keyword: '',
+});
+const resetSearchForm = () => {
+  searchForm.keyword = '';
+  getData();
+};
+
 const tableData = ref([]);
 
 const getData = (page = null) => {
@@ -31,7 +39,8 @@ const getData = (page = null) => {
 
   isLoading.value = true;
 
-  getManagerList(currentPage.value)
+  // getManagerList(currentPage.value)
+  getManagerList(currentPage.value, searchForm)
     .then((response) => {
       // console.log('response', response);
 
@@ -178,6 +187,28 @@ const handleEdit = (row) => {
 <template>
   <!-- rpcard -->
   <el-card shadow="never" class="border-0">
+    <!-- epf -->
+    <el-form :model="searchForm" label-width="80px" class="mb-3" size="small">
+      <!-- eprow -->
+      <el-row :gutter="20">
+        <el-col :span="8" :offset="0">
+          <el-form-item label="關鍵字">
+            <el-input
+              v-model="searchForm.keyword"
+              placeholder="管理員暱稱"
+              clearable
+            ></el-input>
+          </el-form-item>
+        </el-col>
+        <el-col :span="8" :offset="8">
+          <div class="flex justify-end items-center">
+            <el-button type="primary" @click="getData">搜尋</el-button>
+            <el-button @click="resetSearchForm">重置</el-button>
+          </div>
+        </el-col>
+      </el-row>
+    </el-form>
+
     <div class="flex items-center justify-between mb-4">
       <el-button @click="handleCreate" type="primary" size="small"
         >新增</el-button
