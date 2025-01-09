@@ -1467,4 +1467,21 @@ export default [
       };
     },
   },
+
+  {
+    url: /^\/api\/admin\/manager\/\d+\/(0|1)$/, // POST 接口：更新管理員狀態
+    method: 'post',
+    response: ({ url }) => {
+      const [id, status] = url.split('/').slice(-2);
+
+      // 更新成功的回應模擬
+      return {
+        msg: '狀態更新成功',
+        data: {
+          id: Number(id),
+          status: Number(status), // 回應最新的狀態
+        },
+      };
+    },
+  },
 ];

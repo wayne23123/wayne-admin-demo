@@ -34,3 +34,8 @@ export function getManagerList(page, query = {}) {
 
   return axios.get(`/admin/manager/${page}${r}`);
 }
+
+// 0禁用 1启用
+export function updateManagerStatus(id, statue) {
+  return axios.post(`/admin/manager/${id}/${statue}`);
+}

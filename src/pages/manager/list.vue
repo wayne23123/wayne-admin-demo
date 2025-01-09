@@ -8,7 +8,7 @@ import {
   deleteNotice,
 } from '@/api/notice';
 
-import { getManagerList } from '@/api/manager';
+import { getManagerList, updateManagerStatus } from '@/api/manager';
 
 import FormDrawer from '@/components/FormDrawer.vue';
 
@@ -44,7 +44,12 @@ const getData = (page = null) => {
     .then((response) => {
       // console.log('response', response);
 
-      tableData.value = response?.data?.data?.list;
+      // tableData.value = response?.data?.data?.list;
+
+      tableData.value = response?.data?.data?.list.map((object) => {
+        object.statusLoading = false;
+        return object;
+      });
 
       total.value = response?.data?.data?.totalCount;
     })
@@ -182,6 +187,25 @@ const handleEdit = (row) => {
 
   formDrawerRef.value.open();
 };
+
+// 修改狀態
+const handleStatusChange = (status, row) => {
+  // console.log('status', status, 'row', row);
+
+  row.statusLoading = true;
+
+  updateManagerStatus(row.id, status)
+    .then((response) => {
+      // console.log('response', response);
+
+      toast('修改狀態成功');
+
+      row.statue = status;
+    })
+    .finally(() => {
+      row.statusLoading = false;
+    });
+};
 </script>
 
 <template>
@@ -249,34 +273,42 @@ const handleEdit = (row) => {
       <el-table-column label="狀態" width="120">
         <template #default="{ row }">
           <el-switch
+            @change="handleStatusChange($event, row)"
             :modelValue="row.statue"
             :active-value="1"
             :inactive-value="0"
+            :loading="row.statusLoading"
+            :disabled="row.super == 1"
           ></el-switch>
         </template>
       </el-table-column>
       <el-table-column label="操作" width="180" align="center">
         <template #default="scope">
-          <el-button
-            @click="handleEdit(scope.row)"
-            type="primary"
-            text
-            size="small"
-            >修改</el-button
+          <small v-if="scope.row.super == 1" class="text-sm text-gray-500"
+            >暫無操作</small
           >
+          <div v-else>
+            <el-button
+              @click="handleEdit(scope.row)"
+              type="primary"
+              text
+              size="small"
+              >修改</el-button
+            >
 
-          <el-popconfirm
-            title="是否要刪除該管理員?"
-            confirmButtonText="確定"
-            cancelButtonText="取消"
-            @confirm="handleDelete(scope.row.id)"
-          >
-            <template #reference>
-              <el-button text="true" type="primary" size="small" class="px-1">
-                刪除
-              </el-button>
-            </template>
-          </el-popconfirm>
+            <el-popconfirm
+              title="是否要刪除該管理員?"
+              confirmButtonText="確定"
+              cancelButtonText="取消"
+              @confirm="handleDelete(scope.row.id)"
+            >
+              <template #reference>
+                <el-button text="true" type="primary" size="small" class="px-1">
+                  刪除
+                </el-button>
+              </template>
+            </el-popconfirm>
+          </div>
         </template>
       </el-table-column>
     </el-table>
