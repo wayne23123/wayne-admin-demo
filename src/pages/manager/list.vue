@@ -2,13 +2,6 @@
 import { ref, reactive, computed } from 'vue';
 
 import {
-  getNoticeList,
-  createNotice,
-  updateNotice,
-  deleteNotice,
-} from '@/api/notice';
-
-import {
   getManagerList,
   updateManagerStatus,
   createManager,
@@ -35,6 +28,8 @@ const resetSearchForm = () => {
   getData();
 };
 
+const roles = ref([]);
+
 const tableData = ref([]);
 
 const getData = (page = null) => {
@@ -58,6 +53,8 @@ const getData = (page = null) => {
       });
 
       total.value = response?.data?.data?.totalCount;
+
+      roles.value = response?.data?.data?.roles;
     })
     .finally(() => {
       isLoading.value = false;
@@ -104,25 +101,28 @@ const formDrawerRef = ref(null);
 const formRef = ref(null);
 
 const form = reactive({
-  title: '',
-  content: '',
+  username: '',
+  password: '',
+  role_id: null,
+  status: 1,
+  avatar: '',
 });
 
 const rules = {
-  title: [
-    {
-      required: true,
-      message: '公告標題不能為空',
-      trigger: 'blur',
-    },
-  ],
-  content: [
-    {
-      required: true,
-      message: '公告內容不能為空',
-      trigger: 'blur',
-    },
-  ],
+  // title: [
+  //   {
+  //     required: true,
+  //     message: '公告標題不能為空',
+  //     trigger: 'blur',
+  //   },
+  // ],
+  // content: [
+  //   {
+  //     required: true,
+  //     message: '公告內容不能為空',
+  //     trigger: 'blur',
+  //   },
+  // ],
 };
 
 const editId = ref(0);
@@ -136,7 +136,7 @@ const handleSubmit = () => {
 
     formDrawerRef.value.showLoadingButton();
 
-    const operation = editId.value ? updateNotice : createNotice;
+    const operation = editId.value ? updateManager : createManager;
 
     // createNotice(form)
     operation(editId.value || form, form)
@@ -176,8 +176,11 @@ const handleCreate = () => {
   editId.value = 0;
 
   resetForm({
-    title: '',
-    content: '',
+    username: '',
+    password: '',
+    role_id: null,
+    status: 1,
+    avatar: '',
   });
 
   formDrawerRef.value.open();
@@ -340,17 +343,39 @@ const handleStatusChange = (status, row) => {
         label-width="80px"
         :inline="false"
       >
-        <el-form-item label="公告標題" prop="title">
-          <el-input v-model="form.title" placeholder="公告標題"></el-input>
+        <el-form-item label="用戶名稱" prop="username">
+          <el-input v-model="form.username" placeholder="用戶名稱"></el-input>
         </el-form-item>
 
-        <el-form-item label="公告內容" prop="content">
-          <el-input
-            v-model="form.content"
-            placeholder="公告內容"
-            type="textarea"
-            :row="5"
-          ></el-input>
+        <el-form-item label="密碼" prop="password">
+          <el-input v-model="form.password" placeholder="密碼"></el-input>
+        </el-form-item>
+
+        <el-form-item label="頭像" prop="avatar">
+          <el-input v-model="form.avatar"></el-input>
+        </el-form-item>
+
+        <el-form-item label="所屬角色" prop="role_id">
+          <!-- eps -->
+          <el-select v-model="form.role_id" aria-placeholder="選擇所屬角色">
+            <el-option
+              v-for="item in roles"
+              :key="item.id"
+              :label="item.name"
+              :value="item.id"
+            >
+            </el-option>
+          </el-select>
+        </el-form-item>
+
+        <el-form-item label="狀態" prop="content">
+          <!-- epsw -->
+          <el-switch
+            v-model="form.status"
+            :active-value="1"
+            :inactive-value="0"
+          >
+          </el-switch>
         </el-form-item>
       </el-form>
     </FormDrawer>

@@ -1496,4 +1496,42 @@ export default [
       };
     },
   },
+
+  // 創建管理員的 Mock 配置
+
+  {
+    url: /^\/api\/admin\/manager$/, // 匹配路徑 `/admin/manager`
+    method: 'post',
+    response: ({ body }) => {
+      const newManager = {
+        id: Math.floor(Math.random() * 1000) + 1000, // 隨機生成 ID
+        create_time: new Date().toISOString(), // 當前時間
+        update_time: new Date().toISOString(), // 當前時間
+        status: 1, // 默認狀態為啟用
+        ...body, // 傳入的管理員數據
+      };
+
+      return {
+        msg: '管理員創建成功',
+        data: newManager,
+      };
+    },
+  },
+
+  // 更新管理員信息的 Mock
+  {
+    url: /^\/api\/admin\/manager\/\d+$/, // 匹配路徑 `/admin/manager/:id`
+    method: 'post',
+    response: ({ url, body }) => {
+      const id = url.split('/').slice(-1)[0]; // 提取動態參數 ID
+      const updatedData = body; // 獲取傳入的更新數據
+      return {
+        msg: `管理員 ID ${id} 更新成功`,
+        data: {
+          id: Number(id),
+          ...updatedData, // 返回更新後的數據
+        },
+      };
+    },
+  },
 ];
