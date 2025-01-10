@@ -1484,4 +1484,16 @@ export default [
       };
     },
   },
+
+  {
+    url: /^\/api\/admin\/manager\/\d+\/delete$/, // 匹配路徑
+    method: 'post',
+    response: ({ url }) => {
+      const id = url.split('/').slice(-2)[0];
+      return {
+        msg: `管理員 ID ${id} 刪除成功`,
+        data: { id: Number(id) },
+      };
+    },
+  },
 ];

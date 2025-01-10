@@ -35,7 +35,19 @@ export function getManagerList(page, query = {}) {
   return axios.get(`/admin/manager/${page}${r}`);
 }
 
-// 0禁用 1启用
+// 0禁用 1啟用
 export function updateManagerStatus(id, statue) {
   return axios.post(`/admin/manager/${id}/${statue}`);
+}
+
+export function createManager(data) {
+  return axios.post(`/admin/manager`, data);
+}
+
+export function updateManager(id, data) {
+  return axios.post(`/admin/manager/${id}`, data);
+}
+
+export function deleteManager(id) {
+  return axios.post(`/admin/manager/${id}/delete`);
 }

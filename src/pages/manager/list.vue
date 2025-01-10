@@ -8,7 +8,13 @@ import {
   deleteNotice,
 } from '@/api/notice';
 
-import { getManagerList, updateManagerStatus } from '@/api/manager';
+import {
+  getManagerList,
+  updateManagerStatus,
+  createManager,
+  updateManager,
+  deleteManager,
+} from '@/api/manager';
 
 import FormDrawer from '@/components/FormDrawer.vue';
 
@@ -79,7 +85,7 @@ const handleDelete = (id) => {
 
   isLoading.value = true;
 
-  deleteNotice(id)
+  deleteManager(id)
     .then((response) => {
       // console.log('response', response);
 
