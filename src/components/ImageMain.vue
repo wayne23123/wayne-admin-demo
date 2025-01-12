@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 
 import { getImageList, updateImage, deleteImage } from '@/api/image.js';
 
@@ -23,8 +23,9 @@ const list = ref([]);
 
 const imageClassId = ref(0);
 
-const getData = (page) => {
+const getData = (page = null) => {
   // console.log('page', page);
+
   if (typeof page == 'number') {
     currentPage.value = page;
   }
@@ -38,7 +39,12 @@ const getData = (page) => {
 
       total.value = response.data.data.totalCount;
 
-      list.value = response.data.data.list;
+      // list.value = response.data.data.list;
+
+      list.value = response.data.data.list.map((object) => {
+        object.checked = false;
+        return object;
+      });
     })
     .finally(() => {
       isLoading.value = false;
@@ -87,6 +93,40 @@ const handleDelete = (id) => {
 // 上傳成功
 const handleUploadSuccess = () => getData(1);
 
+defineProps({
+  openChoose: {
+    type: Boolean,
+    default: false,
+  },
+});
+
+// 選中的圖片
+// Array.prototype.filter 方法總是返回一個新數組，即使過濾條件未匹配任何元素，返回值也會是空數組 []
+const checkedImage = computed(() =>
+  list.value.filter((filterItem) => filterItem.checked)
+);
+
+// const checkedImage = computed(() => {
+//   let rusult = [];
+//   if (list.value) {
+//     rusult = list.value.filter((filterItem) => {
+//       return filterItem.checked;
+//     });
+//   }
+//   return rusult;
+// });
+
+const emit = defineEmits(['choose']);
+const handleChooseChange = (item) => {
+  if (item.checked && checkedImage.value.length > 1) {
+    item.checked = false;
+
+    return toast('最多選擇一張圖片', 'error');
+  }
+
+  emit('choose', checkedImage.value);
+};
+
 defineExpose({
   loadData,
   openUploadFile,
@@ -107,6 +147,7 @@ defineExpose({
             shadow="hover"
             class="relative mb-3"
             :body-style="{ padding: '0' }"
+            :class="{ 'border-blue-500': item.checked }"
           >
             <!-- https://element-plus.org/zh-CN/component/image.html#image-%E5%9B%BE%E7%89%87 -->
             <el-image
@@ -118,6 +159,13 @@ defineExpose({
             ></el-image>
             <div class="image-title">{{ item.name }}</div>
             <div class="flex items-center justify-center p-2">
+              <!-- epc -->
+              <el-checkbox
+                v-if="openChoose"
+                v-model="item.checked"
+                @change="handleChooseChange(item)"
+              ></el-checkbox>
+
               <el-button
                 @click="handleEdit(item)"
                 type="primary"
@@ -133,7 +181,11 @@ defineExpose({
                 @confirm="handleDelete(item.id)"
               >
                 <template #reference>
-                  <el-button type="primary" size="small" text="true"
+                  <el-button
+                    class="!m-0"
+                    type="primary"
+                    size="small"
+                    text="true"
                     >刪除</el-button
                   >
                 </template>

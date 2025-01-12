@@ -11,6 +11,8 @@ import {
 
 import FormDrawer from '@/components/FormDrawer.vue';
 
+import ChooseImage from '@/components/ChooseImage.vue';
+
 import { toast } from '@/composables/util';
 
 const isLoading = ref(false);
@@ -351,13 +353,14 @@ const handleStatusChange = (status, row) => {
           <el-input v-model="form.password" placeholder="密碼"></el-input>
         </el-form-item>
 
+        <!-- form.avatar@@ {{ form.avatar }} -->
         <el-form-item label="頭像" prop="avatar">
-          <el-input v-model="form.avatar"></el-input>
+          <ChooseImage v-model="form.avatar"></ChooseImage>
         </el-form-item>
 
         <el-form-item label="所屬角色" prop="role_id">
           <!-- eps -->
-          <el-select v-model="form.role_id" aria-placeholder="選擇所屬角色">
+          <el-select v-model="form.role_id" placeholder="選擇所屬角色">
             <el-option
               v-for="item in roles"
               :key="item.id"
