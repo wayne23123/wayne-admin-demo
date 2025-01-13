@@ -15,37 +15,69 @@ import ChooseImage from '@/components/ChooseImage.vue';
 
 import { toast } from '@/composables/util';
 
-import { useInitTable } from '@/composables/useCommon';
+const isLoading = ref(false);
+
+// 分页
+const currentPage = ref(1);
+const total = ref(0);
+const limit = ref(10);
+
+const searchForm = reactive({
+  keyword: '',
+});
+const resetSearchForm = () => {
+  searchForm.keyword = '';
+  getData();
+};
 
 const roles = ref([]);
 
-const {
-  searchForm,
-  resetSearchForm,
-  tableData,
-  currentPage,
-  total,
-  limit,
-  isLoading,
-  getData,
-} = useInitTable({
-  searchForm: {
-    keyword: '',
-  },
-  getList: getManagerList,
-  onGetListSuccess: (response) => {
-    // console.log('response', response);
+const tableData = ref([]);
 
-    tableData.value = response?.data?.data?.list.map((object) => {
-      object.statusLoading = false;
-      return object;
+const getData = (page = null) => {
+  // console.log('page', page);
+  if (typeof page == 'number') {
+    currentPage.value = page;
+  }
+
+  isLoading.value = true;
+
+  // getManagerList(currentPage.value)
+  getManagerList(currentPage.value, searchForm)
+    .then((response) => {
+      // console.log('response', response);
+
+      // tableData.value = response?.data?.data?.list;
+
+      tableData.value = response?.data?.data?.list.map((object) => {
+        object.statusLoading = false;
+        return object;
+      });
+
+      total.value = response?.data?.data?.totalCount;
+
+      roles.value = response?.data?.data?.roles;
+    })
+    .finally(() => {
+      isLoading.value = false;
     });
+};
+getData();
 
-    total.value = response?.data?.data?.totalCount;
+// const getData = () => {
+//   tableData.value = [
+//     {
+//       id: 1,
+//       title: '通知1',
+//       content: '通知1',
+//       order: 0,
+//       created_time: '2022-01-01 00:00:00',
+//       updated_at: '2022-01-01 00:00:00',
+//     },
+//   ];
+// };
 
-    roles.value = response?.data?.data?.roles;
-  },
-});
+// getData();
 
 const handleDelete = (id) => {
   // console.log('id', id);

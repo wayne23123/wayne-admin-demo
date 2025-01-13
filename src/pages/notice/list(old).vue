@@ -12,12 +12,51 @@ import FormDrawer from '@/components/FormDrawer.vue';
 
 import { toast } from '@/composables/util';
 
-import { useInitTable } from '@/composables/useCommon';
+const isLoading = ref(false);
 
-const { tableData, currentPage, total, limit, isLoading, getData } =
-  useInitTable({
-    getList: getNoticeList,
-  });
+// 分页
+const currentPage = ref(1);
+const total = ref(0);
+const limit = ref(10);
+
+const tableData = ref([]);
+
+const getData = (page = null) => {
+  // console.log('page', page);
+  if (typeof page == 'number') {
+    currentPage.value = page;
+  }
+
+  isLoading.value = true;
+
+  getNoticeList(currentPage.value)
+    .then((response) => {
+      // console.log('response', response);
+
+      tableData.value = response?.data?.data?.list;
+
+      total.value = response?.data?.data?.totalCount;
+    })
+    .finally(() => {
+      isLoading.value = false;
+    });
+};
+getData();
+
+// const getData = () => {
+//   tableData.value = [
+//     {
+//       id: 1,
+//       title: '通知1',
+//       content: '通知1',
+//       order: 0,
+//       created_time: '2022-01-01 00:00:00',
+//       updated_at: '2022-01-01 00:00:00',
+//     },
+//   ];
+// };
+
+// getData();
 
 const handleDelete = (id) => {
   // console.log('id', id);
