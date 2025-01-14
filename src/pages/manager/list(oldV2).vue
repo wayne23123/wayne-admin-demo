@@ -15,7 +15,7 @@ import ChooseImage from '@/components/ChooseImage.vue';
 
 import { toast } from '@/composables/util';
 
-import { useInitTable, useInitForm } from '@/composables/useCommon';
+import { useInitTable } from '@/composables/useCommon';
 
 const roles = ref([]);
 
@@ -33,7 +33,7 @@ const {
     keyword: '',
   },
   getList: getManagerList,
-  onSuccess: (response) => {
+  onGetListSuccess: (response) => {
     // console.log('response', response);
 
     tableData.value = response?.data?.data?.list.map((object) => {
@@ -47,29 +47,6 @@ const {
   },
 });
 
-const {
-  formDrawerRef,
-  formRef,
-  form,
-  rules,
-  drawerTitle,
-  handleSubmit,
-  handleCreate,
-  handleEdit,
-} = useInitForm({
-  form: {
-    username: '',
-    password: '',
-    role_id: null,
-    status: 1,
-    avatar: '',
-  },
-  //getData 從上面 useInitTable 獲取
-  getData,
-  update: updateManager,
-  create: createManager,
-});
-
 const handleDelete = (id) => {
   // console.log('id', id);
 
@@ -79,7 +56,7 @@ const handleDelete = (id) => {
     .then((response) => {
       // console.log('response', response);
 
-      toast('刪除成功');
+      toast('删除成功');
 
       getData(1);
     })
@@ -88,7 +65,109 @@ const handleDelete = (id) => {
     });
 };
 
-// 修改狀態
+// 表单
+const formDrawerRef = ref(null);
+
+const formRef = ref(null);
+
+const form = reactive({
+  username: '',
+  password: '',
+  role_id: null,
+  status: 1,
+  avatar: '',
+});
+
+const rules = {
+  // title: [
+  //   {
+  //     required: true,
+  //     message: '公告标题不能为空',
+  //     trigger: 'blur',
+  //   },
+  // ],
+  // content: [
+  //   {
+  //     required: true,
+  //     message: '公告内容不能为空',
+  //     trigger: 'blur',
+  //   },
+  // ],
+};
+
+const editId = ref(0);
+const drawerTitle = computed(() => {
+  return editId.value ? '修改' : '新增';
+});
+
+const handleSubmit = () => {
+  formRef.value.validate((valid) => {
+    if (!valid) return;
+
+    formDrawerRef.value.showLoadingButton();
+
+    const operation = editId.value ? updateManager : createManager;
+
+    // createNotice(form)
+    operation(editId.value || form, form)
+      .then((res) => {
+        console.log('res', res);
+
+        // toast('新增成功');
+        toast(drawerTitle.value + '成功');
+
+        // getData(1);
+        // 修改刷新当前页，新增刷新第一页
+        getData(editId.value ? false : 1);
+
+        formDrawerRef.value.close();
+      })
+      .finally(() => {
+        formDrawerRef.value.hideLoadingButton();
+      });
+  });
+};
+
+// 重置表单
+const resetForm = (row = false) => {
+  if (formRef.value) {
+    formRef.value.clearValidate();
+  }
+
+  if (row) {
+    for (const key in form) {
+      form[key] = row[key];
+    }
+  }
+};
+
+// 新增
+const handleCreate = () => {
+  editId.value = 0;
+
+  resetForm({
+    username: '',
+    password: '',
+    role_id: null,
+    status: 1,
+    avatar: '',
+  });
+
+  formDrawerRef.value.open();
+};
+
+// 编辑
+const handleEdit = (row) => {
+  // console.log('row', row);
+
+  editId.value = row.id;
+
+  resetForm(row);
+
+  formDrawerRef.value.open();
+};
+
+// 修改状态
 const handleStatusChange = (status, row) => {
   // console.log('status', status, 'row', row);
 
@@ -98,7 +177,7 @@ const handleStatusChange = (status, row) => {
     .then((response) => {
       // console.log('response', response);
 
-      toast('修改狀態成功');
+      toast('修改状态成功');
 
       row.statue = status;
     })
@@ -116,17 +195,17 @@ const handleStatusChange = (status, row) => {
       <!-- eprow -->
       <el-row :gutter="20">
         <el-col :span="8" :offset="0">
-          <el-form-item label="關鍵字">
+          <el-form-item label="关键字">
             <el-input
               v-model="searchForm.keyword"
-              placeholder="管理員暱稱"
+              placeholder="管理员暱称"
               clearable
             ></el-input>
           </el-form-item>
         </el-col>
         <el-col :span="8" :offset="8">
           <div class="flex justify-end items-center">
-            <el-button type="primary" @click="getData">搜尋</el-button>
+            <el-button type="primary" @click="getData">搜寻</el-button>
             <el-button @click="resetSearchForm">重置</el-button>
           </div>
         </el-col>
@@ -150,7 +229,7 @@ const handleStatusChange = (status, row) => {
       style="width: 100%"
       v-loading="isLoading"
     >
-      <el-table-column label="管理員" width="200">
+      <el-table-column label="管理员" width="200">
         <template #default="{ row }">
           <div class="flex items-center">
             <el-avatar :size="40" :src="row.avatar">
@@ -165,12 +244,12 @@ const handleStatusChange = (status, row) => {
           </div>
         </template>
       </el-table-column>
-      <el-table-column label="所屬管理員" align="center">
+      <el-table-column label="所属管理员" align="center">
         <template #default="{ row }">
           {{ row.role?.name || '-' }}
         </template>
       </el-table-column>
-      <el-table-column label="狀態" width="120">
+      <el-table-column label="状态" width="120">
         <template #default="{ row }">
           <el-switch
             @change="handleStatusChange($event, row)"
@@ -185,7 +264,7 @@ const handleStatusChange = (status, row) => {
       <el-table-column label="操作" width="180" align="center">
         <template #default="scope">
           <small v-if="scope.row.super == 1" class="text-sm text-gray-500"
-            >暫無操作</small
+            >暂无操作</small
           >
           <div v-else>
             <el-button
@@ -197,14 +276,14 @@ const handleStatusChange = (status, row) => {
             >
 
             <el-popconfirm
-              title="是否要刪除該管理員?"
-              confirmButtonText="確定"
+              title="是否要删除该管理员?"
+              confirmButtonText="确定"
               cancelButtonText="取消"
               @confirm="handleDelete(scope.row.id)"
             >
               <template #reference>
                 <el-button text="true" type="primary" size="small" class="px-1">
-                  刪除
+                  删除
                 </el-button>
               </template>
             </el-popconfirm>
@@ -234,22 +313,22 @@ const handleStatusChange = (status, row) => {
         label-width="80px"
         :inline="false"
       >
-        <el-form-item label="用戶名稱" prop="username">
-          <el-input v-model="form.username" placeholder="用戶名稱"></el-input>
+        <el-form-item label="用户名称" prop="username">
+          <el-input v-model="form.username" placeholder="用户名称"></el-input>
         </el-form-item>
 
-        <el-form-item label="密碼" prop="password">
-          <el-input v-model="form.password" placeholder="密碼"></el-input>
+        <el-form-item label="密码" prop="password">
+          <el-input v-model="form.password" placeholder="密码"></el-input>
         </el-form-item>
 
         <!-- form.avatar@@ {{ form.avatar }} -->
-        <el-form-item label="頭像" prop="avatar">
+        <el-form-item label="头像" prop="avatar">
           <ChooseImage v-model="form.avatar"></ChooseImage>
         </el-form-item>
 
-        <el-form-item label="所屬角色" prop="role_id">
+        <el-form-item label="所属角色" prop="role_id">
           <!-- eps -->
-          <el-select v-model="form.role_id" placeholder="選擇所屬角色">
+          <el-select v-model="form.role_id" placeholder="选择所属角色">
             <el-option
               v-for="item in roles"
               :key="item.id"
@@ -260,7 +339,7 @@ const handleStatusChange = (status, row) => {
           </el-select>
         </el-form-item>
 
-        <el-form-item label="狀態" prop="content">
+        <el-form-item label="状态" prop="content">
           <!-- epsw -->
           <el-switch
             v-model="form.status"

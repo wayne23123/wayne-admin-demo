@@ -12,48 +12,126 @@ import FormDrawer from '@/components/FormDrawer.vue';
 
 import { toast } from '@/composables/util';
 
-import { useInitTable, useInitForm } from '@/composables/useCommon';
+import { useInitTable } from '@/composables/useCommon';
 
 const { tableData, currentPage, total, limit, isLoading, getData } =
   useInitTable({
     getList: getNoticeList,
   });
 
-const {
-  formDrawerRef,
-  formRef,
-  form,
-  rules,
-  drawerTitle,
-  handleSubmit,
-  handleCreate,
-  handleEdit,
-} = useInitForm({
-  form: {
+const handleDelete = (id) => {
+  // console.log('id', id);
+
+  isLoading.value = true;
+
+  deleteNotice(id)
+    .then((response) => {
+      // console.log('response', response);
+
+      toast('刪除成功');
+
+      getData(1);
+    })
+    .finally(() => {
+      isLoading.value = false;
+    });
+};
+
+// 表單
+const formDrawerRef = ref(null);
+
+const formRef = ref(null);
+
+const form = reactive({
+  title: '',
+  content: '',
+});
+
+const rules = {
+  title: [
+    {
+      required: true,
+      message: '公告標題不能為空',
+      trigger: 'blur',
+    },
+  ],
+  content: [
+    {
+      required: true,
+      message: '公告內容不能為空',
+      trigger: 'blur',
+    },
+  ],
+};
+
+const editId = ref(0);
+const drawerTitle = computed(() => {
+  return editId.value ? '修改' : '新增';
+});
+
+const handleSubmit = () => {
+  formRef.value.validate((valid) => {
+    if (!valid) return;
+
+    formDrawerRef.value.showLoadingButton();
+
+    const operation = editId.value ? updateNotice : createNotice;
+
+    // createNotice(form)
+    operation(editId.value || form, form)
+      .then((res) => {
+        console.log('res', res);
+
+        // toast('新增成功');
+        toast(drawerTitle.value + '成功');
+
+        // getData(1);
+        // 修改刷新當前頁，新增刷新第一頁
+        getData(editId.value ? false : 1);
+
+        formDrawerRef.value.close();
+      })
+      .finally(() => {
+        formDrawerRef.value.hideLoadingButton();
+      });
+  });
+};
+
+// 重置表單
+const resetForm = (row = false) => {
+  if (formRef.value) {
+    formRef.value.clearValidate();
+  }
+
+  if (row) {
+    for (const key in form) {
+      form[key] = row[key];
+    }
+  }
+};
+
+// 新增
+const handleCreate = () => {
+  editId.value = 0;
+
+  resetForm({
     title: '',
     content: '',
-  },
-  rules: {
-    title: [
-      {
-        required: true,
-        message: '公告標題不能為空',
-        trigger: 'blur',
-      },
-    ],
-    content: [
-      {
-        required: true,
-        message: '公告內容不能為空',
-        trigger: 'blur',
-      },
-    ],
-  },
-  //getData 從上面 useInitTable 獲取
-  getData,
-  update: updateNotice,
-  create: createNotice,
-});
+  });
+
+  formDrawerRef.value.open();
+};
+
+// 編輯
+const handleEdit = (row) => {
+  // console.log('row', row);
+
+  editId.value = row.id;
+
+  resetForm(row);
+
+  formDrawerRef.value.open();
+};
 </script>
 
 <template>

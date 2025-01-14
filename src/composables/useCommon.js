@@ -1,10 +1,10 @@
 import { ref, reactive, computed } from 'vue';
-import { getManagerList } from '@/api/manager';
+import { toast } from '@/composables/util';
 
 export function useInitTable(option = {}) {
   const isLoading = ref(false);
 
-  // 分页
+  // 列表，分頁，搜尋
   const currentPage = ref(1);
   const total = ref(0);
   const limit = ref(10);
@@ -86,5 +86,104 @@ export function useInitTable(option = {}) {
     limit,
     tableData,
     getData,
+  };
+}
+
+// 新增，修改
+export function useInitForm(option = {}) {
+  // 表單
+  const formDrawerRef = ref(null);
+
+  const formRef = ref(null);
+
+  const defaultForm = option.form;
+
+  const form = reactive({});
+
+  const rules = option.rules || {};
+  const editId = ref(0);
+  const drawerTitle = computed(() => {
+    return editId.value ? '修改' : '新增';
+  });
+
+  const handleSubmit = () => {
+    formRef.value.validate((valid) => {
+      if (!valid) return;
+
+      formDrawerRef.value.showLoadingButton();
+
+      // const operation = editId.value
+      //   ? updateManager(editId.value, form)
+      //   : createManager(form);
+      const operation = editId.value
+        ? option.update(editId.value, form)
+        : option.create(form);
+
+      // createNotice(form)
+      operation(editId.value || form, form)
+        .then((res) => {
+          // console.log('res', res);
+
+          toast(drawerTitle.value + '成功');
+
+          // 修改刷新當前頁，新增刷新第一頁
+          option.getData(editId.value ? false : 1);
+
+          formDrawerRef.value.close();
+        })
+        .finally(() => {
+          formDrawerRef.value.hideLoadingButton();
+        });
+    });
+  };
+
+  // 重置表單
+  const resetForm = (row = false) => {
+    if (formRef.value) {
+      formRef.value.clearValidate();
+    }
+
+    for (const key in defaultForm) {
+      form[key] = row[key];
+    }
+    // if (row) {
+    //   for (const key in form) {
+    //     form[key] = row[key];
+    //   }
+    // }
+  };
+
+  // 新增
+  const handleCreate = () => {
+    editId.value = 0;
+
+    resetForm(defaultForm);
+    // resetForm(option.form);
+
+    formDrawerRef.value.open();
+  };
+
+  // 編輯
+  const handleEdit = (row) => {
+    // console.log('row', row);
+
+    editId.value = row.id;
+
+    resetForm(row);
+
+    formDrawerRef.value.open();
+  };
+
+  return {
+    formDrawerRef,
+    formRef,
+    form,
+    rules,
+    editId,
+    drawerTitle,
+    handleSubmit,
+    resetForm,
+    handleCreate,
+    handleEdit,
   };
 }
