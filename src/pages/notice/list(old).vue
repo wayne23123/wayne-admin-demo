@@ -14,7 +14,7 @@ import { toast } from '@/composables/util';
 
 const isLoading = ref(false);
 
-// 分页
+// 分頁
 const currentPage = ref(1);
 const total = ref(0);
 const limit = ref(10);
@@ -67,7 +67,7 @@ const handleDelete = (id) => {
     .then((response) => {
       // console.log('response', response);
 
-      toast('删除成功');
+      toast('刪除成功');
 
       getData(1);
     })
@@ -76,7 +76,7 @@ const handleDelete = (id) => {
     });
 };
 
-// 表单
+// 表單
 const formDrawerRef = ref(null);
 
 const formRef = ref(null);
@@ -90,14 +90,14 @@ const rules = {
   title: [
     {
       required: true,
-      message: '公告标题不能为空',
+      message: '公告標題不能為空',
       trigger: 'blur',
     },
   ],
   content: [
     {
       required: true,
-      message: '公告内容不能为空',
+      message: '公告內容不能為空',
       trigger: 'blur',
     },
   ],
@@ -125,7 +125,7 @@ const handleSubmit = () => {
         toast(drawerTitle.value + '成功');
 
         // getData(1);
-        // 修改刷新当前页，新增刷新第一页
+        // 修改刷新當前頁，新增刷新第一頁
         getData(editId.value ? false : 1);
 
         formDrawerRef.value.close();
@@ -136,7 +136,7 @@ const handleSubmit = () => {
   });
 };
 
-// 重置表单
+// 重置表單
 const resetForm = (row = false) => {
   if (formRef.value) {
     formRef.value.clearValidate();
@@ -161,7 +161,7 @@ const handleCreate = () => {
   formDrawerRef.value.open();
 };
 
-// 编辑
+// 編輯
 const handleEdit = (row) => {
   // console.log('row', row);
 
@@ -170,6 +170,25 @@ const handleEdit = (row) => {
   resetForm(row);
 
   formDrawerRef.value.open();
+};
+
+// 刪除
+const handleDelete = (id) => {
+  // console.log('id', id);
+
+  isLoading.value = true;
+
+  deleteNotice(id)
+    .then((response) => {
+      // console.log('response', response);
+
+      toast('刪除成功');
+
+      getData();
+    })
+    .finally(() => {
+      isLoading.value = false;
+    });
 };
 </script>
 
@@ -193,8 +212,8 @@ const handleEdit = (row) => {
       style="width: 100%"
       v-loading="isLoading"
     >
-      <el-table-column prop="title" label="公告标题" />
-      <el-table-column prop="create_time" label="发布时间" width="300" />
+      <el-table-column prop="title" label="公告標題" />
+      <el-table-column prop="create_time" label="發佈時間" width="300" />
       <el-table-column label="操作" width="180" align="center">
         <template #default="scope">
           <el-button
@@ -206,14 +225,14 @@ const handleEdit = (row) => {
           >
 
           <el-popconfirm
-            title="是否要删除该公告?"
-            confirmButtonText="确定"
+            title="是否要刪除該公告?"
+            confirmButtonText="確定"
             cancelButtonText="取消"
             @confirm="handleDelete(scope.row.id)"
           >
             <template #reference>
               <el-button text="true" type="primary" size="small" class="px-1">
-                删除
+                刪除
               </el-button>
             </template>
           </el-popconfirm>
@@ -242,14 +261,14 @@ const handleEdit = (row) => {
         label-width="80px"
         :inline="false"
       >
-        <el-form-item label="公告标题" prop="title">
-          <el-input v-model="form.title" placeholder="公告标题"></el-input>
+        <el-form-item label="公告標題" prop="title">
+          <el-input v-model="form.title" placeholder="公告標題"></el-input>
         </el-form-item>
 
-        <el-form-item label="公告内容" prop="content">
+        <el-form-item label="公告內容" prop="content">
           <el-input
             v-model="form.content"
-            placeholder="公告内容"
+            placeholder="公告內容"
             type="textarea"
             :row="5"
           ></el-input>

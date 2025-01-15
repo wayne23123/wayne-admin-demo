@@ -132,6 +132,25 @@ const handleEdit = (row) => {
 
   formDrawerRef.value.open();
 };
+
+// 刪除
+const handleDelete = (id) => {
+  // console.log('id', id);
+
+  isLoading.value = true;
+
+  deleteNotice(id)
+    .then((response) => {
+      // console.log('response', response);
+
+      toast('刪除成功');
+
+      getData();
+    })
+    .finally(() => {
+      isLoading.value = false;
+    });
+};
 </script>
 
 <template>

@@ -4,7 +4,7 @@ import { toast } from '@/composables/util';
 export function useInitTable(option = {}) {
   const isLoading = ref(false);
 
-  // 列表，分頁，搜尋
+  // 列表，分頁，搜尋，刪除，修改狀態
   const currentPage = ref(1);
   const total = ref(0);
   const limit = ref(10);
@@ -77,6 +77,45 @@ export function useInitTable(option = {}) {
   };
   getData();
 
+  const handleDelete = (id) => {
+    // console.log('id', id);
+
+    isLoading.value = true;
+
+    option
+      .delete(id)
+      .then((response) => {
+        // console.log('response', response);
+
+        toast('刪除成功');
+
+        getData(1);
+      })
+      .finally(() => {
+        isLoading.value = false;
+      });
+  };
+
+  // 修改狀態
+  const handleStatusChange = (status, row) => {
+    // console.log('status', status, 'row', row);
+
+    row.statusLoading = true;
+
+    option
+      .updateStatus(row.id, status)
+      .then((response) => {
+        // console.log('response', response);
+
+        toast('修改狀態成功');
+
+        row.statue = status;
+      })
+      .finally(() => {
+        row.statusLoading = false;
+      });
+  };
+
   return {
     searchForm,
     resetSearchForm,
@@ -86,6 +125,8 @@ export function useInitTable(option = {}) {
     limit,
     tableData,
     getData,
+    handleDelete,
+    handleStatusChange,
   };
 }
 

@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, computed } from 'vue';
+import { ref } from 'vue';
 
 import {
   getManagerList,
@@ -12,8 +12,6 @@ import {
 import FormDrawer from '@/components/FormDrawer.vue';
 
 import ChooseImage from '@/components/ChooseImage.vue';
-
-import { toast } from '@/composables/util';
 
 import { useInitTable, useInitForm } from '@/composables/useCommon';
 
@@ -28,6 +26,8 @@ const {
   limit,
   isLoading,
   getData,
+  handleDelete,
+  handleStatusChange,
 } = useInitTable({
   searchForm: {
     keyword: '',
@@ -45,6 +45,8 @@ const {
 
     roles.value = response?.data?.data?.roles;
   },
+  delete: deleteManager,
+  updateStatus: updateManagerStatus,
 });
 
 const {
@@ -69,43 +71,6 @@ const {
   update: updateManager,
   create: createManager,
 });
-
-const handleDelete = (id) => {
-  // console.log('id', id);
-
-  isLoading.value = true;
-
-  deleteManager(id)
-    .then((response) => {
-      // console.log('response', response);
-
-      toast('刪除成功');
-
-      getData(1);
-    })
-    .finally(() => {
-      isLoading.value = false;
-    });
-};
-
-// 修改狀態
-const handleStatusChange = (status, row) => {
-  // console.log('status', status, 'row', row);
-
-  row.statusLoading = true;
-
-  updateManagerStatus(row.id, status)
-    .then((response) => {
-      // console.log('response', response);
-
-      toast('修改狀態成功');
-
-      row.statue = status;
-    })
-    .finally(() => {
-      row.statusLoading = false;
-    });
-};
 </script>
 
 <template>

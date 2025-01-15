@@ -1,6 +1,4 @@
 <script setup>
-import { ref, reactive, computed } from 'vue';
-
 import {
   getNoticeList,
   createNotice,
@@ -10,14 +8,20 @@ import {
 
 import FormDrawer from '@/components/FormDrawer.vue';
 
-import { toast } from '@/composables/util';
-
 import { useInitTable, useInitForm } from '@/composables/useCommon';
 
-const { tableData, currentPage, total, limit, isLoading, getData } =
-  useInitTable({
-    getList: getNoticeList,
-  });
+const {
+  tableData,
+  currentPage,
+  total,
+  limit,
+  isLoading,
+  getData,
+  handleDelete,
+} = useInitTable({
+  getList: getNoticeList,
+  delete: deleteNotice,
+});
 
 const {
   formDrawerRef,
