@@ -8,6 +8,8 @@ import {
 
 import FormDrawer from '@/components/FormDrawer.vue';
 
+import ListHeader from '@/components/ListHeader.vue';
+
 import { useInitTable, useInitForm } from '@/composables/useCommon';
 
 const {
@@ -63,16 +65,7 @@ const {
 <template>
   <!-- rpcard -->
   <el-card shadow="never" class="border-0">
-    <div class="flex items-center justify-between mb-4">
-      <el-button @click="handleCreate" type="primary" size="small"
-        >新增</el-button
-      >
-      <el-toolttip effect="dark" content="重新整理" placement="top">
-        <el-button @click="getData" text>
-          <el-icon :size="20"> <Refresh /> </el-icon
-        ></el-button>
-      </el-toolttip>
-    </div>
+    <ListHeader @create="handleCreate" @refresh="getData"></ListHeader>
 
     <el-table
       :data="tableData"

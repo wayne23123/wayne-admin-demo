@@ -13,6 +13,8 @@ import FormDrawer from '@/components/FormDrawer.vue';
 
 import ChooseImage from '@/components/ChooseImage.vue';
 
+import ListHeader from '@/components/ListHeader.vue';
+
 import { useInitTable, useInitForm } from '@/composables/useCommon';
 
 const roles = ref([]);
@@ -98,16 +100,7 @@ const {
       </el-row>
     </el-form>
 
-    <div class="flex items-center justify-between mb-4">
-      <el-button @click="handleCreate" type="primary" size="small"
-        >新增</el-button
-      >
-      <el-toolttip effect="dark" content="重新整理" placement="top">
-        <el-button @click="getData" text>
-          <el-icon :size="20"> <Refresh /> </el-icon
-        ></el-button>
-      </el-toolttip>
-    </div>
+    <ListHeader @create="handleCreate" @refresh="getData"></ListHeader>
 
     <el-table
       :data="tableData"
