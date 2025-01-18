@@ -50,8 +50,11 @@ export function useInitTable(option = {}) {
     option
       .getList(currentPage.value, searchForm)
       .then((response) => {
-        if (option.onSuccess && typeof option.onSuccess == 'function') {
-          option.onSuccess(response);
+        if (
+          option.onGetListSuccess &&
+          typeof option.onGetListSuccess == 'function'
+        ) {
+          option.onGetListSuccess(response);
         } else {
           tableData.value = response?.data?.data?.list;
 

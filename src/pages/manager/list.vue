@@ -35,7 +35,7 @@ const {
     keyword: '',
   },
   getList: getManagerList,
-  onSuccess: (response) => {
+  onGetListSuccess: (response) => {
     // console.log('response', response);
 
     tableData.value = response?.data?.data?.list.map((object) => {
