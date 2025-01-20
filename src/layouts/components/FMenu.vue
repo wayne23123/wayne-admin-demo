@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 
-import { useRouter, useRoute } from 'vue-router';
+import { useRouter, useRoute, onBeforeRouteUpdate } from 'vue-router';
 
 import { useStore } from 'vuex';
 
@@ -14,6 +14,14 @@ const route = useRoute();
 // 預設選中
 const defaultActive = ref(route.path);
 
+// https://router.vuejs.org/zh/guide/advanced/navigation-guards.html#%E5%8F%AF%E7%94%A8%E7%9A%84%E9%85%8D%E7%BD%AE-API
+// 監聽路由變化
+onBeforeRouteUpdate((to, from) => {
+  // console.log('to', to);
+
+  defaultActive.value = to.path;
+});
+
 const isCollapse = computed(() => {
   return !(store.state.asideWidth == '250px');
 });
@@ -24,7 +32,7 @@ const isCollapse = computed(() => {
 //     icon: 'help',
 //     child: [
 //       {
-//         name: '控制台',
+//         name: '控制檯',
 //         icon: 'home-filled',
 //         frontpath: '/',
 //       },
