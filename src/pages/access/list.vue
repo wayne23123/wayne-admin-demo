@@ -3,9 +3,13 @@ import { ref } from 'vue';
 
 import ListHeader from '../../components/ListHeader.vue';
 
-import { getRuleList } from '@/api/rule';
+import { getRuleList, createRule, updateRule } from '@/api/rule';
 
 import { useInitTable } from '@/composables/useCommon';
+
+import FormDrawer from '@/components/FormDrawer.vue';
+
+// import ListHeader from '@/components/ListHeader.vue';
 
 const defaultExpandedKeys = ref([]);
 
@@ -51,7 +55,7 @@ const { isLoading, tableData, getData } = useInitTable({
           <div class="ml-auto">
             <!-- epsw -->
             <el-switch
-              :modelValue="status"
+              :modelValue="data.status"
               :active-value="1"
               :inactive-value="0"
             >
@@ -83,6 +87,30 @@ const { isLoading, tableData, getData } = useInitTable({
         </span> -->
       </template>
     </el-tree>
+
+    <FormDrawer ref="formDrawerRef" :title="drawerTitle" @submit="handleSubmit">
+      <!-- epf -->
+      <el-form
+        :model="form"
+        ref="formRef"
+        :rules="rules"
+        label-width="80px"
+        :inline="false"
+      >
+        <el-form-item label="公告標題" prop="title">
+          <el-input v-model="form.title" placeholder="公告標題"></el-input>
+        </el-form-item>
+
+        <el-form-item label="公告內容" prop="content">
+          <el-input
+            v-model="form.content"
+            placeholder="公告內容"
+            type="textarea"
+            :row="5"
+          ></el-input>
+        </el-form-item>
+      </el-form>
+    </FormDrawer>
 
     <!-- <el-tree
       v-loading="isLoading"
