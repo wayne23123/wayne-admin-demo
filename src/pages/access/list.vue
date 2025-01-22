@@ -5,7 +5,7 @@ import ListHeader from '../../components/ListHeader.vue';
 
 import { getRuleList, createRule, updateRule } from '@/api/rule';
 
-import { useInitTable } from '@/composables/useCommon';
+import { useInitTable, useInitForm } from '@/composables/useCommon';
 
 import FormDrawer from '@/components/FormDrawer.vue';
 
@@ -22,6 +22,33 @@ const { isLoading, tableData, getData } = useInitTable({
       return item.id;
     });
   },
+});
+
+const {
+  formDrawerRef,
+  formRef,
+  form,
+  rules,
+  drawerTitle,
+  handleSubmit,
+  handleCreate,
+  handleEdit,
+} = useInitForm({
+  form: {
+    rule_id: 0,
+    menu: 0,
+    name: '',
+    condition: '',
+    method: 'GET',
+    status: 1,
+    order: 50,
+    icon: '',
+    frontpath: '',
+  },
+  rules: {},
+  getData,
+  update: updateRule,
+  create: createRule,
 });
 </script>
 
@@ -97,17 +124,36 @@ const { isLoading, tableData, getData } = useInitTable({
         label-width="80px"
         :inline="false"
       >
-        <el-form-item label="公告標題" prop="title">
-          <el-input v-model="form.title" placeholder="公告標題"></el-input>
+        <el-form-item label="上級菜單" prop="rule_id">
+          <el-input v-model="form.rule_id"></el-input>
         </el-form-item>
 
-        <el-form-item label="公告內容" prop="content">
-          <el-input
-            v-model="form.content"
-            placeholder="公告內容"
-            type="textarea"
-            :row="5"
-          ></el-input>
+        <el-form-item label="菜單/規則" prop="menu">
+          <el-input v-model="form.menu"></el-input>
+        </el-form-item>
+
+        <el-form-item label="菜單/權限名稱" prop="name">
+          <el-input v-model="form.name"></el-input>
+        </el-form-item>
+
+        <el-form-item label="菜單圖標" prop="icon">
+          <el-input v-model="form.icon"></el-input>
+        </el-form-item>
+
+        <el-form-item label="前端路由" prop="frontpath">
+          <el-input v-model="form.frontpath"></el-input>
+        </el-form-item>
+
+        <el-form-item label="後端規則" prop="condition">
+          <el-input v-model="form.condition"></el-input>
+        </el-form-item>
+
+        <el-form-item label="請求方式" prop="method">
+          <el-input v-model="form.method"></el-input>
+        </el-form-item>
+
+        <el-form-item label="排序" prop="order">
+          <el-input v-model="form.order"></el-input>
         </el-form-item>
       </el-form>
     </FormDrawer>
