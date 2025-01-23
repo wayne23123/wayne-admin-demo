@@ -11,11 +11,17 @@ import FormDrawer from '@/components/FormDrawer.vue';
 
 // import ListHeader from '@/components/ListHeader.vue';
 
+const options = ref([]);
+
 const defaultExpandedKeys = ref([]);
 
 const { isLoading, tableData, getData } = useInitTable({
   getList: getRuleList,
   onGetListSuccess: (response) => {
+    // console.log('response', response);
+
+    options.value = response?.data?.data?.rules;
+
     tableData.value = response?.data?.data?.list;
 
     defaultExpandedKeys.value = tableData.value.map((item) => {
@@ -55,7 +61,7 @@ const {
 <template>
   <!-- epcard -->
   <el-card shadow="never" class="border-0">
-    <ListHeader @refresh="getData"></ListHeader>
+    <ListHeader @create="handleCreate" @refresh="getData"></ListHeader>
 
     <!-- https://element-plus.org/zh-CN/component/tree.html#tree-%E6%A0%91%E5%BD%A2%E6%8E%A7%E4%BB%B6 -->
 
@@ -89,7 +95,13 @@ const {
             </el-switch>
 
             <!-- epb -->
-            <el-button text type="primary" size="small">修改</el-button>
+            <el-button
+              @click.stop="handleEdit(data)"
+              text
+              type="primary"
+              size="small"
+              >修改</el-button
+            >
 
             <el-button text type="primary" size="small">增加</el-button>
 
@@ -124,8 +136,19 @@ const {
         label-width="80px"
         :inline="false"
       >
+        <!-- https://element-plus.org/zh-CN/component/cascader.html#cascader-%E7%BA%A7%E8%81%94%E9%80%89%E6%8B%A9%E5%99%A8 -->
         <el-form-item label="上級菜單" prop="rule_id">
-          <el-input v-model="form.rule_id"></el-input>
+          <el-cascader
+            v-model="form.rule_id"
+            :options="options"
+            :props="{
+              label: 'name',
+              children: 'child',
+              checkStrictly: true,
+              emitPath: false,
+            }"
+            placeholder="請選擇上級菜單"
+          />
         </el-form-item>
 
         <el-form-item label="菜單/規則" prop="menu">
