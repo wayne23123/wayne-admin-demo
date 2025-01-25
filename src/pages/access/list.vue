@@ -136,12 +136,14 @@ const {
         label-width="80px"
         :inline="false"
       >
+        <!-- {{ form.rule_id }} -->
         <!-- https://element-plus.org/zh-CN/component/cascader.html#cascader-%E7%BA%A7%E8%81%94%E9%80%89%E6%8B%A9%E5%99%A8 -->
         <el-form-item label="上級菜單" prop="rule_id">
           <el-cascader
             v-model="form.rule_id"
             :options="options"
             :props="{
+              value: 'id',
               label: 'name',
               children: 'child',
               checkStrictly: true,
@@ -151,32 +153,63 @@ const {
           />
         </el-form-item>
 
+        <!-- https://element-plus.org/zh-CN/component/radio.html#radio-%E5%8D%95%E9%80%89%E6%A1%86 -->
         <el-form-item label="菜單/規則" prop="menu">
-          <el-input v-model="form.menu"></el-input>
+          <el-radio-group v-model="form.menu">
+            <el-radio :value="1" border>菜單</el-radio>
+            <el-radio :value="0" border>規則</el-radio>
+          </el-radio-group>
         </el-form-item>
 
-        <el-form-item label="菜單/權限名稱" prop="name">
-          <el-input v-model="form.name"></el-input>
+        <el-form-item label="名稱" prop="name">
+          <el-input
+            v-model="form.name"
+            style="width: 30%"
+            placeholder="請輸入名稱"
+          ></el-input>
         </el-form-item>
 
-        <el-form-item label="菜單圖標" prop="icon">
+        <el-form-item v-if="form.menu == 1" label="菜單圖標" prop="icon">
           <el-input v-model="form.icon"></el-input>
         </el-form-item>
 
-        <el-form-item label="前端路由" prop="frontpath">
-          <el-input v-model="form.frontpath"></el-input>
+        <el-form-item
+          v-if="form.menu == 1 && form.rule_id > 0"
+          label="前端路由"
+          prop="frontpath"
+        >
+          <el-input
+            v-model="form.frontpath"
+            placeholder="請輸入前端路由"
+          ></el-input>
         </el-form-item>
 
-        <el-form-item label="後端規則" prop="condition">
-          <el-input v-model="form.condition"></el-input>
+        <el-form-item v-if="form.menu == 0" label="後端規則" prop="condition">
+          <el-input
+            v-model="form.condition"
+            placeholder="請輸入後端規則"
+          ></el-input>
         </el-form-item>
 
-        <el-form-item label="請求方式" prop="method">
-          <el-input v-model="form.method"></el-input>
+        <!-- https://element-plus.org/zh-CN/component/select.html#select-%E9%80%89%E6%8B%A9%E5%99%A8 -->
+        <el-form-item v-if="form.menu == 0" label="請求方式" prop="method">
+          <el-select
+            v-model="form.method"
+            class="mt-2"
+            placeholder="請選擇請求方式"
+          >
+            <el-option
+              v-for="item in ['GET', 'POST', 'PUT', 'DELETE']"
+              :key="item"
+              :label="item"
+              :value="item"
+            />
+          </el-select>
         </el-form-item>
 
+        <!-- https://element-plus.org/zh-CN/component/input-number.html -->
         <el-form-item label="排序" prop="order">
-          <el-input v-model="form.order"></el-input>
+          <el-input-number v-model="form.order" :min="0" :max="1000" />
         </el-form-item>
       </el-form>
     </FormDrawer>
