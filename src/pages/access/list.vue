@@ -1,7 +1,7 @@
 <script setup>
 import { ref } from 'vue';
 
-import ListHeader from '../../components/ListHeader.vue';
+import ListHeader from '@/components/ListHeader.vue';
 
 import { getRuleList, createRule, updateRule } from '@/api/rule';
 
@@ -9,7 +9,7 @@ import { useInitTable, useInitForm } from '@/composables/useCommon';
 
 import FormDrawer from '@/components/FormDrawer.vue';
 
-// import ListHeader from '@/components/ListHeader.vue';
+import IconSelect from '@/components/IconSelect.vue';
 
 const options = ref([]);
 
@@ -169,8 +169,9 @@ const {
           ></el-input>
         </el-form-item>
 
+        <!-- {{ form.icon }} -->
         <el-form-item v-if="form.menu == 1" label="菜單圖標" prop="icon">
-          <el-input v-model="form.icon"></el-input>
+          <IconSelect v-model="form.icon" />
         </el-form-item>
 
         <el-form-item
