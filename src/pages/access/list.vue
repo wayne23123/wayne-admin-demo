@@ -3,7 +3,13 @@ import { ref } from 'vue';
 
 import ListHeader from '@/components/ListHeader.vue';
 
-import { getRuleList, createRule, updateRule } from '@/api/rule';
+import {
+  getRuleList,
+  createRule,
+  updateRule,
+  updateRuleStatus,
+  deleteRule,
+} from '@/api/rule';
 
 import { useInitTable, useInitForm } from '@/composables/useCommon';
 
@@ -15,20 +21,24 @@ const options = ref([]);
 
 const defaultExpandedKeys = ref([]);
 
-const { isLoading, tableData, getData } = useInitTable({
-  getList: getRuleList,
-  onGetListSuccess: (response) => {
-    // console.log('response', response);
+const { isLoading, tableData, getData, handleDelete, handleStatusChange } =
+  useInitTable({
+    getList: getRuleList,
+    onGetListSuccess: (response) => {
+      // console.log('response', response);
 
-    options.value = response?.data?.data?.rules;
+      options.value = response?.data?.data?.rules;
 
-    tableData.value = response?.data?.data?.list;
+      tableData.value = response?.data?.data?.list;
 
-    defaultExpandedKeys.value = tableData.value.map((item) => {
-      return item.id;
-    });
-  },
-});
+      defaultExpandedKeys.value = tableData.value.map((item) => {
+        return item.id;
+      });
+    },
+
+    delete: deleteRule,
+    updateStatus: updateRuleStatus,
+  });
 
 const {
   formDrawerRef,
@@ -56,6 +66,15 @@ const {
   update: updateRule,
   create: createRule,
 });
+
+// 添加子分類
+const addChild = (id) => {
+  handleCreate();
+
+  form.rule_id = id;
+
+  form.status = 1;
+};
 </script>
 
 <template>
@@ -88,6 +107,7 @@ const {
           <div class="ml-auto">
             <!-- epsw -->
             <el-switch
+              @change="handleStatusChange($event, data)"
               :modelValue="data.status"
               :active-value="1"
               :inactive-value="0"
@@ -103,9 +123,26 @@ const {
               >修改</el-button
             >
 
-            <el-button text type="primary" size="small">增加</el-button>
+            <el-button
+              @click.stop="addChild(data.id)"
+              text
+              type="primary"
+              size="small"
+              >增加</el-button
+            >
 
-            <el-button text type="primary" size="small">刪除</el-button>
+            <el-popconfirm
+              title="是否要刪除該紀錄?"
+              confirmButtonText="確定"
+              cancelButtonText="取消"
+              @confirm="handleDelete(data.id)"
+            >
+              <template #reference>
+                <el-button text="true" type="primary" size="small" class="px-1">
+                  刪除
+                </el-button>
+              </template>
+            </el-popconfirm>
           </div>
         </div>
         <!-- <span class="flex justify-between w-full">

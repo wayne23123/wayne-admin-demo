@@ -4040,4 +4040,40 @@ export default [
       };
     },
   },
+
+  {
+    url: /^\/api\/admin\/rule\/\d+\/update_status$/,
+    method: 'post',
+    response: ({ body, url }) => {
+      const id = url.match(/\d+/)[0];
+      const { status } = body;
+
+      const newStatus = status === 1 ? 0 : 1;
+
+      return {
+        msg: 'ok',
+        data: {
+          id: Number(id),
+          status: newStatus,
+          update_time: new Date().toISOString(),
+        },
+      };
+    },
+  },
+
+  {
+    url: /^\/api\/admin\/rule\/\d+\/delete$/,
+    method: 'post',
+    response: ({ url }) => {
+      const id = url.match(/\d+/)[0];
+
+      return {
+        msg: 'ok',
+        data: {
+          id: Number(id),
+          deleted: true,
+        },
+      };
+    },
+  },
 ];
