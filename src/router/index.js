@@ -28,6 +28,8 @@ import ManagerList from '@/pages/manager/list.vue';
 
 import AccessList from '@/pages/access/list.vue';
 
+import RoleList from '@/pages/role/list.vue';
+
 // const routes = [
 //   {
 //     path: '/',
@@ -218,6 +220,14 @@ const asyncRoutes = [
     component: AccessList,
     meta: {
       title: 'wayne-選單權限管理',
+    },
+  },
+  {
+    path: '/role/list',
+    name: '/role/list',
+    component: RoleList,
+    meta: {
+      title: 'wayne-角色管理',
     },
   },
 ];
