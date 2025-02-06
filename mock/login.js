@@ -4076,4 +4076,131 @@ export default [
       };
     },
   },
+
+  {
+    url: /^\/api\/admin\/role\/\d+$/, // 匹配 `/admin/role/:page`
+    method: 'get',
+    response: ({ url }) => {
+      const page = url.match(/\d+/)[0]; // 提取頁數
+
+      return {
+        msg: 'ok',
+        data: {
+          list: [
+            {
+              id: 455,
+              status: 1,
+              create_time: '2025-02-05 11:21:06',
+              update_time: '2025-02-05 14:48:33',
+              name: '管理員',
+              desc: '擁有所有權限',
+              rules: [
+                { id: 5, pivot: { id: 17108, role_id: 455, rule_id: 5 } },
+                { id: 10, pivot: { id: 17109, role_id: 455, rule_id: 10 } },
+                { id: 174, pivot: { id: 17110, role_id: 455, rule_id: 174 } },
+                { id: 175, pivot: { id: 17111, role_id: 455, rule_id: 175 } },
+                { id: 176, pivot: { id: 17112, role_id: 455, rule_id: 176 } },
+                { id: 6, pivot: { id: 17113, role_id: 455, rule_id: 6 } },
+                { id: 13, pivot: { id: 17114, role_id: 455, rule_id: 13 } },
+                { id: 61, pivot: { id: 17115, role_id: 455, rule_id: 61 } },
+                { id: 127, pivot: { id: 17116, role_id: 455, rule_id: 127 } },
+                { id: 128, pivot: { id: 17117, role_id: 455, rule_id: 128 } },
+              ],
+            },
+
+            {
+              id: 38,
+              status: 1,
+              create_time: '2025-01-19 03:47:51',
+              update_time: '2025-02-05 11:15:03',
+              name: '供應商',
+              desc: '3333',
+              rules: [
+                {
+                  id: 176,
+                  pivot: {
+                    id: 15872,
+                    role_id: 38,
+                    rule_id: 176,
+                  },
+                },
+                {
+                  id: 10,
+                  pivot: {
+                    id: 15873,
+                    role_id: 38,
+                    rule_id: 10,
+                  },
+                },
+                {
+                  id: 5,
+                  pivot: {
+                    id: 15874,
+                    role_id: 38,
+                    rule_id: 5,
+                  },
+                },
+                {
+                  id: 173,
+                  pivot: {
+                    id: 15902,
+                    role_id: 38,
+                    rule_id: 173,
+                  },
+                },
+                {
+                  id: 21,
+                  pivot: {
+                    id: 15903,
+                    role_id: 38,
+                    rule_id: 21,
+                  },
+                },
+                {
+                  id: 97,
+                  pivot: {
+                    id: 15904,
+                    role_id: 38,
+                    rule_id: 97,
+                  },
+                },
+                {
+                  id: 98,
+                  pivot: {
+                    id: 15905,
+                    role_id: 38,
+                    rule_id: 98,
+                  },
+                },
+                {
+                  id: 99,
+                  pivot: {
+                    id: 15906,
+                    role_id: 38,
+                    rule_id: 99,
+                  },
+                },
+                {
+                  id: 100,
+                  pivot: {
+                    id: 15907,
+                    role_id: 38,
+                    rule_id: 100,
+                  },
+                },
+                {
+                  id: 101,
+                  pivot: {
+                    id: 15908,
+                    role_id: 38,
+                    rule_id: 101,
+                  },
+                },
+              ],
+            },
+          ],
+        },
+      };
+    },
+  },
 ];
