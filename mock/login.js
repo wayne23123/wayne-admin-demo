@@ -4203,4 +4203,20 @@ export default [
       };
     },
   },
+
+  {
+    url: '/api/admin/role',
+    method: 'post',
+    response: ({ body }) => {
+      return {
+        msg: 'ok',
+        data: {
+          id: Math.floor(Math.random() * 1000) + 100,
+          ...body,
+          create_time: new Date().toISOString(),
+          update_time: new Date().toISOString(),
+        },
+      };
+    },
+  },
 ];
