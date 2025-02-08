@@ -4237,4 +4237,21 @@ export default [
       };
     },
   },
+
+  {
+    url: /^\/api\/admin\/role\/\d+\/delete$/,
+    method: 'post',
+    response: ({ url }) => {
+      const idMatch = url.match(/\d+/);
+      const id = idMatch ? Number(idMatch[0]) : null;
+
+      return {
+        msg: 'ok',
+        data: {
+          id,
+          deleted: true,
+        },
+      };
+    },
+  },
 ];
