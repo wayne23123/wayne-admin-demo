@@ -4219,4 +4219,22 @@ export default [
       };
     },
   },
+
+  {
+    url: /^\/api\/admin\/role\/\d+$/,
+    method: 'post',
+    response: ({ url, body }) => {
+      const idMatch = url.match(/\d+$/);
+      const id = idMatch ? Number(idMatch[0]) : null;
+
+      return {
+        msg: 'ok',
+        data: {
+          id,
+          ...body,
+          update_time: new Date().toISOString(),
+        },
+      };
+    },
+  },
 ];
