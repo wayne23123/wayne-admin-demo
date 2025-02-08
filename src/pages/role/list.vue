@@ -1,4 +1,6 @@
 <script setup>
+import { ref } from 'vue';
+
 import {
   getRoleList,
   createRole,
@@ -6,6 +8,8 @@ import {
   deleteRole,
   updateRoleStatus,
 } from '@/api/role';
+
+import { getRuleList } from '@/api/rule';
 
 import FormDrawer from '@/components/FormDrawer.vue';
 
@@ -57,6 +61,14 @@ const {
   update: updateRole,
   create: createRole,
 });
+
+const setRuleFormDrawerRef = ref(null);
+
+const openSetrule = (row) => {
+  setRuleFormDrawerRef.value.open();
+};
+
+const handleSetRuleSubmit = () => {};
 </script>
 
 <template>
@@ -84,8 +96,16 @@ const {
           ></el-switch>
         </template>
       </el-table-column>
-      <el-table-column label="操作" width="180" align="center">
+      <el-table-column label="操作" width="250" align="center">
         <template #default="scope">
+          <el-button
+            @click="openSetrule(scope.row)"
+            type="primary"
+            text
+            size="small"
+            >配置權限</el-button
+          >
+
           <el-button
             @click="handleEdit(scope.row)"
             type="primary"
@@ -153,6 +173,15 @@ const {
           ></el-switch>
         </el-form-item>
       </el-form>
+    </FormDrawer>
+
+    <!-- 權限配置 -->
+    <FormDrawer
+      ref="setRuleFormDrawerRef"
+      title="權限配置"
+      @submit="handleSetRuleSubmit"
+    >
+      123
     </FormDrawer>
   </el-card>
 </template>
