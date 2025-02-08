@@ -4254,4 +4254,23 @@ export default [
       };
     },
   },
+
+  {
+    url: /^\/api\/admin\/role\/\d+\/update_status$/,
+    method: 'post',
+    response: ({ url, body }) => {
+      const idMatch = url.match(/\d+/);
+      const id = idMatch ? Number(idMatch[0]) : null;
+      const newStatus = body.status === 1 ? 0 : 1;
+
+      return {
+        msg: 'ok',
+        data: {
+          id,
+          status: newStatus,
+          update_time: new Date().toISOString(),
+        },
+      };
+    },
+  },
 ];
