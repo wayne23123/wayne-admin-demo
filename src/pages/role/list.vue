@@ -64,8 +64,24 @@ const {
 
 const setRuleFormDrawerRef = ref(null);
 
+const ruleList = ref([]);
+
+const treeHeight = ref(0);
+
+const roleId = ref(0);
+
 const openSetrule = (row) => {
-  setRuleFormDrawerRef.value.open();
+  roleId.value = row.id;
+
+  treeHeight.value = window.innerHeight - 170;
+
+  getRuleList(1).then((res) => {
+    // console.log('res', res);
+
+    ruleList.value = res.data.data.list;
+
+    setRuleFormDrawerRef.value.open();
+  });
 };
 
 const handleSetRuleSubmit = () => {};
@@ -181,7 +197,18 @@ const handleSetRuleSubmit = () => {};
       title="權限配置"
       @submit="handleSetRuleSubmit"
     >
-      123
+      <!-- {{ ruleList }} -->
+
+      <!-- https://element-plus.org/zh-CN/component/tree-v2.html -->
+      <!-- 不論你的數據量多大，虛擬樹都能毫無壓力地處理。 -->
+
+      <el-tree-v2
+        style="max-width: 600px"
+        :data="ruleList"
+        :props="{ label: 'name', children: 'child' }"
+        show-checkbox
+        :height="treeHeight"
+      />
     </FormDrawer>
   </el-card>
 </template>
