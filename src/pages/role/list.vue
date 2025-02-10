@@ -16,6 +16,7 @@ import FormDrawer from '@/components/FormDrawer.vue';
 import ListHeader from '@/components/ListHeader.vue';
 
 import { useInitTable, useInitForm } from '@/composables/useCommon';
+import { set } from 'nprogress';
 
 const {
   tableData,
@@ -70,17 +71,37 @@ const treeHeight = ref(0);
 
 const roleId = ref(0);
 
+const defaultExpandedKeys = ref([]);
+
+const elTreeTef = ref(null);
+
+// 當前角色擁有的權限 ID
+const ruleIds = ref([]);
+
 const openSetrule = (row) => {
   roleId.value = row.id;
 
-  treeHeight.value = window.innerHeight - 170;
+  // treeHeight.value = window.innerHeight - 170;
+  treeHeight.value = window.innerHeight - 180;
 
   getRuleList(1).then((res) => {
     // console.log('res', res);
 
     ruleList.value = res.data.data.list;
 
+    defaultExpandedKeys.value = res.data.data.list.map((item) => item.id);
+
     setRuleFormDrawerRef.value.open();
+
+    // 當前角色擁有的權限 ID
+    // console.log(row);
+    // console.log(row.rules.map((item) => item.id));
+
+    ruleIds.value = row.rules.map((item) => item.id);
+
+    setTimeout(() => {
+      elTreeTef.value.setCheckedKeys(ruleIds.value);
+    }, 150);
   });
 };
 
@@ -203,12 +224,26 @@ const handleSetRuleSubmit = () => {};
       <!-- 不論你的數據量多大，虛擬樹都能毫無壓力地處理。 -->
 
       <el-tree-v2
-        style="max-width: 600px"
+        ref="elTreeTef"
+        node-key="id"
+        :default-expanded-keys="defaultExpandedKeys"
         :data="ruleList"
         :props="{ label: 'name', children: 'child' }"
         show-checkbox
         :height="treeHeight"
-      />
+      >
+        <template #default="{ node, data }">
+          <div class="flex items-center">
+            <!-- epta -->
+
+            <el-tag :type="data.menu ? '' : 'info'" size="small">
+              {{ data.menu ? '菜單' : '權限' }}
+            </el-tag>
+
+            <span class="ml-2 text-sm">{{ data.name }}</span>
+          </div>
+        </template>
+      </el-tree-v2>
     </FormDrawer>
   </el-card>
 </template>
