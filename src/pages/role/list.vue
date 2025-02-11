@@ -7,6 +7,7 @@ import {
   updateRole,
   deleteRole,
   updateRoleStatus,
+  setRoleRules,
 } from '@/api/role';
 
 import { getRuleList } from '@/api/rule';
@@ -16,7 +17,9 @@ import FormDrawer from '@/components/FormDrawer.vue';
 import ListHeader from '@/components/ListHeader.vue';
 
 import { useInitTable, useInitForm } from '@/composables/useCommon';
-import { set } from 'nprogress';
+
+import { toast } from '@/composables/util';
+import { get } from '@vueuse/core';
 
 const {
   tableData,
@@ -78,11 +81,15 @@ const elTreeTef = ref(null);
 // 當前角色擁有的權限 ID
 const ruleIds = ref([]);
 
+const checkStrictly = ref(false);
+
 const openSetrule = (row) => {
   roleId.value = row.id;
 
   // treeHeight.value = window.innerHeight - 170;
   treeHeight.value = window.innerHeight - 180;
+
+  checkStrictly.value = true;
 
   getRuleList(1).then((res) => {
     // console.log('res', res);
@@ -101,11 +108,36 @@ const openSetrule = (row) => {
 
     setTimeout(() => {
       elTreeTef.value.setCheckedKeys(ruleIds.value);
+
+      // 不設定關聯會選中後不選取子元素
+      checkStrictly.value = false;
     }, 150);
   });
 };
 
-const handleSetRuleSubmit = () => {};
+const handleSetRuleSubmit = () => {
+  setRuleFormDrawerRef.value.showLoading();
+
+  setRuleRules(roleId.value, ruleIds.value)
+    .then((response) => {
+      toast('設置成功');
+
+      getData();
+
+      setRuleFormDrawerRef.value.close();
+    })
+    .finally(() => {
+      setRuleFormDrawerRef.value.hideLoading();
+    });
+};
+
+const handleTreeCheck = (...e) => {
+  // console.log(e);
+
+  const { checkedKeys, halfCheckedKeys } = e[1];
+
+  ruleIds.value = [...checkedKeys, ...halfCheckedKeys];
+};
 </script>
 
 <template>
@@ -226,11 +258,13 @@ const handleSetRuleSubmit = () => {};
       <el-tree-v2
         ref="elTreeTef"
         node-key="id"
+        :check-strictly="checkStrictly"
         :default-expanded-keys="defaultExpandedKeys"
         :data="ruleList"
         :props="{ label: 'name', children: 'child' }"
         show-checkbox
         :height="treeHeight"
+        @check="handleTreeCheck"
       >
         <template #default="{ node, data }">
           <div class="flex items-center">
