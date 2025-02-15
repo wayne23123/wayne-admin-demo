@@ -16,7 +16,8 @@ import ListHeader from '@/components/ListHeader.vue';
 import { useInitTable, useInitForm } from '@/composables/useCommon';
 
 import { toast } from '@/composables/util';
-import { get } from '@vueuse/core';
+
+import TagInput from '@/components/TagInput.vue';
 
 const {
   tableData,
@@ -136,7 +137,12 @@ const {
     </div>
 
     <!-- <FormDrawer ref="formDrawerRef" title="新增公告" @submit="handleSubmit"> -->
-    <FormDrawer ref="formDrawerRef" :title="drawerTitle" @submit="handleSubmit">
+    <FormDrawer
+      destroyOnClose
+      ref="formDrawerRef"
+      :title="drawerTitle"
+      @submit="handleSubmit"
+    >
       <!-- epf -->
       <el-form
         :model="form"
@@ -165,7 +171,7 @@ const {
         </el-form-item>
 
         <el-form-item label="規格值" prop="default">
-          <el-input v-model="form.default" placeholder="規格值"></el-input>
+          <TagInput v-model="form.default"></TagInput>
         </el-form-item>
       </el-form>
     </FormDrawer>
