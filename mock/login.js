@@ -1,6 +1,6 @@
 // login.js
 export default [
-  // 范例
+  // 範例
   {
     url: '/api/admin/userinfo',
     method: 'post',
@@ -14,51 +14,51 @@ export default [
             username: username || 'admin',
             email: email || 'admin@example.com',
           },
-          message: '用户资讯更新成功',
+          message: '用戶資訊更新成功',
         };
       } else {
         return {
           code: 401,
-          message: '操作未授权',
+          message: '操作未授權',
         };
       }
     },
   },
-  // 带查询参数的范例
+  // 帶查詢參數的範例
   {
     url: '/api/admin/items',
     method: 'get',
     response: ({ query }) => {
-      // 简单判断 query 带了哪些参数
+      // 簡單判斷 query 帶了哪些參數
       if (query.page && query.limit) {
         return {
           code: 200,
           data: {
-            items: `你查询了第 ${query.page} 页，每页显示 ${query.limit} 条数据`,
+            items: `你查詢了第 ${query.page} 頁，每頁顯示 ${query.limit} 條數據`,
           },
         };
       } else if (query.category) {
         return {
           code: 200,
           data: {
-            items: `你查询的类别是 ${query.category}`,
+            items: `你查詢的類別是 ${query.category}`,
           },
         };
       } else {
         return {
           code: 400,
-          message: '请提供正确的查询参数',
+          message: '請提供正確的查詢參數',
         };
       }
     },
   },
   {
-    // 使用正则匹配动态参数，例如 /api/admin/image_class/:id
+    // 使用正則匹配動態參數，例如 /api/admin/image_class/:id
     url: /^\/api\/admin\/test\/\d+$/,
     method: 'get',
     response: ({ url }) => {
-      // 从 URL 提取动态参数（例如 id）
-      const id = url.split('/').pop(); // 获取最后一段作为 id
+      // 從 URL 提取動態參數（例如 id）
+      const id = url.split('/').pop(); // 獲取最後一段作為 id
 
       if (id === '1') {
         return {
@@ -67,7 +67,7 @@ export default [
             list: [
               {
                 id: 168,
-                name: '化妆品',
+                name: '化妝品',
                 order: 1001,
                 images_count: 27,
               },
@@ -85,13 +85,13 @@ export default [
   },
 
   {
-    // 使用正则匹配动态参数，例如 /api/admin/image_class/:id/delete
+    // 使用正則匹配動態參數，例如 /api/admin/image_class/:id/delete
     url: /^\/api\/admin\/test\/\d+\/delete$/,
-    method: 'post', // 如果你的请求是 POST，请保留这行
+    method: 'post', // 如果你的請求是 POST，請保留這行
     response: ({ url }) => {
       try {
-        // 从 URL 提取动态参数（例如 id）
-        const id = url.split('/').slice(-2, -1)[0]; // 倒数第二段作为 id
+        // 從 URL 提取動態參數（例如 id）
+        const id = url.split('/').slice(-2, -1)[0]; // 倒數第二段作為 id
 
         if (id === '168') {
           return {
@@ -115,9 +115,9 @@ export default [
     },
   },
 
-  // 新增 /admin/login 模拟 API
+  // 新增 /admin/login 模擬 API
   {
-    url: '/api/admin/login', // 模拟 /admin/login 路径
+    url: '/api/admin/login', // 模擬 /admin/login 路徑
     method: 'post', // 使用 POST 方法
     response: ({ body }) => {
       const { username, password } = body;
@@ -126,13 +126,13 @@ export default [
           code: 200,
           data: {
             token: 'mock-token-123456',
-            message: '模拟的 mock API 登入成功',
+            message: '模擬的 mock API 登入成功',
           },
         };
       } else {
         return {
           code: 401,
-          message: '帐号密码错误',
+          message: '帳號密碼錯誤',
         };
       }
     },
@@ -144,14 +144,14 @@ export default [
     response: ({}) => {
       return {
         code: 200,
-        data: '退出登录成功',
+        data: '退出登錄成功',
       };
     },
   },
 
-  // 新增 /admin/info 模拟 API
+  // 新增 /admin/info 模擬 API
   {
-    url: '/api/admin/info', // 模拟 /admin/info 路径
+    url: '/api/admin/info', // 模擬 /admin/info 路徑
     method: 'post', // 使用 POST 方法
     response: () => {
       return {
@@ -159,10 +159,10 @@ export default [
         code: 200,
         data: {
           id: 3,
-          username: '超级管理员',
+          username: '超級管理員',
           avatar: '',
           super: 1,
-          role: { id: 2, name: '超级管理员' },
+          role: { id: 2, name: '超級管理員' },
           menus: [
             {
               id: 5,
@@ -170,7 +170,7 @@ export default [
               status: 1,
               create_time: '2023-08-11 13:36:09',
               update_time: '2023-12-21 19:31:11',
-              name: '后台面板',
+              name: '後臺面板',
               desc: 'index',
               frontpath: null,
               condition: null,
@@ -185,7 +185,7 @@ export default [
                   status: 1,
                   create_time: '2023-08-11 13:37:02',
                   update_time: '2023-12-21 20:21:23',
-                  name: '控制台',
+                  name: '控制檯',
                   desc: 'index',
                   frontpath: '/',
                   condition: null,
@@ -234,7 +234,7 @@ export default [
                   status: 1,
                   create_time: '2023-12-28 13:44:00',
                   update_time: '2023-12-21 20:22:00',
-                  name: '分类管理',
+                  name: '分類管理',
                   desc: 'shop_category_list',
                   frontpath: '/category/list',
                   condition: '',
@@ -250,7 +250,7 @@ export default [
                   status: 1,
                   create_time: '2023-12-28 13:44:32',
                   update_time: '2023-12-21 20:22:11',
-                  name: '规格管理',
+                  name: '規格管理',
                   desc: 'shop_sku_list',
                   frontpath: '/skus/list',
                   condition: '',
@@ -266,7 +266,7 @@ export default [
                   status: 1,
                   create_time: '2023-06-12 21:57:02',
                   update_time: '2023-12-21 20:22:52',
-                  name: '优惠券管理',
+                  name: '優惠券管理',
                   desc: 'shop_coupon_list',
                   frontpath: '/coupon/list',
                   condition: '',
@@ -284,7 +284,7 @@ export default [
               status: 1,
               create_time: '2023-12-21 19:38:21',
               update_time: '2023-12-21 19:38:21',
-              name: '用户管理',
+              name: '用戶管理',
               desc: '',
               frontpath: '',
               condition: '',
@@ -299,7 +299,7 @@ export default [
                   status: 1,
                   create_time: '2023-12-21 13:46:45',
                   update_time: '2023-12-21 20:22:35',
-                  name: '用户管理',
+                  name: '用戶管理',
                   desc: 'user_user-list_list',
                   frontpath: '/user/list',
                   condition: '',
@@ -315,7 +315,7 @@ export default [
                   status: 1,
                   create_time: '2023-12-21 13:46:59',
                   update_time: '2023-12-21 20:22:44',
-                  name: '会员等级',
+                  name: '會員等級',
                   desc: 'user_user-level_list',
                   frontpath: '/level/list',
                   condition: '',
@@ -333,7 +333,7 @@ export default [
               status: 1,
               create_time: '2023-08-11 13:36:40',
               update_time: '2023-12-21 19:37:18',
-              name: '订单管理',
+              name: '訂單管理',
               desc: 'order_order_list',
               frontpath: null,
               condition: null,
@@ -348,7 +348,7 @@ export default [
                   status: 1,
                   create_time: '2023-12-21 13:45:42',
                   update_time: '2023-12-21 20:23:02',
-                  name: '订单管理',
+                  name: '訂單管理',
                   desc: 'order_order_list',
                   frontpath: '/order/list',
                   condition: '',
@@ -364,7 +364,7 @@ export default [
                   status: 1,
                   create_time: '2023-12-21 13:44:56',
                   update_time: '2023-12-21 20:22:26',
-                  name: '评论管理',
+                  name: '評論管理',
                   desc: 'shop_comment_list',
                   frontpath: '/comment/list',
                   condition: '',
@@ -382,7 +382,7 @@ export default [
               status: 1,
               create_time: '2023-08-11 13:36:43',
               update_time: '2023-12-21 19:37:25',
-              name: '管理员管理',
+              name: '管理員管理',
               desc: 'user_user-list_list',
               frontpath: null,
               condition: null,
@@ -397,7 +397,7 @@ export default [
                   status: 1,
                   create_time: '2023-12-21 13:47:39',
                   update_time: '2023-12-21 20:23:53',
-                  name: '管理员管理',
+                  name: '管理員管理',
                   desc: 'set_manager',
                   frontpath: '/manager/list',
                   condition: '',
@@ -413,7 +413,7 @@ export default [
                   status: 1,
                   create_time: '2023-01-03 21:05:50',
                   update_time: '2023-12-21 20:24:04',
-                  name: '权限管理',
+                  name: '權限管理',
                   desc: '',
                   frontpath: '/access/list',
                   condition: '',
@@ -447,7 +447,7 @@ export default [
               status: 1,
               create_time: '2023-08-11 13:36:50',
               update_time: '2023-12-21 19:10:15',
-              name: '系统设定',
+              name: '系統設定',
               desc: 'set_base',
               frontpath: null,
               condition: null,
@@ -462,7 +462,7 @@ export default [
                   status: 1,
                   create_time: '2023-12-21 13:47:15',
                   update_time: '2023-12-21 20:23:12',
-                  name: '基础设定',
+                  name: '基礎設定',
                   desc: 'set_base',
                   frontpath: '/setting/base',
                   condition: '',
@@ -478,7 +478,7 @@ export default [
                   status: 1,
                   create_time: '2023-12-21 13:47:57',
                   update_time: '2023-12-21 20:23:22',
-                  name: '交易设定',
+                  name: '交易設定',
                   desc: 'set_payment',
                   frontpath: '/setting/buy',
                   condition: '',
@@ -494,7 +494,7 @@ export default [
                   status: 1,
                   create_time: '2023-12-21 13:47:27',
                   update_time: '2023-12-21 20:20:53',
-                  name: '物流设定',
+                  name: '物流設定',
                   desc: 'set_express',
                   frontpath: '/setting/ship',
                   condition: '',
@@ -512,7 +512,7 @@ export default [
               status: 1,
               create_time: '2023-06-18 00:12:10',
               update_time: '2023-06-18 00:12:10',
-              name: '分销模组',
+              name: '分銷模組',
               desc: null,
               frontpath: '',
               condition: '',
@@ -527,7 +527,7 @@ export default [
                   status: 1,
                   create_time: '2023-06-18 00:14:58',
                   update_time: '2023-06-18 00:14:58',
-                  name: '分销员管理',
+                  name: '分銷員管理',
                   desc: null,
                   frontpath: '/distribution/index',
                   condition: '',
@@ -543,7 +543,7 @@ export default [
                   status: 1,
                   create_time: '2023-06-18 00:15:25',
                   update_time: '2023-06-18 00:15:25',
-                  name: '分销设定',
+                  name: '分銷設定',
                   desc: null,
                   frontpath: '/distribution/setting',
                   condition: '',
@@ -561,7 +561,7 @@ export default [
               status: 1,
               create_time: '2023-12-21 19:10:34',
               update_time: '2023-12-21 19:10:47',
-              name: '其他模组',
+              name: '其他模組',
               desc: '',
               frontpath: '',
               condition: '',
@@ -576,7 +576,7 @@ export default [
                   status: 1,
                   create_time: '2023-12-28 13:38:32',
                   update_time: '2023-12-21 20:23:43',
-                  name: '图库管理',
+                  name: '圖庫管理',
                   desc: 'image',
                   frontpath: '/image/list',
                   condition: null,
@@ -711,7 +711,7 @@ export default [
   },
 
   {
-    url: '/api/admin/statistics1', // 模拟 /admin/login 路径
+    url: '/api/admin/statistics1', // 模擬 /admin/login 路徑
     method: 'get', // 使用 POST 方法
     response: ({}) => {
       return {
@@ -720,38 +720,38 @@ export default [
         data: {
           panels: [
             {
-              title: '付款订单',
+              title: '付款訂單',
               value: 51,
               unit: '年',
               unitColor: 'success',
-              subTitle: '总付款订单',
+              subTitle: '總付款訂單',
               subValue: 51,
               subUnit: '',
             },
             {
-              title: '订单量',
+              title: '訂單量',
               value: 555,
               unit: '周',
               unitColor: 'danger',
-              subTitle: '转换率',
+              subTitle: '轉換率',
               subValue: '60%',
               subUnit: '',
             },
             {
-              title: '销售额',
+              title: '銷售額',
               value: 3.74,
               unit: '年',
               unitColor: '',
-              subTitle: '总销售额',
+              subTitle: '總銷售額',
               subValue: 3.74,
               subUnit: '',
             },
             {
-              title: '新增用户',
+              title: '新增用戶',
               value: 17,
               unit: '年',
               unitColor: 'warning',
-              subTitle: '总用户',
+              subTitle: '總用戶',
               subValue: 17,
               subUnit: '人',
             },
@@ -822,7 +822,7 @@ export default [
   },
 
   {
-    url: '/api/admin/statistics2', // 模拟 /admin/login 路径
+    url: '/api/admin/statistics2', // 模擬 /admin/login 路徑
     method: 'get', // 使用 POST 方法
     response: ({}) => {
       return {
@@ -831,11 +831,11 @@ export default [
         data: {
           goods: [
             {
-              label: '审核中',
+              label: '審核中',
               value: 0,
             },
             {
-              label: '销售中',
+              label: '銷售中',
               value: 98,
             },
             {
@@ -843,7 +843,7 @@ export default [
               value: 48,
             },
             {
-              label: '库存',
+              label: '庫存',
               value: 6,
             },
           ],
@@ -853,11 +853,11 @@ export default [
               value: 171,
             },
             {
-              label: '等发货',
+              label: '等發貨',
               value: 16,
             },
             {
-              label: '已发货',
+              label: '已發貨',
               value: 1,
             },
             {
@@ -871,7 +871,7 @@ export default [
   },
 
   {
-    url: '/api/admin/example', // 模拟 /admin/login 路径
+    url: '/api/admin/example', // 模擬 /admin/login 路徑
     method: 'post', // 使用 POST 方法
     response: ({ body }) => {
       const { username, password } = body;
@@ -880,25 +880,25 @@ export default [
           code: 200,
           data: {
             token: 'mock-token-123456',
-            message: '模拟的 mock API 登入成功',
+            message: '模擬的 mock API 登入成功',
           },
         };
       } else {
         return {
           code: 401,
-          message: '帐号密码错误',
+          message: '帳號密碼錯誤',
         };
       }
     },
   },
 
   {
-    // 使用正则匹配动态参数，例如 /api/admin/image_class/:id
+    // 使用正則匹配動態參數，例如 /api/admin/image_class/:id
     url: /^\/api\/admin\/image_class\/\d+$/,
     method: 'get',
     response: ({ url }) => {
-      // 从 URL 提取动态参数（例如 id）
-      const id = url.split('/').pop(); // 获取最后一段作为 id
+      // 從 URL 提取動態參數（例如 id）
+      const id = url.split('/').pop(); // 獲取最後一段作為 id
       if (id === '1') {
         return {
           msg: 'ok',
@@ -906,13 +906,13 @@ export default [
             list: [
               {
                 id: 168,
-                name: '化妆品',
+                name: '化妝品',
                 order: 1001,
                 images_count: 27,
               },
               {
                 id: 133,
-                name: '家电',
+                name: '家電',
                 order: 1001,
                 images_count: 7,
               },
@@ -924,13 +924,13 @@ export default [
               },
               {
                 id: 173,
-                name: '服装服饰',
+                name: '服裝服飾',
                 order: 50,
                 images_count: 1,
               },
               {
                 id: 172,
-                name: '卫浴用品',
+                name: '衛浴用品',
                 order: 50,
                 images_count: 1,
               },
@@ -942,7 +942,7 @@ export default [
               },
               {
                 id: 170,
-                name: '手机3C',
+                name: '手機3C',
                 order: 50,
                 images_count: 1,
               },
@@ -954,7 +954,7 @@ export default [
               },
               {
                 id: 107,
-                name: '露营旅行',
+                name: '露營旅行',
                 order: 9,
                 images_count: 5,
               },
@@ -973,19 +973,19 @@ export default [
   },
 
   {
-    url: '/api/admin/image_class', // 模拟 /api/admin/image_class 路径
+    url: '/api/admin/image_class', // 模擬 /api/admin/image_class 路徑
     method: 'post', // 使用 POST 方法
     response: ({ body }) => {
-      // 处理 form-data 格式的 key: name 和 order
+      // 處理 form-data 格式的 key: name 和 order
       const { name, order } = body;
 
-      // 返回模拟资料
+      // 返回模擬資料
       return {
         code: 200,
         msg: 'ok', // 固定消息
         data: {
-          name: name || 'default-name', // 使用传入的 name 或预设值
-          order: order || 'default-order', // 使用传入的 order 或预设值
+          name: name || 'default-name', // 使用傳入的 name 或預設值
+          order: order || 'default-order', // 使用傳入的 order 或預設值
           id: '1305', // 固定 id
         },
       };
@@ -993,13 +993,13 @@ export default [
   },
 
   {
-    // 使用正则匹配动态参数，例如 /api/admin/image_class/:id/delete
+    // 使用正則匹配動態參數，例如 /api/admin/image_class/:id/delete
     url: /^\/api\/admin\/image_class\/\d+\/delete$/,
-    method: 'post', // 如果你的请求是 POST，请保留这行
+    method: 'post', // 如果你的請求是 POST，請保留這行
     response: ({ url }) => {
       try {
-        // 从 URL 提取动态参数（例如 id）
-        const id = url.split('/').slice(-2, -1)[0]; // 倒数第二段作为 id
+        // 從 URL 提取動態參數（例如 id）
+        const id = url.split('/').slice(-2, -1)[0]; // 倒數第二段作為 id
 
         if (id === '168') {
           return {
@@ -1024,17 +1024,17 @@ export default [
   },
 
   {
-    // 使用正则匹配动态参数，例如 /api/admin/image_class/:id/image/:page
+    // 使用正則匹配動態參數，例如 /api/admin/image_class/:id/image/:page
     url: /^\/api\/admin\/image_class\/\d+\/image\/\d+$/,
-    method: 'get', // 改为 GET
+    method: 'get', // 改為 GET
     response: ({ url }) => {
       try {
-        // 从 URL 提取动态参数（例如 id）
+        // 從 URL 提取動態參數（例如 id）
         const segments = url.split('/');
-        const id = segments[segments.length - 3]; // 倒数第三段作为 id
-        const page = segments[segments.length - 1]; // 倒数第一段作为 page
+        const id = segments[segments.length - 3]; // 倒數第三段作為 id
+        const page = segments[segments.length - 1]; // 倒數第一段作為 page
 
-        // 返回的 mock 数据
+        // 返回的 mock 數據
         return {
           msg: 'ok',
           data: {
@@ -1042,7 +1042,7 @@ export default [
               {
                 id: 1507,
                 url: 'https://picsum.photos/150/150?random=1',
-                name: '龙',
+                name: '龍',
                 path: 'public/675fd38cca07c.jpg',
                 create_time: '2024-12-16 15:15:24',
                 update_time: '2024-12-16 15:15:29',
@@ -1072,13 +1072,13 @@ export default [
   },
 
   {
-    url: /^\/api\/admin\/image\/\d+$/, // 使用正则表达式匹配类似 /api/admin/image/1507 的路径
+    url: /^\/api\/admin\/image\/\d+$/, // 使用正則表達式匹配類似 /api/admin/image/1507 的路徑
     method: 'post',
     response: ({ url, body, headers }) => {
-      const id = url.split('/').pop(); // 从 URL 中提取 id
+      const id = url.split('/').pop(); // 從 URL 中提取 id
       const { name } = body;
 
-      // 验证 headers 中的 cookie 是否正确
+      // 驗證 headers 中的 cookie 是否正確
       if (
         !headers['cookie'] ||
         !headers['cookie'].includes('admin-token=mock-token-123456')
@@ -1089,7 +1089,7 @@ export default [
         };
       }
 
-      // 返回模拟资料
+      // 返回模擬資料
       return {
         code: 200,
         msg: 'Image updated successfully',
@@ -1102,12 +1102,12 @@ export default [
   },
 
   {
-    url: '/api/admin/image/delete_all', // 精确匹配 API 路径
+    url: '/api/admin/image/delete_all', // 精確匹配 API 路徑
     method: 'post',
     response: ({ body, headers }) => {
       const { ids } = body;
 
-      // 验证 headers 中的 cookie 是否正确
+      // 驗證 headers 中的 cookie 是否正確
       if (
         !headers['cookie'] ||
         !headers['cookie'].includes('admin-token=mock-token-123456')
@@ -1118,7 +1118,7 @@ export default [
         };
       }
 
-      // 验证 ids 是否为阵列
+      // 驗證 ids 是否為陣列
       if (!Array.isArray(ids) || ids.length === 0) {
         return {
           code: 400,
@@ -1126,7 +1126,7 @@ export default [
         };
       }
 
-      // 模拟成功回应
+      // 模擬成功回應
       return {
         code: 200,
         msg: 'Images deleted successfully',
@@ -1138,12 +1138,12 @@ export default [
   },
 
   {
-    // 使用正则匹配动态参数，例如 /api/admin/image_class/:id
+    // 使用正則匹配動態參數，例如 /api/admin/image_class/:id
     url: /^\/api\/admin\/notice\/\d+$/,
     method: 'get',
     response: ({ url }) => {
-      // 从 URL 提取动态参数（例如 id）
-      const id = url.split('/').pop(); // 获取最后一段作为 id
+      // 從 URL 提取動態參數（例如 id）
+      const id = url.split('/').pop(); // 獲取最後一段作為 id
 
       if (id === '1') {
         return {
@@ -1168,8 +1168,8 @@ export default [
               },
               {
                 id: 1215,
-                title: '第一条公告',
-                content: '第一条公告',
+                title: '第一條公告',
+                content: '第一條公告',
                 order: 50,
                 create_time: '2024-12-25 11:44:52',
                 update_time: '2024-12-25 11:44:52',
@@ -1200,18 +1200,18 @@ export default [
           title,
           create_time: now,
           update_time: now,
-          id: '1301', // 模拟 ID
+          id: '1301', // 模擬 ID
         },
       };
     },
   },
 
   {
-    url: /^\/api\/admin\/notice\/\d+\/delete$/, // 使用正则匹配动态路由
+    url: /^\/api\/admin\/notice\/\d+\/delete$/, // 使用正則匹配動態路由
     method: 'post',
     response: ({ url }) => {
-      // 从 URL 中提取动态参数（例如 ID）
-      const id = url.split('/').slice(-2, -1)[0]; // 获取倒数第二段作为 ID
+      // 從 URL 中提取動態參數（例如 ID）
+      const id = url.split('/').slice(-2, -1)[0]; // 獲取倒數第二段作為 ID
       return {
         msg: 'ok',
         data: {
@@ -1222,11 +1222,11 @@ export default [
   },
 
   {
-    url: /^\/api\/admin\/notice\/\d+$/, // 正则匹配动态路由，结尾不包含斜杠
+    url: /^\/api\/admin\/notice\/\d+$/, // 正則匹配動態路由，結尾不包含斜槓
     method: 'post',
     response: ({ url }) => {
-      // 从 URL 中提取动态参数（例如 ID）
-      const id = url.split('/').slice(-1)[0]; // 获取最后一段作为 ID
+      // 從 URL 中提取動態參數（例如 ID）
+      const id = url.split('/').slice(-1)[0]; // 獲取最後一段作為 ID
       return {
         msg: 'ok',
         data: {
@@ -1237,10 +1237,10 @@ export default [
   },
 
   // {
-  //   url: /^\/api\/admin\/manager\/\d+$/, // 正则匹配动态路由
+  //   url: /^\/api\/admin\/manager\/\d+$/, // 正則匹配動態路由
   //   method: 'get', // 如果是 GET 方法
   //   response: ({ url }) => {
-  //     const id = url.split('/').slice(-1)[0]; // 提取动态参数 ID
+  //     const id = url.split('/').slice(-1)[0]; // 提取動態參數 ID
   //     return {
   //       msg: 'ok',
   //       data: {
@@ -1264,13 +1264,13 @@ export default [
   //             status: 1,
   //             create_time: '2025-01-07 19:04:47',
   //             update_time: '2025-01-07 19:04:47',
-  //             username: '运营test',
+  //             username: '運營test',
   //             avatar: '',
   //             role_id: 3,
   //             super: 0,
   //             role: {
   //               id: 3,
-  //               name: '运营',
+  //               name: '運營',
   //             },
   //           },
   //           {
@@ -1284,7 +1284,7 @@ export default [
   //             super: 0,
   //             role: {
   //               id: 2,
-  //               name: '超级管理员',
+  //               name: '超級管理員',
   //             },
   //           },
   //           {
@@ -1292,13 +1292,13 @@ export default [
   //             status: 1,
   //             create_time: '1970-01-01 08:32:50',
   //             update_time: '2025-01-05 16:40:23',
-  //             username: '技术测试看看',
+  //             username: '技術測試看看',
   //             avatar: '',
   //             role_id: 21,
   //             super: 0,
   //             role: {
   //               id: 21,
-  //               name: '技术',
+  //               name: '技術',
   //             },
   //           },
 
@@ -1313,7 +1313,7 @@ export default [
   //             super: 0,
   //             role: {
   //               id: 38,
-  //               name: '测试角色',
+  //               name: '測試角色',
   //             },
   //           },
   //         ],
@@ -1321,39 +1321,39 @@ export default [
   //         roles: [
   //           {
   //             id: 2,
-  //             name: '超级管理员',
+  //             name: '超級管理員',
   //           },
   //           {
   //             id: 3,
-  //             name: '运营',
+  //             name: '運營',
   //           },
   //           {
   //             id: 9,
-  //             name: '测试',
+  //             name: '測試',
   //           },
   //           {
   //             id: 19,
-  //             name: '销售',
+  //             name: '銷售',
   //           },
   //           {
   //             id: 21,
-  //             name: '技术',
+  //             name: '技術',
   //           },
   //           {
   //             id: 31,
-  //             name: '测试的故',
+  //             name: '測試的故',
   //           },
   //           {
   //             id: 35,
-  //             name: '普通管理员',
+  //             name: '普通管理員',
   //           },
   //           {
   //             id: 36,
-  //             name: '后勤1',
+  //             name: '後勤1',
   //           },
   //           {
   //             id: 38,
-  //             name: '测试角色',
+  //             name: '測試角色',
   //           },
   //         ],
   //       },
@@ -1361,14 +1361,14 @@ export default [
   //   },
   // },
   {
-    url: /^\/api\/admin\/manager\/\d+$/, // 修正为包含 /api
+    url: /^\/api\/admin\/manager\/\d+$/, // 修正為包含 /api
     method: 'get',
     response: ({ url, query }) => {
-      // 提取动态参数 ID
+      // 提取動態參數 ID
       const id = url.split('/').slice(-1)[0];
-      const keyword = query?.keyword || ''; // 过滤条件：关键字
+      const keyword = query?.keyword || ''; // 過濾條件：關鍵字
 
-      // Mock 数据
+      // Mock 數據
       const allData = [
         {
           id: 1040,
@@ -1381,7 +1381,7 @@ export default [
           super: 0,
           role: {
             id: 31,
-            name: '测试角色1',
+            name: '測試角色1',
           },
         },
         {
@@ -1389,13 +1389,13 @@ export default [
           status: 1,
           create_time: '2025-01-07 19:04:47',
           update_time: '2025-01-07 19:04:47',
-          username: '运营测试',
+          username: '運營測試',
           avatar: '',
           role_id: 3,
           super: 0,
           role: {
             id: 3,
-            name: '运营',
+            name: '運營',
           },
         },
         {
@@ -1409,7 +1409,7 @@ export default [
           super: 0,
           role: {
             id: 2,
-            name: '超级管理员',
+            name: '超級管理員',
           },
         },
         {
@@ -1417,13 +1417,13 @@ export default [
           status: 1,
           create_time: '1970-01-01 08:32:50',
           update_time: '2025-01-05 16:40:23',
-          username: '技术测试看看',
+          username: '技術測試看看',
           avatar: '',
           role_id: 21,
           super: 0,
           role: {
             id: 21,
-            name: '技术',
+            name: '技術',
           },
         },
         {
@@ -1437,12 +1437,12 @@ export default [
           super: 0,
           role: {
             id: 38,
-            name: '测试角色2',
+            name: '測試角色2',
           },
         },
       ];
 
-      // 过滤数据
+      // 過濾數據
       const filteredData = allData.filter((item) =>
         keyword ? item.username.includes(keyword) : true
       );
@@ -1453,15 +1453,15 @@ export default [
           list: filteredData,
           totalCount: filteredData.length,
           roles: [
-            { id: 2, name: '超级管理员' },
-            { id: 3, name: '运营' },
-            { id: 9, name: '测试' },
-            { id: 19, name: '销售' },
-            { id: 21, name: '技术' },
-            { id: 31, name: '测试角色1' },
-            { id: 35, name: '普通管理员' },
-            { id: 36, name: '后勤1' },
-            { id: 38, name: '测试角色2' },
+            { id: 2, name: '超級管理員' },
+            { id: 3, name: '運營' },
+            { id: 9, name: '測試' },
+            { id: 19, name: '銷售' },
+            { id: 21, name: '技術' },
+            { id: 31, name: '測試角色1' },
+            { id: 35, name: '普通管理員' },
+            { id: 36, name: '後勤1' },
+            { id: 38, name: '測試角色2' },
           ],
         },
       };
@@ -1469,80 +1469,80 @@ export default [
   },
 
   {
-    url: /^\/api\/admin\/manager\/\d+\/(0|1)$/, // POST 接口：更新管理员状态
+    url: /^\/api\/admin\/manager\/\d+\/(0|1)$/, // POST 接口：更新管理員狀態
     method: 'post',
     response: ({ url }) => {
       const [id, status] = url.split('/').slice(-2);
 
-      // 更新成功的回应模拟
+      // 更新成功的回應模擬
       return {
-        msg: '状态更新成功',
+        msg: '狀態更新成功',
         data: {
           id: Number(id),
-          status: Number(status), // 回应最新的状态
+          status: Number(status), // 回應最新的狀態
         },
       };
     },
   },
 
   {
-    url: /^\/api\/admin\/manager\/\d+\/delete$/, // 匹配路径
+    url: /^\/api\/admin\/manager\/\d+\/delete$/, // 匹配路徑
     method: 'post',
     response: ({ url }) => {
       const id = url.split('/').slice(-2)[0];
       return {
-        msg: `管理员 ID ${id} 删除成功`,
+        msg: `管理員 ID ${id} 刪除成功`,
         data: { id: Number(id) },
       };
     },
   },
 
-  // 创建管理员的 Mock 配置
+  // 創建管理員的 Mock 配置
 
   {
-    url: /^\/api\/admin\/manager$/, // 匹配路径 `/admin/manager`
+    url: /^\/api\/admin\/manager$/, // 匹配路徑 `/admin/manager`
     method: 'post',
     response: ({ body }) => {
       const newManager = {
-        id: Math.floor(Math.random() * 1000) + 1000, // 随机生成 ID
-        create_time: new Date().toISOString(), // 当前时间
-        update_time: new Date().toISOString(), // 当前时间
-        status: 1, // 默认状态为启用
-        ...body, // 传入的管理员数据
+        id: Math.floor(Math.random() * 1000) + 1000, // 隨機生成 ID
+        create_time: new Date().toISOString(), // 當前時間
+        update_time: new Date().toISOString(), // 當前時間
+        status: 1, // 默認狀態為啟用
+        ...body, // 傳入的管理員數據
       };
 
       return {
-        msg: '管理员创建成功',
+        msg: '管理員創建成功',
         data: newManager,
       };
     },
   },
 
-  // 更新管理员信息的 Mock
+  // 更新管理員信息的 Mock
   {
-    url: /^\/api\/admin\/manager\/\d+$/, // 匹配路径 `/admin/manager/:id`
+    url: /^\/api\/admin\/manager\/\d+$/, // 匹配路徑 `/admin/manager/:id`
     method: 'post',
     response: ({ url, body }) => {
-      const id = url.split('/').slice(-1)[0]; // 提取动态参数 ID
-      const updatedData = body; // 获取传入的更新数据
+      const id = url.split('/').slice(-1)[0]; // 提取動態參數 ID
+      const updatedData = body; // 獲取傳入的更新數據
       return {
-        msg: `管理员 ID ${id} 更新成功`,
+        msg: `管理員 ID ${id} 更新成功`,
         data: {
           id: Number(id),
-          ...updatedData, // 返回更新后的数据
+          ...updatedData, // 返回更新後的數據
         },
       };
     },
   },
 
   {
-    // 获取规则列表的 Mock 配置
-    url: /^\/api\/admin\/rule\/\d+$/, // 匹配路径 `/admin/rule/:page`
+    // 獲取規則列表的 Mock 配置
+    url: /^\/api\/admin\/rule\/\d+$/, // 匹配路徑 `/admin/rule/:page`
     method: 'get',
     response: ({ url }) => {
-      const page = url.split('/').slice(-1)[0]; // 提取页码
+      const page = url.split('/').slice(-1)[0]; // 提取頁碼
 
-      // Mock 数据
+      // Mock 數據
       const mockData = {
         list: [
           {
@@ -1551,7 +1551,7 @@ export default [
             status: 1,
             create_time: '2024-08-11 13:36:09',
             update_time: '2024-12-21 19:31:11',
-            name: '后台面板',
+            name: '後臺面板',
             desc: 'index',
             frontpath: null,
             condition: null,
@@ -1566,7 +1566,7 @@ export default [
                 status: 1,
                 create_time: '2024-08-11 13:37:02',
                 update_time: '2024-12-21 20:21:23',
-                name: '主控台',
+                name: '主控臺',
                 desc: 'index',
                 frontpath: '/',
                 condition: null,
@@ -1581,7 +1581,7 @@ export default [
                     status: 1,
                     create_time: '2024-06-18 00:04:13',
                     update_time: '2024-06-18 00:04:13',
-                    name: '后台面板统计1',
+                    name: '後臺面板統計1',
                     desc: '',
                     frontpath: '',
                     condition: 'getStatistics1',
@@ -1597,7 +1597,7 @@ export default [
                     status: 1,
                     create_time: '2024-06-18 00:04:42',
                     update_time: '2024-06-18 00:04:42',
-                    name: '后台面板统计2',
+                    name: '後臺面板統計2',
                     desc: '',
                     frontpath: '',
                     condition: 'getStatistics2',
@@ -1613,7 +1613,7 @@ export default [
                     status: 1,
                     create_time: '2024-06-18 00:04:42',
                     update_time: '2024-06-18 00:04:42',
-                    name: '后台面板统计2',
+                    name: '後臺面板統計2',
                     desc: '',
                     frontpath: '',
                     condition: 'getStatistics2',
@@ -1629,7 +1629,7 @@ export default [
                     status: 1,
                     create_time: '2024-06-18 00:04:53',
                     update_time: '2024-06-18 00:04:53',
-                    name: '后台面板统计3',
+                    name: '後臺面板統計3',
                     desc: '',
                     frontpath: '',
                     condition: 'getStatistics3',
@@ -1679,7 +1679,7 @@ export default [
                     status: 1,
                     create_time: '2024-01-14 00:38:53',
                     update_time: '2024-06-17 23:42:15',
-                    name: '商品列表分页',
+                    name: '商品列表分頁',
                     desc: '',
                     frontpath: '',
                     condition: 'getGoodsList',
@@ -1711,7 +1711,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 16:03:00',
                     update_time: '2024-06-17 23:47:04',
-                    name: '配置商品规格',
+                    name: '配置商品規格',
                     desc: '',
                     frontpath: '',
                     condition: 'updateGoodsSkus',
@@ -1727,7 +1727,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 16:04:52',
                     update_time: '2024-06-17 23:47:16',
-                    name: '配置商品轮播图',
+                    name: '配置商品輪播圖',
                     desc: '',
                     frontpath: '',
                     condition: 'setGoodsBanner',
@@ -1743,7 +1743,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 16:06:47',
                     update_time: '2024-06-17 23:47:31',
-                    name: '恢复商品',
+                    name: '恢復商品',
                     desc: '',
                     frontpath: '',
                     condition: 'restoreGoods',
@@ -1759,7 +1759,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 16:07:11',
                     update_time: '2024-06-17 23:47:40',
-                    name: '彻底删除商品',
+                    name: '徹底刪除商品',
                     desc: '',
                     frontpath: '',
                     condition: 'destroyGoods',
@@ -1775,7 +1775,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 16:07:28',
                     update_time: '2024-06-17 23:47:53',
-                    name: '批量删除商品',
+                    name: '批量刪除商品',
                     desc: '',
                     frontpath: '',
                     condition: 'deleteGoods',
@@ -1791,7 +1791,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 16:07:47',
                     update_time: '2024-06-17 23:48:04',
-                    name: '修改商品状态',
+                    name: '修改商品狀態',
                     desc: '',
                     frontpath: '',
                     condition: 'updateGoodsStatus',
@@ -1807,7 +1807,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 16:08:04',
                     update_time: '2024-06-17 23:48:13',
-                    name: '创建商品',
+                    name: '創建商品',
                     desc: '',
                     frontpath: '',
                     condition: 'createGoods',
@@ -1839,7 +1839,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 16:08:52',
                     update_time: '2024-06-17 23:48:31',
-                    name: '审核商品',
+                    name: '審核商品',
                     desc: '',
                     frontpath: '',
                     condition: 'checkGoods',
@@ -1855,7 +1855,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 16:09:58',
                     update_time: '2024-06-17 23:48:59',
-                    name: '创建商品规格',
+                    name: '創建商品規格',
                     desc: '',
                     frontpath: '',
                     condition: 'createGoodsSkusCard',
@@ -1871,7 +1871,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 16:10:19',
                     update_time: '2024-06-17 23:49:08',
-                    name: '排序商品规格',
+                    name: '排序商品規格',
                     desc: '',
                     frontpath: '',
                     condition: 'sortGoodsSkusCard',
@@ -1887,7 +1887,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 16:10:39',
                     update_time: '2024-06-17 23:49:21',
-                    name: '更新商品规格',
+                    name: '更新商品規格',
                     desc: '',
                     frontpath: '',
                     condition: 'updateGoodsSkusCard',
@@ -1903,7 +1903,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 16:11:01',
                     update_time: '2024-06-17 23:49:38',
-                    name: '删除商品规格',
+                    name: '刪除商品規格',
                     desc: '',
                     frontpath: '',
                     condition: 'deleteGoodsSkusCard',
@@ -1919,7 +1919,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 16:11:59',
                     update_time: '2024-06-17 23:49:54',
-                    name: '创建指定商品规格的值',
+                    name: '創建指定商品規格的值',
                     desc: '',
                     frontpath: '',
                     condition: 'createGoodsSkusCardValue',
@@ -1935,7 +1935,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 16:12:51',
                     update_time: '2024-06-17 23:50:19',
-                    name: '更新指定商品规格的值',
+                    name: '更新指定商品規格的值',
                     desc: '',
                     frontpath: '',
                     condition: 'updateGoodsSkusCardValue',
@@ -1951,7 +1951,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 16:13:14',
                     update_time: '2024-06-17 23:50:31',
-                    name: '删除指定商品规格的值',
+                    name: '刪除指定商品規格的值',
                     desc: '',
                     frontpath: '',
                     condition: 'deleteGoodsSkusCardValue',
@@ -1969,7 +1969,7 @@ export default [
                 status: 1,
                 create_time: '2024-12-28 13:44:00',
                 update_time: '2024-12-21 20:22:00',
-                name: '分类管理',
+                name: '分類管理',
                 desc: 'shop_category_list',
                 frontpath: '/category/list',
                 condition: '',
@@ -1984,7 +1984,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 14:06:31',
                     update_time: '2024-06-17 23:50:43',
-                    name: '分类列表',
+                    name: '分類列表',
                     desc: '',
                     frontpath: '',
                     condition: 'getCategoryList',
@@ -2000,7 +2000,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 14:06:54',
                     update_time: '2024-02-25 14:06:54',
-                    name: '创建分类',
+                    name: '創建分類',
                     desc: '',
                     frontpath: '',
                     condition: 'createCategory',
@@ -2016,7 +2016,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 14:07:12',
                     update_time: '2024-02-25 14:07:12',
-                    name: '分类排序',
+                    name: '分類排序',
                     desc: '',
                     frontpath: '',
                     condition: 'sortCategory',
@@ -2032,7 +2032,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 14:07:28',
                     update_time: '2024-02-25 14:07:28',
-                    name: '更新分类',
+                    name: '更新分類',
                     desc: '',
                     frontpath: '',
                     condition: 'updateCategory',
@@ -2048,7 +2048,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 14:07:49',
                     update_time: '2024-02-25 14:07:49',
-                    name: '更新分类状态',
+                    name: '更新分類狀態',
                     desc: '',
                     frontpath: '',
                     condition: 'updateCategoryStatus',
@@ -2064,7 +2064,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 14:08:58',
                     update_time: '2024-02-25 14:08:58',
-                    name: '删除分类',
+                    name: '刪除分類',
                     desc: '',
                     frontpath: '',
                     condition: 'deleteCategory',
@@ -2080,7 +2080,7 @@ export default [
                     status: 1,
                     create_time: '2024-06-14 17:40:59',
                     update_time: '2024-06-14 17:41:19',
-                    name: '分类下的推荐列表',
+                    name: '分類下的推薦列表',
                     desc: '',
                     frontpath: '',
                     condition: 'getCategoryGoods',
@@ -2096,7 +2096,7 @@ export default [
                     status: 1,
                     create_time: '2024-06-14 17:41:46',
                     update_time: '2024-06-14 17:41:46',
-                    name: '添加分类推荐',
+                    name: '添加分類推薦',
                     desc: '',
                     frontpath: '',
                     condition: 'connectCategoryGoods',
@@ -2112,7 +2112,7 @@ export default [
                     status: 1,
                     create_time: '2024-06-14 17:42:11',
                     update_time: '2024-06-14 17:42:39',
-                    name: '删除分类推荐',
+                    name: '刪除分類推薦',
                     desc: '',
                     frontpath: '',
                     condition: 'deleteCategoryGoods',
@@ -2130,7 +2130,7 @@ export default [
                 status: 1,
                 create_time: '2024-12-28 13:44:32',
                 update_time: '2024-12-21 20:22:11',
-                name: '规格管理',
+                name: '規格管理',
                 desc: 'shop_sku_list',
                 frontpath: '/skus/list',
                 condition: '',
@@ -2145,7 +2145,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 14:09:17',
                     update_time: '2024-02-25 14:09:17',
-                    name: '商品规格分类',
+                    name: '商品規格分類',
                     desc: '',
                     frontpath: '',
                     condition: 'getSkusList',
@@ -2161,7 +2161,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 14:09:31',
                     update_time: '2024-02-25 14:09:31',
-                    name: '创建规格',
+                    name: '創建規格',
                     desc: '',
                     frontpath: '',
                     condition: 'createSkus',
@@ -2177,7 +2177,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 14:09:47',
                     update_time: '2024-02-25 14:09:47',
-                    name: '批量删除规格',
+                    name: '批量刪除規格',
                     desc: '',
                     frontpath: '',
                     condition: 'deleteSkus',
@@ -2193,7 +2193,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 14:10:01',
                     update_time: '2024-02-25 14:10:01',
-                    name: '更新规格',
+                    name: '更新規格',
                     desc: '',
                     frontpath: '',
                     condition: 'updateSkus',
@@ -2209,7 +2209,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 14:10:17',
                     update_time: '2024-02-25 14:10:17',
-                    name: '更新规格状态',
+                    name: '更新規格狀態',
                     desc: '',
                     frontpath: '',
                     condition: 'updateSkusStatus',
@@ -2227,7 +2227,7 @@ export default [
                 status: 1,
                 create_time: '2024-06-12 21:57:02',
                 update_time: '2024-12-21 20:22:52',
-                name: '优惠券管理',
+                name: '優惠券管理',
                 desc: 'shop_coupon_list',
                 frontpath: '/coupon/list',
                 condition: '',
@@ -2242,7 +2242,7 @@ export default [
                     status: 1,
                     create_time: '2024-06-12 22:00:35',
                     update_time: '2024-06-12 22:00:35',
-                    name: '优惠券列表',
+                    name: '優惠券列表',
                     desc: '',
                     frontpath: '',
                     condition: 'getCouponList',
@@ -2258,7 +2258,7 @@ export default [
                     status: 1,
                     create_time: '2024-06-12 22:01:02',
                     update_time: '2024-06-12 22:01:02',
-                    name: '新增优惠券',
+                    name: '新增優惠券',
                     desc: '',
                     frontpath: '',
                     condition: 'createCoupon',
@@ -2274,7 +2274,7 @@ export default [
                     status: 1,
                     create_time: '2024-06-12 22:01:22',
                     update_time: '2024-06-12 22:01:22',
-                    name: '更新优惠券',
+                    name: '更新優惠券',
                     desc: '',
                     frontpath: '',
                     condition: 'updateCoupon',
@@ -2290,7 +2290,7 @@ export default [
                     status: 1,
                     create_time: '2024-06-12 22:01:43',
                     update_time: '2024-06-13 11:34:00',
-                    name: '失效优惠券',
+                    name: '失效優惠券',
                     desc: '',
                     frontpath: '',
                     condition: 'updateCouponStatus',
@@ -2306,7 +2306,7 @@ export default [
                     status: 1,
                     create_time: '2024-06-18 00:49:09',
                     update_time: '2024-06-18 00:49:09',
-                    name: '删除优惠券',
+                    name: '刪除優惠券',
                     desc: '',
                     frontpath: '',
                     condition: 'deleteCoupon',
@@ -2326,7 +2326,7 @@ export default [
             status: 1,
             create_time: '2024-12-21 19:38:21',
             update_time: '2024-12-21 19:38:21',
-            name: '用户管理',
+            name: '用戶管理',
             desc: '',
             frontpath: '',
             condition: '',
@@ -2341,7 +2341,7 @@ export default [
                 status: 1,
                 create_time: '2024-12-28 13:46:45',
                 update_time: '2024-12-21 20:22:35',
-                name: '用户管理',
+                name: '用戶管理',
                 desc: 'user_user-list_list',
                 frontpath: '/user/list',
                 condition: '',
@@ -2356,7 +2356,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 14:40:02',
                     update_time: '2024-02-25 14:40:02',
-                    name: '会员列表',
+                    name: '會員列表',
                     desc: '',
                     frontpath: '',
                     condition: 'getUserList',
@@ -2372,7 +2372,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 14:42:53',
                     update_time: '2024-02-25 14:42:53',
-                    name: '创建会员',
+                    name: '創建會員',
                     desc: '',
                     frontpath: '',
                     condition: 'createUser',
@@ -2388,7 +2388,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 14:43:13',
                     update_time: '2024-02-25 14:43:13',
-                    name: '更新会员',
+                    name: '更新會員',
                     desc: '',
                     frontpath: '',
                     condition: 'updateUser',
@@ -2404,7 +2404,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 14:44:04',
                     update_time: '2024-02-25 14:44:04',
-                    name: '更新会员状态',
+                    name: '更新會員狀態',
                     desc: '',
                     frontpath: '',
                     condition: 'updateUserStatus',
@@ -2420,7 +2420,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 14:44:29',
                     update_time: '2024-02-25 14:44:29',
-                    name: '删除会员',
+                    name: '刪除會員',
                     desc: '',
                     frontpath: '',
                     condition: 'deleteUser',
@@ -2438,7 +2438,7 @@ export default [
                 status: 1,
                 create_time: '2024-12-28 13:46:59',
                 update_time: '2024-12-21 20:22:44',
-                name: '会员等级',
+                name: '會員等級',
                 desc: 'user_user-level_list',
                 frontpath: '/level/list',
                 condition: '',
@@ -2453,7 +2453,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 15:29:51',
                     update_time: '2024-02-25 15:29:51',
-                    name: '会员等级列表',
+                    name: '會員等級列表',
                     desc: '',
                     frontpath: '',
                     condition: 'getUserLevelList',
@@ -2469,7 +2469,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 15:30:15',
                     update_time: '2024-02-25 15:30:15',
-                    name: '创建会员等级',
+                    name: '創建會員等級',
                     desc: '',
                     frontpath: '',
                     condition: 'createUserLevel',
@@ -2485,7 +2485,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 15:30:34',
                     update_time: '2024-02-25 15:30:34',
-                    name: '更新会员等级',
+                    name: '更新會員等級',
                     desc: '',
                     frontpath: '',
                     condition: 'updateUserLevel',
@@ -2501,7 +2501,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 15:31:06',
                     update_time: '2024-02-25 15:31:06',
-                    name: '更新会员等级状态',
+                    name: '更新會員等級狀態',
                     desc: '',
                     frontpath: '',
                     condition: 'updateUserLevelStatus',
@@ -2517,7 +2517,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 15:31:26',
                     update_time: '2024-02-25 15:31:34',
-                    name: '删除会员等级',
+                    name: '刪除會員等級',
                     desc: '',
                     frontpath: '',
                     condition: 'deleteUserLevel',
@@ -2537,7 +2537,7 @@ export default [
             status: 1,
             create_time: '2024-08-11 13:36:40',
             update_time: '2024-12-21 19:37:18',
-            name: '订单管理',
+            name: '訂單管理',
             desc: 'order_order_list',
             frontpath: null,
             condition: null,
@@ -2552,7 +2552,7 @@ export default [
                 status: 1,
                 create_time: '2024-12-28 13:45:42',
                 update_time: '2024-12-21 20:23:02',
-                name: '订单管理',
+                name: '訂單管理',
                 desc: 'order_order_list',
                 frontpath: '/order/list',
                 condition: '',
@@ -2567,7 +2567,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 14:35:03',
                     update_time: '2024-02-25 14:35:03',
-                    name: '订单列表',
+                    name: '訂單列表',
                     desc: '',
                     frontpath: '',
                     condition: 'getOrderList',
@@ -2583,7 +2583,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 14:36:24',
                     update_time: '2024-02-25 14:36:24',
-                    name: '批量删除订单',
+                    name: '批量刪除訂單',
                     desc: '',
                     frontpath: '',
                     condition: 'deleteOrder',
@@ -2599,7 +2599,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 14:36:49',
                     update_time: '2024-02-25 14:36:49',
-                    name: '订单发货',
+                    name: '訂單發貨',
                     desc: '',
                     frontpath: '',
                     condition: 'shipOrder',
@@ -2615,7 +2615,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 14:37:30',
                     update_time: '2024-02-25 14:37:30',
-                    name: '拒绝/同意退货',
+                    name: '拒絕/同意退貨',
                     desc: '',
                     frontpath: '',
                     condition: 'refundOrder',
@@ -2631,7 +2631,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 14:37:48',
                     update_time: '2024-02-25 14:37:48',
-                    name: '导出订单',
+                    name: '導出訂單',
                     desc: '',
                     frontpath: '',
                     condition: 'exportOrder',
@@ -2663,7 +2663,7 @@ export default [
                     status: 1,
                     create_time: '2024-06-18 00:59:26',
                     update_time: '2024-06-18 00:59:26',
-                    name: '获取快递列表',
+                    name: '獲取快遞列表',
                     desc: '',
                     frontpath: '',
                     condition: 'getExpressCompanyList',
@@ -2681,7 +2681,7 @@ export default [
                 status: 1,
                 create_time: '2024-12-28 13:44:56',
                 update_time: '2024-12-21 20:22:26',
-                name: '评论管理',
+                name: '評論管理',
                 desc: 'shop_comment_list',
                 frontpath: '/comment/list',
                 condition: '',
@@ -2696,7 +2696,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 14:38:34',
                     update_time: '2024-02-25 14:38:34',
-                    name: '评论列表',
+                    name: '評論列表',
                     desc: '',
                     frontpath: '',
                     condition: 'getCommentList',
@@ -2712,7 +2712,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 14:39:00',
                     update_time: '2024-02-25 14:39:00',
-                    name: '回复评论',
+                    name: '回覆評論',
                     desc: '',
                     frontpath: '',
                     condition: 'reviewComment',
@@ -2728,7 +2728,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 14:39:25',
                     update_time: '2024-02-25 14:39:25',
-                    name: '更新评论状态',
+                    name: '更新評論狀態',
                     desc: '',
                     frontpath: '',
                     condition: 'updateCommentStatus',
@@ -2748,7 +2748,7 @@ export default [
             status: 1,
             create_time: '2024-08-11 13:36:43',
             update_time: '2024-12-21 19:37:25',
-            name: '管理员管理',
+            name: '管理員管理',
             desc: 'user_user-list_list',
             frontpath: null,
             condition: null,
@@ -2763,7 +2763,7 @@ export default [
                 status: 1,
                 create_time: '2024-12-28 13:47:39',
                 update_time: '2024-12-21 20:23:53',
-                name: '管理员管理',
+                name: '管理員管理',
                 desc: 'set_manager',
                 frontpath: '/manager/list',
                 condition: '',
@@ -2778,7 +2778,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 15:33:19',
                     update_time: '2024-02-25 15:33:19',
-                    name: '删除管理员',
+                    name: '刪除管理員',
                     desc: '',
                     frontpath: '',
                     condition: 'deleteManager',
@@ -2794,7 +2794,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 15:33:54',
                     update_time: '2024-02-25 15:33:54',
-                    name: '管理员列表',
+                    name: '管理員列表',
                     desc: '',
                     frontpath: '',
                     condition: 'getManagerList',
@@ -2810,7 +2810,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 15:34:11',
                     update_time: '2024-02-25 15:34:11',
-                    name: '创建管理员',
+                    name: '創建管理員',
                     desc: '',
                     frontpath: '',
                     condition: 'createManager',
@@ -2826,7 +2826,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 15:34:29',
                     update_time: '2024-02-25 15:34:29',
-                    name: '更新管理员',
+                    name: '更新管理員',
                     desc: '',
                     frontpath: '',
                     condition: 'updateManager',
@@ -2842,7 +2842,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 15:34:46',
                     update_time: '2024-02-25 15:34:46',
-                    name: '更新管理员状态',
+                    name: '更新管理員狀態',
                     desc: '',
                     frontpath: '',
                     condition: 'updateManagerStatus',
@@ -2860,7 +2860,7 @@ export default [
                 status: 1,
                 create_time: '2024-01-03 21:05:50',
                 update_time: '2024-12-21 20:24:04',
-                name: '权限管理',
+                name: '權限管理',
                 desc: '',
                 frontpath: '/access/list',
                 condition: '',
@@ -2875,7 +2875,7 @@ export default [
                     status: 1,
                     create_time: '2024-01-03 21:06:50',
                     update_time: '2024-01-03 21:06:50',
-                    name: '添加规则',
+                    name: '添加規則',
                     desc: '',
                     frontpath: null,
                     condition: 'createRule',
@@ -2891,7 +2891,7 @@ export default [
                     status: 1,
                     create_time: '2024-01-03 21:09:31',
                     update_time: '2024-01-03 21:09:31',
-                    name: '更新规则',
+                    name: '更新規則',
                     desc: '',
                     frontpath: null,
                     condition: 'updateRule',
@@ -2907,7 +2907,7 @@ export default [
                     status: 1,
                     create_time: '2024-01-03 21:09:49',
                     update_time: '2024-02-05 03:13:31',
-                    name: '删除规则',
+                    name: '刪除規則',
                     desc: '',
                     frontpath: null,
                     condition: 'deleteRule',
@@ -2923,7 +2923,7 @@ export default [
                     status: 1,
                     create_time: '2024-01-03 21:10:10',
                     update_time: '2024-01-03 21:10:10',
-                    name: '规则列表',
+                    name: '規則列表',
                     desc: '',
                     frontpath: null,
                     condition: 'getRuleList',
@@ -2939,7 +2939,7 @@ export default [
                     status: 1,
                     create_time: '2024-01-03 21:10:59',
                     update_time: '2024-01-03 21:10:59',
-                    name: '更新规则状态',
+                    name: '更新規則狀態',
                     desc: '',
                     frontpath: null,
                     condition: 'updateRuleStatus',
@@ -3004,7 +3004,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-05 03:14:00',
                     update_time: '2024-02-05 03:14:00',
-                    name: '删除角色',
+                    name: '刪除角色',
                     desc: '',
                     frontpath: '',
                     condition: 'deleteRole',
@@ -3036,7 +3036,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-05 03:14:53',
                     update_time: '2024-02-05 03:14:53',
-                    name: '更新角色状态',
+                    name: '更新角色狀態',
                     desc: '',
                     frontpath: '',
                     condition: 'updateRoleStatus',
@@ -3052,7 +3052,7 @@ export default [
                     status: 1,
                     create_time: '2024-06-18 00:45:07',
                     update_time: '2024-06-18 00:45:07',
-                    name: '给角色配置权限',
+                    name: '給角色配置權限',
                     desc: '',
                     frontpath: '',
                     condition: 'setRoleRules',
@@ -3072,7 +3072,7 @@ export default [
             status: 1,
             create_time: '2024-08-11 13:36:50',
             update_time: '2024-12-21 19:10:15',
-            name: '系统设置',
+            name: '系統設置',
             desc: 'set_base',
             frontpath: null,
             condition: null,
@@ -3087,7 +3087,7 @@ export default [
                 status: 1,
                 create_time: '2024-12-28 13:47:15',
                 update_time: '2024-12-21 20:23:12',
-                name: '基础设置',
+                name: '基礎設置',
                 desc: 'set_base',
                 frontpath: '/setting/base',
                 condition: '',
@@ -3102,7 +3102,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 15:48:27',
                     update_time: '2024-02-25 15:51:25',
-                    name: '获取配置信息',
+                    name: '獲取配置信息',
                     desc: '',
                     frontpath: '',
                     condition: 'getSysSetting',
@@ -3118,7 +3118,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 15:50:40',
                     update_time: '2024-02-25 15:51:42',
-                    name: '设置配置信息',
+                    name: '設置配置信息',
                     desc: '',
                     frontpath: '',
                     condition: 'setSysSetting',
@@ -3136,7 +3136,7 @@ export default [
                 status: 1,
                 create_time: '2024-12-28 13:47:57',
                 update_time: '2024-12-21 20:23:22',
-                name: '交易设置',
+                name: '交易設置',
                 desc: 'set_payment',
                 frontpath: '/setting/buy',
                 condition: '',
@@ -3151,7 +3151,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 15:50:10',
                     update_time: '2024-02-25 15:52:33',
-                    name: '上传相关配置文件',
+                    name: '上傳相關配置文件',
                     desc: '',
                     frontpath: '',
                     condition: 'sysconfigUpload',
@@ -3167,7 +3167,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 15:58:40',
                     update_time: '2024-02-25 15:58:40',
-                    name: '获取配置',
+                    name: '獲取配置',
                     desc: '',
                     frontpath: '',
                     condition: 'getSysSetting',
@@ -3183,7 +3183,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 15:58:54',
                     update_time: '2024-02-25 15:58:54',
-                    name: '设置配置',
+                    name: '設置配置',
                     desc: '',
                     frontpath: '',
                     condition: 'setSysSetting',
@@ -3201,7 +3201,7 @@ export default [
                 status: 1,
                 create_time: '2024-12-20 13:47:27',
                 update_time: '2024-12-21 20:20:53',
-                name: '物流设置',
+                name: '物流設置',
                 desc: 'set_express',
                 frontpath: '/setting/ship',
                 condition: '',
@@ -3219,7 +3219,7 @@ export default [
             status: 1,
             create_time: '2024-06-18 00:12:10',
             update_time: '2024-06-18 00:12:10',
-            name: '分销模块',
+            name: '分銷模塊',
             desc: null,
             frontpath: '',
             condition: '',
@@ -3234,7 +3234,7 @@ export default [
                 status: 1,
                 create_time: '2024-06-18 00:14:58',
                 update_time: '2024-06-18 00:14:58',
-                name: '分销员管理',
+                name: '分銷員管理',
                 desc: null,
                 frontpath: '/distribution/index',
                 condition: '',
@@ -3249,7 +3249,7 @@ export default [
                     status: 1,
                     create_time: '2024-07-27 18:15:57',
                     update_time: '2024-07-27 18:15:57',
-                    name: '分销数据统计',
+                    name: '分銷數據統計',
                     desc: null,
                     frontpath: '',
                     condition: 'getAgentStatistics',
@@ -3265,7 +3265,7 @@ export default [
                     status: 1,
                     create_time: '2024-07-27 18:16:14',
                     update_time: '2024-07-27 18:16:14',
-                    name: '分销推广员列表',
+                    name: '分銷推廣員列表',
                     desc: null,
                     frontpath: '',
                     condition: 'getAgentList',
@@ -3281,7 +3281,7 @@ export default [
                     status: 1,
                     create_time: '2024-07-27 18:16:32',
                     update_time: '2024-07-27 18:16:32',
-                    name: '推广订单列表',
+                    name: '推廣訂單列表',
                     desc: null,
                     frontpath: '',
                     condition: 'getUserBillList',
@@ -3299,7 +3299,7 @@ export default [
                 status: 1,
                 create_time: '2024-06-18 00:15:25',
                 update_time: '2024-06-18 00:15:25',
-                name: '分销设置',
+                name: '分銷設置',
                 desc: null,
                 frontpath: '/distribution/setting',
                 condition: '',
@@ -3314,7 +3314,7 @@ export default [
                     status: 1,
                     create_time: '2024-07-27 18:16:57',
                     update_time: '2024-07-27 18:16:57',
-                    name: '获取分销配置',
+                    name: '獲取分銷配置',
                     desc: null,
                     frontpath: '',
                     condition: 'getDistributionSetting',
@@ -3330,7 +3330,7 @@ export default [
                     status: 1,
                     create_time: '2024-07-27 18:17:30',
                     update_time: '2024-07-27 18:17:30',
-                    name: '修改分销配置',
+                    name: '修改分銷配置',
                     desc: null,
                     frontpath: '',
                     condition: 'setDistributionSetting',
@@ -3350,7 +3350,7 @@ export default [
             status: 1,
             create_time: '2024-12-21 19:10:34',
             update_time: '2024-12-21 19:10:47',
-            name: '其他模块',
+            name: '其他模塊',
             desc: '',
             frontpath: '',
             condition: '',
@@ -3365,7 +3365,7 @@ export default [
                 status: 1,
                 create_time: '2024-12-28 13:38:32',
                 update_time: '2024-12-21 20:23:43',
-                name: '图库管理',
+                name: '圖庫管理',
                 desc: 'image',
                 frontpath: '/image/list',
                 condition: null,
@@ -3380,7 +3380,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 13:58:09',
                     update_time: '2024-02-25 13:58:59',
-                    name: '指定图库下的图片列表',
+                    name: '指定圖庫下的圖片列表',
                     desc: '',
                     frontpath: '',
                     condition: 'getCurrentImageList',
@@ -3396,7 +3396,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 13:59:25',
                     update_time: '2024-02-25 13:59:35',
-                    name: '图库列表',
+                    name: '圖庫列表',
                     desc: '',
                     frontpath: '',
                     condition: 'getImageClassList',
@@ -3412,7 +3412,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 13:59:52',
                     update_time: '2024-02-25 14:00:10',
-                    name: '创建图库',
+                    name: '創建圖庫',
                     desc: '',
                     frontpath: '',
                     condition: 'createImageClass',
@@ -3428,7 +3428,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 14:00:29',
                     update_time: '2024-06-08 16:43:02',
-                    name: '更新图库',
+                    name: '更新圖庫',
                     desc: '',
                     frontpath: '',
                     condition: 'updateImageClass',
@@ -3444,7 +3444,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 14:01:01',
                     update_time: '2024-02-25 14:01:10',
-                    name: '删除图库',
+                    name: '刪除圖庫',
                     desc: '',
                     frontpath: '',
                     condition: 'deleteImageClass',
@@ -3460,7 +3460,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 14:02:14',
                     update_time: '2024-02-25 14:02:14',
-                    name: '上传图片',
+                    name: '上傳圖片',
                     desc: '',
                     frontpath: '',
                     condition: 'uploadImage',
@@ -3476,7 +3476,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 14:03:22',
                     update_time: '2024-02-25 14:03:22',
-                    name: '批量删除图片',
+                    name: '批量刪除圖片',
                     desc: '',
                     frontpath: '',
                     condition: 'deleteImage',
@@ -3492,7 +3492,7 @@ export default [
                     status: 1,
                     create_time: '2024-02-25 14:03:42',
                     update_time: '2024-02-25 14:03:42',
-                    name: '更新图片',
+                    name: '更新圖片',
                     desc: '',
                     frontpath: '',
                     condition: 'updateImage',
@@ -3541,7 +3541,7 @@ export default [
                     status: 1,
                     create_time: '2024-06-11 23:32:17',
                     update_time: '2024-06-11 23:32:17',
-                    name: '创建公告',
+                    name: '創建公告',
                     desc: '',
                     frontpath: '',
                     condition: 'createNotice',
@@ -3573,7 +3573,7 @@ export default [
                     status: 1,
                     create_time: '2024-06-11 23:33:06',
                     update_time: '2024-06-11 23:33:16',
-                    name: '删除公告',
+                    name: '刪除公告',
                     desc: '',
                     frontpath: '',
                     condition: 'deleteNotice',
@@ -3596,7 +3596,7 @@ export default [
             status: 1,
             create_time: '2024-08-11 13:36:09',
             update_time: '2024-12-21 19:31:11',
-            name: '后台面板',
+            name: '後臺面板',
             desc: 'index',
             frontpath: null,
             condition: null,
@@ -3611,7 +3611,7 @@ export default [
                 status: 1,
                 create_time: '2024-08-11 13:37:02',
                 update_time: '2024-12-21 20:21:23',
-                name: '主控台',
+                name: '主控臺',
                 desc: 'index',
                 frontpath: '/',
                 condition: null,
@@ -3660,7 +3660,7 @@ export default [
                 status: 1,
                 create_time: '2024-12-28 13:44:00',
                 update_time: '2024-12-21 20:22:00',
-                name: '分类管理',
+                name: '分類管理',
                 desc: 'shop_category_list',
                 frontpath: '/category/list',
                 condition: '',
@@ -3676,7 +3676,7 @@ export default [
                 status: 1,
                 create_time: '2024-12-20 13:44:32',
                 update_time: '2024-12-21 20:22:11',
-                name: '规格管理',
+                name: '規格管理',
                 desc: 'shop_sku_list',
                 frontpath: '/skus/list',
                 condition: '',
@@ -3692,7 +3692,7 @@ export default [
                 status: 1,
                 create_time: '2024-06-12 21:57:02',
                 update_time: '2024-12-21 20:22:52',
-                name: '优惠券管理',
+                name: '優惠券管理',
                 desc: 'shop_coupon_list',
                 frontpath: '/coupon/list',
                 condition: '',
@@ -3710,7 +3710,7 @@ export default [
             status: 1,
             create_time: '2024-12-21 19:38:21',
             update_time: '2024-12-21 19:38:21',
-            name: '用户管理',
+            name: '用戶管理',
             desc: '',
             frontpath: '',
             condition: '',
@@ -3725,7 +3725,7 @@ export default [
                 status: 1,
                 create_time: '2024-12-20 13:46:45',
                 update_time: '2024-12-21 20:22:35',
-                name: '用户管理',
+                name: '用戶管理',
                 desc: 'user_user-list_list',
                 frontpath: '/user/list',
                 condition: '',
@@ -3741,7 +3741,7 @@ export default [
                 status: 1,
                 create_time: '2024-12-20 13:46:59',
                 update_time: '2024-12-21 20:22:44',
-                name: '会员等级',
+                name: '會員等級',
                 desc: 'user_user-level_list',
                 frontpath: '/level/list',
                 condition: '',
@@ -3759,7 +3759,7 @@ export default [
             status: 1,
             create_time: '2024-08-11 13:36:40',
             update_time: '2024-12-21 19:37:18',
-            name: '订单管理',
+            name: '訂單管理',
             desc: 'order_order_list',
             frontpath: null,
             condition: null,
@@ -3774,7 +3774,7 @@ export default [
                 status: 1,
                 create_time: '2024-12-20 13:45:42',
                 update_time: '2024-12-21 20:23:02',
-                name: '订单管理',
+                name: '訂單管理',
                 desc: 'order_order_list',
                 frontpath: '/order/list',
                 condition: '',
@@ -3790,7 +3790,7 @@ export default [
                 status: 1,
                 create_time: '2024-12-20 13:44:56',
                 update_time: '2024-12-21 20:22:26',
-                name: '评论管理',
+                name: '評論管理',
                 desc: 'shop_comment_list',
                 frontpath: '/comment/list',
                 condition: '',
@@ -3808,7 +3808,7 @@ export default [
             status: 1,
             create_time: '2024-08-11 13:36:43',
             update_time: '2024-12-21 19:37:25',
-            name: '管理员管理',
+            name: '管理員管理',
             desc: 'user_user-list_list',
             frontpath: null,
             condition: null,
@@ -3823,7 +3823,7 @@ export default [
                 status: 1,
                 create_time: '2024-12-20 13:47:39',
                 update_time: '2024-12-21 20:23:53',
-                name: '管理员管理',
+                name: '管理員管理',
                 desc: 'set_manager',
                 frontpath: '/manager/list',
                 condition: '',
@@ -3839,7 +3839,7 @@ export default [
                 status: 1,
                 create_time: '2024-01-03 21:05:50',
                 update_time: '2024-12-21 20:24:04',
-                name: '权限管理',
+                name: '權限管理',
                 desc: '',
                 frontpath: '/access/list',
                 condition: '',
@@ -3873,7 +3873,7 @@ export default [
             status: 1,
             create_time: '2024-08-11 13:36:50',
             update_time: '2024-12-21 19:10:15',
-            name: '系统设置',
+            name: '系統設置',
             desc: 'set_base',
             frontpath: null,
             condition: null,
@@ -3888,7 +3888,7 @@ export default [
                 status: 1,
                 create_time: '2024-12-20 13:47:15',
                 update_time: '2024-12-21 20:23:12',
-                name: '基础设置',
+                name: '基礎設置',
                 desc: 'set_base',
                 frontpath: '/setting/base',
                 condition: '',
@@ -3904,7 +3904,7 @@ export default [
                 status: 1,
                 create_time: '2024-12-20 13:47:57',
                 update_time: '2024-12-21 20:23:22',
-                name: '交易设置',
+                name: '交易設置',
                 desc: 'set_payment',
                 frontpath: '/setting/buy',
                 condition: '',
@@ -3920,7 +3920,7 @@ export default [
                 status: 1,
                 create_time: '2024-12-20 13:47:27',
                 update_time: '2024-12-21 20:20:53',
-                name: '物流设置',
+                name: '物流設置',
                 desc: 'set_express',
                 frontpath: '/setting/ship',
                 condition: '',
@@ -3938,7 +3938,7 @@ export default [
             status: 1,
             create_time: '2024-06-18 00:12:10',
             update_time: '2024-06-18 00:12:10',
-            name: '分销模块',
+            name: '分銷模塊',
             desc: null,
             frontpath: '',
             condition: '',
@@ -3953,7 +3953,7 @@ export default [
                 status: 1,
                 create_time: '2024-06-18 00:14:58',
                 update_time: '2024-06-18 00:14:58',
-                name: '分销员管理',
+                name: '分銷員管理',
                 desc: null,
                 frontpath: '/distribution/index',
                 condition: '',
@@ -3969,7 +3969,7 @@ export default [
                 status: 1,
                 create_time: '2024-06-18 00:15:25',
                 update_time: '2024-06-18 00:15:25',
-                name: '分销设置',
+                name: '分銷設置',
                 desc: null,
                 frontpath: '/distribution/setting',
                 condition: '',
@@ -3987,7 +3987,7 @@ export default [
             status: 1,
             create_time: '2024-12-21 19:10:34',
             update_time: '2024-12-21 19:10:47',
-            name: '其他模块',
+            name: '其他模塊',
             desc: '',
             frontpath: '',
             condition: '',
@@ -4002,7 +4002,7 @@ export default [
                 status: 1,
                 create_time: '2024-12-20 13:38:32',
                 update_time: '2024-12-21 20:23:43',
-                name: '图库管理',
+                name: '圖庫管理',
                 desc: 'image',
                 frontpath: '/image/list',
                 condition: null,
@@ -4081,7 +4081,7 @@ export default [
     url: /^\/api\/admin\/role\/\d+$/, // 匹配 `/admin/role/:page`
     method: 'get',
     response: ({ url }) => {
-      const page = url.match(/\d+/)[0]; // 提取页数
+      const page = url.match(/\d+/)[0]; // 提取頁數
 
       return {
         msg: 'ok',
@@ -4092,8 +4092,8 @@ export default [
               status: 1,
               create_time: '2025-02-05 11:21:06',
               update_time: '2025-02-05 14:48:33',
-              name: '管理员',
-              desc: '拥有所有权限',
+              name: '管理員',
+              desc: '擁有所有權限',
               rules: [
                 { id: 5, pivot: { id: 17108, role_id: 455, rule_id: 5 } },
                 { id: 10, pivot: { id: 17109, role_id: 455, rule_id: 10 } },
@@ -4113,7 +4113,7 @@ export default [
               status: 1,
               create_time: '2025-01-19 03:47:51',
               update_time: '2025-02-05 11:15:03',
-              name: '供应商',
+              name: '供應商',
               desc: '3333',
               rules: [
                 {
@@ -4287,7 +4287,7 @@ export default [
           list: [
             {
               id: 1084,
-              name: '测试看看',
+              name: '測試看看',
               type: 0,
               create_time: '2025-02-13 10:50:35',
               update_time: '2025-02-13 10:50:35',
@@ -4297,6 +4297,57 @@ export default [
             },
           ],
           totalCount: 1,
+          page,
+        },
+      };
+    },
+  },
+
+  {
+    url: /^\/api\/admin\/coupon\/\d+$/,
+    method: 'get',
+    response: ({ url }) => {
+      const pageMatch = url.match(/\d+/);
+      const page = pageMatch ? Number(pageMatch[0]) : 1;
+
+      return {
+        msg: 'ok',
+        data: {
+          list: [
+            {
+              id: 365,
+              name: '優惠券100',
+              type: 0,
+              value: '100.00',
+              total: 100,
+              used: 0,
+              min_price: '300.00',
+              start_time: '2025-02-15 16:09:00',
+              end_time: '2025-02-16 00:00:00',
+              status: 0,
+              create_time: '2025-02-15 16:08:12',
+              update_time: '2025-02-15 16:09:08',
+              order: 50,
+              desc: '',
+            },
+            {
+              id: 363,
+              name: '優惠券200',
+              type: 0,
+              value: '200.00',
+              total: 100,
+              used: 0,
+              min_price: '150.00',
+              start_time: '2025-02-15 23:00:00',
+              end_time: '2025-02-16 23:00:00',
+              status: 1,
+              create_time: '2025-02-15 15:32:17',
+              update_time: '2025-02-15 16:08:49',
+              order: 50,
+              desc: '',
+            },
+          ],
+          totalCount: 2,
           page,
         },
       };
