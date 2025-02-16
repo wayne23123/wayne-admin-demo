@@ -1,10 +1,10 @@
 <script setup>
 import {
-  getNoticeList,
-  createNotice,
-  updateNotice,
-  deleteNotice,
-} from '@/api/notice';
+  getCouponList,
+  createCoupon,
+  updateCoupon,
+  deleteCoupon,
+} from '@/api/coupon';
 
 import FormDrawer from '@/components/FormDrawer.vue';
 
@@ -21,8 +21,8 @@ const {
   getData,
   handleDelete,
 } = useInitTable({
-  getList: getNoticeList,
-  delete: deleteNotice,
+  getList: getCouponList,
+  delete: deleteCoupon,
 });
 
 const {
@@ -57,8 +57,8 @@ const {
   },
   //getData 從上面 useInitTable 獲取
   getData,
-  update: updateNotice,
-  create: createNotice,
+  update: updateCoupon,
+  create: createCoupon,
 });
 </script>
 
