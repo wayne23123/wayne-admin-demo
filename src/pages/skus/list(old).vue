@@ -28,9 +28,6 @@ const {
   getData,
   handleDelete,
   handleStatusChange,
-  handleSelectionChange,
-  multipleTableRef,
-  handleMultipleDelete,
 } = useInitTable({
   getList: getSkusList,
   delete: deleteSkus,
@@ -74,6 +71,42 @@ const {
   update: updateSkus,
   create: createSkus,
 });
+
+// 多選選中 ID
+const multipleSelectionIds = ref([]);
+const handleSelectionChange = (events) => {
+  // console.log('events', events);
+
+  // console.log(
+  //   'events.map(item=>item.id',
+  //   events.map((item) => item.id)
+  // );
+
+  multipleSelectionIds.value = events.map((item) => {
+    return item.id;
+  });
+};
+
+// 批量刪除
+const multipleTableRef = ref(null);
+const handleMultipleDelete = () => {
+  isLoading.value = true;
+
+  deleteSkus(multipleSelectionIds.value)
+    .then((response) => {
+      toast('刪除成功');
+
+      // 清空選中
+      if (multipleTableRef.value) {
+        multipleTableRef.value.clearSelection();
+      }
+
+      getData();
+    })
+    .finally(() => {
+      isLoading.value = false;
+    });
+};
 </script>
 
 <template>
