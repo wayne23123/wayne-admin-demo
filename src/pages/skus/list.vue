@@ -71,19 +71,65 @@ const {
   update: updateSkus,
   create: createSkus,
 });
+
+// 多選選中 ID
+const multipleSelectionIds = ref([]);
+const handleSelectionChange = (events) => {
+  // console.log('events', events);
+
+  // console.log(
+  //   'events.map(item=>item.id',
+  //   events.map((item) => item.id)
+  // );
+
+  multipleSelectionIds.value = events.map((item) => {
+    return item.id;
+  });
+};
+
+// 批量刪除
+const multipleTableRef = ref(null);
+const handleMultipleDelete = () => {
+  isLoading.value = true;
+
+  deleteSkus(multipleSelectionIds.value)
+    .then((response) => {
+      toast('刪除成功');
+
+      // 清空選中
+      if (multipleTableRef.value) {
+        multipleTableRef.value.clearSelection();
+      }
+
+      getData();
+    })
+    .finally(() => {
+      isLoading.value = false;
+    });
+};
 </script>
 
 <template>
   <!-- rpcard -->
   <el-card shadow="never" class="border-0">
-    <ListHeader @create="handleCreate" @refresh="getData"></ListHeader>
+    <ListHeader
+      @delete="handleMultipleDelete()"
+      layout="create,delete,refresh"
+      @create="handleCreate"
+      @refresh="getData"
+    ></ListHeader>
 
+    <!-- https://element-plus.org/zh-CN/component/table.html#%E5%A4%9A%E9%80%89 -->
     <el-table
+      ref="multipleTableRef"
+      @selection-change="handleSelectionChange"
       :data="tableData"
       stripe
       style="width: 100%"
       v-loading="isLoading"
     >
+      <el-table-column type="selection" :selectable="selectable" width="55" />
+
       <el-table-column prop="name" label="規格名稱" />
       <el-table-column prop="default" label="規格值" width="380" />
       <el-table-column prop="order" label="排序" />
