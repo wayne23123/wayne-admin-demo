@@ -73,8 +73,23 @@ const {
       style="width: 100%"
       v-loading="isLoading"
     >
-      <el-table-column prop="title" label="公告標題" />
-      <el-table-column prop="create_time" label="發佈時間" width="300" />
+      <el-table-column label="優惠券名稱" width="350">
+        <template #default="{ row }">
+          <div class="border border-dashed py-2 px-2 rounded">
+            <div class="text-xl font-bold">{{ row.name }}</div>
+            <div class="text-xs">{{ row.start_time }} ~ {{ row.end_time }}</div>
+          </div>
+        </template>
+      </el-table-column>
+      <el-table-column prop="statusText" label="狀態" />
+      <el-table-column label="優惠">
+        <template #default="{ row }">
+          {{ row.type ? '滿減' : '折扣' }}
+          {{ row.type ? 'NT' + row.value : row.value + '折' }}
+        </template>
+      </el-table-column>
+      <el-table-column prop="total" label="發佈數量" />
+      <el-table-column prop="used" label="已使用" />
       <el-table-column label="操作" width="180" align="center">
         <template #default="scope">
           <el-button
