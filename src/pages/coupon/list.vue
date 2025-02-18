@@ -22,8 +22,35 @@ const {
   handleDelete,
 } = useInitTable({
   getList: getCouponList,
+  onGetListSuccess: (response) => {
+    // console.log('response', response);
+
+    tableData.value = response?.data?.data?.list.map((object) => {
+      // 轉換優惠券狀態
+      object.statusText = formatStatus(object);
+
+      return object;
+    });
+
+    total.value = response?.data?.data?.totalCount;
+  },
   delete: deleteCoupon,
 });
+
+const formatStatus = (row) => {
+  let status = '領取中';
+  let startTime = new Date(row.start_time).getTime();
+  let now = new Date().getTime();
+  let endTime = new Date(row.end_time).getTime();
+  if (startTime > now) {
+    status = '尚未開始';
+  } else if (endTime < now) {
+    status = '已結束';
+  } else if (row.status == 0) {
+    status = '已失效';
+  }
+  return status;
+};
 
 const {
   formDrawerRef,
@@ -75,7 +102,10 @@ const {
     >
       <el-table-column label="優惠券名稱" width="350">
         <template #default="{ row }">
-          <div class="border border-dashed py-2 px-2 rounded">
+          <div
+            class="border border-dashed py-2 px-2 rounded"
+            :class="row.statusText == '領取中' ? 'active' : 'inactive'"
+          >
             <div class="text-xl font-bold">{{ row.name }}</div>
             <div class="text-xs">{{ row.start_time }} ~ {{ row.end_time }}</div>
           </div>
@@ -153,3 +183,13 @@ const {
     </FormDrawer>
   </el-card>
 </template>
+
+<style scoped>
+.active {
+  @apply border-rose-200 bg-rose-50 text-red-400;
+}
+
+.inactive {
+  @apply border-gray-200 bg-gray-50 text-gray-400;
+}
+</style>
