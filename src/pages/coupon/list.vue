@@ -63,24 +63,15 @@ const {
   handleEdit,
 } = useInitForm({
   form: {
-    title: '',
-    content: '',
-  },
-  rules: {
-    title: [
-      {
-        required: true,
-        message: '公告標題不能為空',
-        trigger: 'blur',
-      },
-    ],
-    content: [
-      {
-        required: true,
-        message: '公告內容不能為空',
-        trigger: 'blur',
-      },
-    ],
+    name: '',
+    type: 0,
+    value: 0,
+    total: 100,
+    min_price: 0,
+    start_time: null,
+    end_time: null,
+    order: 50,
+    desc: '',
   },
   //getData 從上面 useInitTable 獲取
   getData,
@@ -114,8 +105,8 @@ const {
       <el-table-column prop="statusText" label="狀態" />
       <el-table-column label="優惠">
         <template #default="{ row }">
-          {{ row.type ? '滿減' : '折扣' }}
-          {{ row.type ? 'NT' + row.value : row.value + '折' }}
+          {{ row.type == 0 ? '滿減' : '折扣' }}
+          {{ row.type == 0 ? 'NT' + row.value : row.value + '折' }}
         </template>
       </el-table-column>
       <el-table-column prop="total" label="發佈數量" />
@@ -167,14 +158,54 @@ const {
         label-width="80px"
         :inline="false"
       >
-        <el-form-item label="公告標題" prop="title">
-          <el-input v-model="form.title" placeholder="公告標題"></el-input>
+        <el-form-item label="優惠券名稱" prop="name">
+          <el-input
+            v-model="form.name"
+            placeholder="優惠券名稱"
+            style="width: 50%"
+          ></el-input>
         </el-form-item>
 
-        <el-form-item label="公告內容" prop="content">
+        <el-form-item label="類型" prop="type">
+          <!-- eprg -->
+          <el-radio-group v-model="form.type">
+            <el-radio :label="0">滿減</el-radio>
+            <el-radio :label="1">折扣</el-radio>
+          </el-radio-group>
+        </el-form-item>
+
+        <el-form-item label="面額" prop="value">
+          <el-input v-model="form.value" placeholder="面額" style="width: 50%">
+            <template #append>{{ form.type ? '折' : '元' }}</template>
+          </el-input>
+        </el-form-item>
+
+        <el-form-item label="發行量" prop="total">
+          <!-- epin -->
+          <el-input-number v-model="form.total" :min="0" :max="10000">
+          </el-input-number>
+        </el-form-item>
+
+        <el-form-item label="最低使用價格" prop="min_price">
           <el-input
-            v-model="form.content"
-            placeholder="公告內容"
+            v-model="form.min_price"
+            placeholder="最低使用價格"
+            type="number"
+          ></el-input>
+        </el-form-item>
+
+        <el-form-item label="排序" prop="order">
+          <!-- epin -->
+          <el-input-number v-model="form.order" :min="0" :max="1000">
+          </el-input-number>
+        </el-form-item>
+
+        <el-form-item label="活動時間"></el-form-item>
+
+        <el-form-item label="描述" prop="desc">
+          <el-input
+            v-model="form.desc"
+            placeholder="描述"
             type="textarea"
             :row="5"
           ></el-input>
