@@ -1,4 +1,6 @@
 <script setup>
+import { computed } from 'vue';
+
 import {
   getCouponList,
   createCoupon,
@@ -77,6 +79,18 @@ const {
   getData,
   update: updateCoupon,
   create: createCoupon,
+});
+
+const timerange = computed({
+  get() {
+    return form.start_time && form.end_time
+      ? [form.start_time, form.end_time]
+      : [];
+  },
+  set(value) {
+    form.start_time = value[0];
+    form.end_time = value[1];
+  },
 });
 </script>
 
@@ -200,7 +214,17 @@ const {
           </el-input-number>
         </el-form-item>
 
-        <el-form-item label="活動時間"></el-form-item>
+        <el-form-item label="活動時間">
+          <el-date-picker
+            v-model="timerange"
+            value-format="YYYY-MM-DD HH:mm:ss"
+            type="datetimerange"
+            range-separator="To"
+            start-placeholder="開始日期"
+            end-placeholder="結束日期"
+          >
+          </el-date-picker>
+        </el-form-item>
 
         <el-form-item label="描述" prop="desc">
           <el-input
