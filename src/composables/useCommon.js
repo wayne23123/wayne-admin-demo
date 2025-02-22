@@ -197,12 +197,22 @@ export function useInitForm(option = {}) {
 
       formDrawerRef.value.showLoadingButton();
 
+      let body = {};
+      if (option.onBeforeSubmit && typeof option.onBeforeSubmit == 'function') {
+        body = option.beforeSubmit({ ...form });
+      } else {
+        body = form;
+      }
+
       // const operation = editId.value
       //   ? updateManager(editId.value, form)
       //   : createManager(form);
+      // const operation = editId.value
+      // ? option.update(editId.value, form)
+      // : option.create(form);
       const operation = editId.value
-        ? option.update(editId.value, form)
-        : option.create(form);
+        ? option.update(editId.value, body)
+        : option.create(body);
 
       // createNotice(form)
       operation(editId.value || form, form)

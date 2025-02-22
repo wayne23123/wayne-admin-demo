@@ -79,6 +79,16 @@ const {
   getData,
   update: updateCoupon,
   create: createCoupon,
+
+  beforeSubmit: (form) => {
+    if (typeof form.start_time != 'number') {
+      form.start_time = new Date(form.start_time).getTime();
+    }
+    if (typeof form.end_time != 'number') {
+      form.end_time = new Date(form.end_time).getTime();
+    }
+    return form;
+  },
 });
 
 const timerange = computed({
@@ -216,6 +226,7 @@ const timerange = computed({
 
         <el-form-item label="活動時間">
           <el-date-picker
+            :editable="false"
             v-model="timerange"
             value-format="YYYY-MM-DD HH:mm:ss"
             type="datetimerange"
