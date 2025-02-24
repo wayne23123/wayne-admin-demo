@@ -13,6 +13,7 @@ import FormDrawer from '@/components/FormDrawer.vue';
 import ListHeader from '@/components/ListHeader.vue';
 
 import { useInitTable, useInitForm } from '@/composables/useCommon';
+import { updateCouponStatus } from '../../api/coupon';
 
 const {
   tableData,
@@ -22,6 +23,7 @@ const {
   isLoading,
   getData,
   handleDelete,
+  handleStatusChange,
 } = useInitTable({
   getList: getCouponList,
   onGetListSuccess: (response) => {
@@ -37,6 +39,8 @@ const {
     total.value = response?.data?.data?.totalCount;
   },
   delete: deleteCoupon,
+
+  updateStatus: updateCouponStatus,
 });
 
 const formatStatus = (row) => {
@@ -138,6 +142,7 @@ const timerange = computed({
       <el-table-column label="操作" width="180" align="center">
         <template #default="scope">
           <el-button
+            v-if="scope.row.statusText == '未開始'"
             @click="handleEdit(scope.row)"
             type="primary"
             text
@@ -146,7 +151,8 @@ const timerange = computed({
           >
 
           <el-popconfirm
-            title="是否要刪除該公告?"
+            v-if="scope.row.statusText != '領取中'"
+            title="是否要刪除該優惠券?"
             confirmButtonText="確定"
             cancelButtonText="取消"
             @confirm="handleDelete(scope.row.id)"
@@ -154,6 +160,20 @@ const timerange = computed({
             <template #reference>
               <el-button text="true" type="primary" size="small" class="px-1">
                 刪除
+              </el-button>
+            </template>
+          </el-popconfirm>
+
+          <el-popconfirm
+            v-if="scope.row.statusText == '領取中'"
+            title="是否要讓該優惠券失效?"
+            confirmButtonText="失效"
+            cancelButtonText="取消"
+            @confirm="handleStatusChange(0, scope.row)"
+          >
+            <template #reference>
+              <el-button text="true" type="danger" size="small" class="px-1">
+                失效
               </el-button>
             </template>
           </el-popconfirm>
