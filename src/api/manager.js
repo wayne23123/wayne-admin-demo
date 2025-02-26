@@ -1,4 +1,5 @@
 import axios from '@/axios';
+import { buildQueryParams } from '@/composables/util';
 
 export function login(username, password) {
   return axios.post('/admin/login', {
@@ -20,19 +21,21 @@ export function updatepassword(data) {
 }
 
 export function getManagerList(page, query = {}) {
-  let q = [];
-  for (const key in query) {
-    if (query[key]) {
-      q.push(`${key}=${encodeURIComponent(query[key])}`);
-    }
-  }
+  let queryString = buildQueryParams(query);
 
-  let r = q.join('&');
-  r = r ? '?' + r : '';
+  // let q = [];
+  // for (const key in query) {
+  //   if (query[key]) {
+  //     q.push(`${key}=${encodeURIComponent(query[key])}`);
+  //   }
+  // }
+
+  // let r = q.join('&');
+  // r = r ? '?' + r : '';
 
   // limit = 10 & keyword = ceshi
 
-  return axios.get(`/admin/manager/${page}${r}`);
+  return axios.get(`/admin/manager/${page}${queryString}`);
 }
 
 // 0禁用 1啟用

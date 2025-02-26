@@ -46,3 +46,19 @@ export function showPrompt(tip, value = '') {
     inputValue: value,
   });
 }
+
+// 將 query 物件轉成 url 參數
+export function buildQueryParams(queryObject) {
+  let queryParamsArray = [];
+
+  for (const key in queryObject) {
+    if (queryObject[key]) {
+      queryParamsArray.push(`${key}=${encodeURIComponent(queryObject[key])}`);
+    }
+  }
+
+  let queryString = queryParamsArray.join('&');
+  queryString = queryString ? '?' + queryString : '';
+
+  return queryString;
+}

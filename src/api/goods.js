@@ -1,17 +1,20 @@
 import axios from '@/axios';
+import { buildQueryParams } from '@/composables/util';
 
 export function getGoodsList(page, query = {}) {
-  let q = [];
-  for (const key in query) {
-    if (query[key]) {
-      q.push(`${key}=${encodeURIComponent(query[key])}`);
-    }
-  }
+  let queryString = buildQueryParams(query);
 
-  let r = q.join('&');
-  r = r ? '?' + r : '';
+  // let q = [];
+  // for (const key in query) {
+  //   if (query[key]) {
+  //     q.push(`${key}=${encodeURIComponent(query[key])}`);
+  //   }
+  // }
 
-  return axios.get(`/admin/goods/${page}${r}`);
+  // let r = q.join('&');
+  // r = r ? '?' + r : '';
+
+  return axios.get(`/admin/goods/${page}${queryString}`);
 }
 
 // 0禁用 1啟用
