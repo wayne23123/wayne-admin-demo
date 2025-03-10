@@ -4353,4 +4353,98 @@ export default [
       };
     },
   },
+
+  {
+    url: /^\/api\/admin\/goods\/1$/,
+    method: 'get',
+    response: ({ url }) => {
+      return {
+        msg: 'ok',
+        data: {
+          orders: [
+            {
+              order_id: 1001,
+              user_id: 1,
+              status: 'pending',
+              total_price: '299.00',
+              payment_method: 'credit_card',
+              create_time: '2025-03-11 10:00:00',
+              update_time: '2025-03-11 10:05:00',
+              items: [
+                {
+                  id: 101,
+                  name: '無線藍牙耳機',
+                  quantity: 1,
+                  price: '299.00',
+                  total: '299.00',
+                },
+              ],
+            },
+            {
+              order_id: 1002,
+              user_id: 2,
+              status: 'shipped',
+              total_price: '699.00',
+              payment_method: 'paypal',
+              create_time: '2025-03-11 11:30:00',
+              update_time: '2025-03-11 12:00:00',
+              items: [
+                {
+                  id: 102,
+                  name: '智能手錶',
+                  quantity: 1,
+                  price: '499.00',
+                  total: '499.00',
+                },
+                {
+                  id: 103,
+                  name: '無線充電器',
+                  quantity: 1,
+                  price: '200.00',
+                  total: '200.00',
+                },
+              ],
+            },
+            {
+              order_id: 1003,
+              user_id: 3,
+              status: 'delivered',
+              total_price: '1199.00',
+              payment_method: 'bank_transfer',
+              create_time: '2025-03-10 14:45:00',
+              update_time: '2025-03-11 09:00:00',
+              items: [
+                {
+                  id: 104,
+                  name: '高性能筆記本電腦',
+                  quantity: 1,
+                  price: '1199.00',
+                  total: '1199.00',
+                },
+              ],
+            },
+            {
+              order_id: 1004,
+              user_id: 4,
+              status: 'canceled',
+              total_price: '399.00',
+              payment_method: 'credit_card',
+              create_time: '2025-03-09 08:15:00',
+              update_time: '2025-03-09 09:00:00',
+              items: [
+                {
+                  id: 105,
+                  name: '機械鍵盤',
+                  quantity: 1,
+                  price: '399.00',
+                  total: '399.00',
+                },
+              ],
+            },
+          ],
+          totalCount: 4,
+        },
+      };
+    },
+  },
 ];
