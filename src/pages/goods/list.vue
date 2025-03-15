@@ -144,54 +144,100 @@ const tabBars = [
         style="width: 100%"
         v-loading="isLoading"
       >
-        <el-table-column label="管理員" width="200">
+        <el-table-column label="商品" width="300">
           <template #default="{ row }">
-            <div class="flex items-center">
-              <el-avatar :size="40" :src="row.avatar">
-                <img
-                  src="https://cube.elemecdn.com/e/fd/0fc7d20532fdaf769a25683617711png.png"
-                />
-              </el-avatar>
-              <div class="ml-3">
-                <h6>{{ row.username }}</h6>
-                <small>ID: {{ row.id }}</small>
+            <div class="flex">
+              <!-- epim -->
+              <el-image
+                class="mr-3 rounded"
+                :src="row.cover"
+                fit="cover"
+                :lazy="true"
+                style="width: 50px; height: 50px"
+              ></el-image>
+              <div class="flex-1">
+                <p>{{ row.title }}</p>
+                <div>
+                  <span class="text-rose-500">NT$ {{ row.min_price }}</span>
+
+                  <el-divider direction="vertical"></el-divider>
+
+                  <span class="text-gray-500 text-xs"
+                    >NT$ {{ row.min_oprice }}</span
+                  >
+                </div>
+
+                <p class="text-gray-400 text-xs mb-1">
+                  分類: {{ row.category ? row.category.name : '未分類' }}
+                </p>
+                <p class="text-gray-400 text-xs mb-1">
+                  建立時間: {{ row.created_at }}
+                </p>
               </div>
             </div>
           </template>
         </el-table-column>
-        <el-table-column label="所屬管理員" align="center">
+        <el-table-column
+          label="實際銷量"
+          width="70"
+          prop="sale_count"
+          align="center"
+        >
+        </el-table-column>
+        <el-table-column label="商品狀態" width="100">
           <template #default="{ row }">
-            {{ row.role?.name || '-' }}
+            <!-- https://element-plus.org/zh-CN/component/tag.html#tag-%E6%A0%87%E7%AD%BE -->
+
+            <el-tag :type="row.status ? 'success' : 'danger'" size="small">{{
+              row.status ? '上架' : '倉庫'
+            }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="狀態" width="120">
+        <el-table-column label="審核狀態" width="120" align="center">
           <template #default="{ row }">
-            <el-switch
-              @change="handleStatusChange($event, row)"
-              :modelValue="row.statue"
-              :active-value="1"
-              :inactive-value="0"
-              :loading="row.statusLoading"
-              :disabled="row.super == 1"
-            ></el-switch>
+            <div v-if="row.status == 0">
+              <div>
+                <el-button type="success" size="small" plain
+                  >審核通過</el-button
+                >
+              </div>
+              <div>
+                <el-button class="mt-2" type="danger" size="small" plain
+                  >審核拒絕</el-button
+                >
+              </div>
+            </div>
+            <div v-else>{{ row.ischeck == 1 ? '審核通過' : '審核拒絕' }}</div>
           </template>
         </el-table-column>
-        <el-table-column label="操作" width="180" align="center">
+        <el-table-column label="總庫存" width="90" prop="stock" align="center">
+        </el-table-column>
+        <el-table-column label="操作" align="center">
           <template #default="scope">
-            <small v-if="scope.row.super == 1" class="text-sm text-gray-500"
-              >暫無操作</small
-            >
-            <div v-else>
+            <div>
               <el-button
                 @click="handleEdit(scope.row)"
+                class="px-1"
                 type="primary"
                 text
                 size="small"
                 >修改</el-button
               >
 
+              <el-button class="px-1" type="primary" text size="small"
+                >商品規格</el-button
+              >
+
+              <el-button class="px-1" type="primary" text size="small"
+                >設置輪播圖</el-button
+              >
+
+              <el-button class="px-1" type="primary" text size="small"
+                >商品詳情
+              </el-button>
+
               <el-popconfirm
-                title="是否要刪除該管理員?"
+                title="是否要刪除該商品"
                 confirmButtonText="確定"
                 cancelButtonText="取消"
                 @confirm="handleDelete(scope.row.id)"

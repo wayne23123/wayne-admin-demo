@@ -4357,92 +4357,253 @@ export default [
   {
     url: /^\/api\/admin\/goods\/1$/,
     method: 'get',
-    response: ({ url }) => {
-      return {
-        msg: 'ok',
-        data: {
-          orders: [
+    response: ({ query }) => {
+      const { tab } = query; // 取得查詢參數 tab
+
+      // 模擬所有商品數據
+      const goodsList = [
+        {
+          id: 1,
+          title: '智能手環 Pro',
+          category_id: 5,
+          cover: 'https://picsum.photos/200?random=1',
+          rating: 4.8,
+          sale_count: 152,
+          review_count: 28,
+          min_price: '199.00',
+          min_oprice: '299.00',
+          desc: '高精度健康監測智能手環',
+          unit: '件',
+          stock: 250,
+          min_stock: 10,
+          ischeck: 1,
+          status: 1,
+          stock_display: 1,
+          express_id: 0,
+          sku_type: 1,
+          sku_value: {
+            oprice: 199,
+            pprice: 179,
+            cprice: 159,
+            weight: 0.2,
+            volume: 0.5,
+          },
+          content:
+            '<p><img style="width: 100%;" src="https://picsum.photos/200?random=1" /></p>',
+          discount: 0,
+          create_time: '2024-03-01 10:15:30',
+          update_time: '2025-03-14 12:45:22',
+          delete_time: null,
+          order: 1001,
+          category: {
+            id: 5,
+            name: '手機數碼',
+            status: 0,
+            create_time: '2021-12-19 15:45:43',
+            update_time: '2025-03-14 17:11:11',
+            category_id: 0,
+            order: 0,
+          },
+          goods_banner: [
             {
-              order_id: 1001,
-              user_id: 1,
-              status: 'pending',
-              total_price: '299.00',
-              payment_method: 'credit_card',
-              create_time: '2025-03-11 10:00:00',
-              update_time: '2025-03-11 10:05:00',
-              items: [
-                {
-                  id: 101,
-                  name: '無線藍牙耳機',
-                  quantity: 1,
-                  price: '299.00',
-                  total: '299.00',
-                },
-              ],
+              id: 2101,
+              goods_id: 1,
+              url: 'https://picsum.photos/200?random=11',
+              create_time: '2025-03-14 21:41:41',
+              update_time: '2025-03-14 21:41:41',
             },
+          ],
+          goods_attrs: [],
+          goods_skus: [],
+          goods_skus_card: [
             {
-              order_id: 1002,
-              user_id: 2,
-              status: 'shipped',
-              total_price: '699.00',
-              payment_method: 'paypal',
-              create_time: '2025-03-11 11:30:00',
-              update_time: '2025-03-11 12:00:00',
-              items: [
+              id: 1710,
+              goods_id: 1,
+              name: '顏色',
+              type: 0,
+              order: 50,
+              goods_skus_card_value: [
                 {
-                  id: 102,
-                  name: '智能手錶',
-                  quantity: 1,
-                  price: '499.00',
-                  total: '499.00',
-                },
-                {
-                  id: 103,
-                  name: '無線充電器',
-                  quantity: 1,
-                  price: '200.00',
-                  total: '200.00',
-                },
-              ],
-            },
-            {
-              order_id: 1003,
-              user_id: 3,
-              status: 'delivered',
-              total_price: '1199.00',
-              payment_method: 'bank_transfer',
-              create_time: '2025-03-10 14:45:00',
-              update_time: '2025-03-11 09:00:00',
-              items: [
-                {
-                  id: 104,
-                  name: '高性能筆記本電腦',
-                  quantity: 1,
-                  price: '1199.00',
-                  total: '1199.00',
-                },
-              ],
-            },
-            {
-              order_id: 1004,
-              user_id: 4,
-              status: 'canceled',
-              total_price: '399.00',
-              payment_method: 'credit_card',
-              create_time: '2025-03-09 08:15:00',
-              update_time: '2025-03-09 09:00:00',
-              items: [
-                {
-                  id: 105,
-                  name: '機械鍵盤',
-                  quantity: 1,
-                  price: '399.00',
-                  total: '399.00',
+                  id: 4251,
+                  goods_skus_card_id: 1710,
+                  name: '顏色',
+                  value: '黑色',
+                  order: 50,
                 },
               ],
             },
           ],
-          totalCount: 4,
+        },
+        {
+          id: 2,
+          title: '無線藍牙耳機',
+          category_id: 5,
+          cover: 'https://picsum.photos/200?random=2',
+          rating: 4.7,
+          sale_count: 342,
+          review_count: 90,
+          min_price: '299.00',
+          min_oprice: '399.00',
+          desc: '高清音質，穩定連接',
+          unit: '件',
+          stock: 500,
+          min_stock: 20,
+          ischeck: 1,
+          status: 1,
+          stock_display: 1,
+          express_id: 0,
+          sku_type: 1,
+          sku_value: {
+            oprice: 299,
+            pprice: 279,
+            cprice: 249,
+            weight: 0.15,
+            volume: 0.3,
+          },
+          content:
+            '<p><img style="width: 100%;" src="https://picsum.photos/200?random=2" /></p>',
+          discount: 0,
+          create_time: '2024-02-21 08:23:45',
+          update_time: '2025-03-14 14:20:10',
+          delete_time: null,
+          order: 1002,
+          category: {
+            id: 5,
+            name: '手機數碼',
+            status: 0,
+            create_time: '2021-12-19 15:45:43',
+            update_time: '2025-03-14 17:11:11',
+            category_id: 0,
+            order: 0,
+          },
+          goods_banner: [
+            {
+              id: 2102,
+              goods_id: 2,
+              url: 'https://picsum.photos/200?random=12',
+              create_time: '2025-03-14 21:41:41',
+              update_time: '2025-03-14 21:41:41',
+            },
+          ],
+          goods_attrs: [],
+          goods_skus: [],
+          goods_skus_card: [
+            {
+              id: 1720,
+              goods_id: 2,
+              name: '顏色',
+              type: 0,
+              order: 50,
+              goods_skus_card_value: [
+                {
+                  id: 4261,
+                  goods_skus_card_id: 1720,
+                  name: '顏色',
+                  value: '白色',
+                  order: 50,
+                },
+              ],
+            },
+          ],
+        },
+        {
+          id: 3,
+          title: 'Type-C 快充線',
+          category_id: 5,
+          cover: 'https://picsum.photos/200?random=3',
+          rating: 4.6,
+          sale_count: 874,
+          review_count: 128,
+          min_price: '39.00',
+          min_oprice: '59.00',
+          desc: '耐用編織線，快充穩定',
+          unit: '條',
+          stock: 1200,
+          min_stock: 50,
+          ischeck: 1,
+          status: 1,
+          stock_display: 1,
+          express_id: 0,
+          sku_type: 0,
+          sku_value: {
+            oprice: 39,
+            pprice: 35,
+            cprice: 29,
+            weight: 0.05,
+            volume: 0.1,
+          },
+          content:
+            '<p><img style="width: 100%;" src="https://picsum.photos/200?random=3" /></p>',
+          discount: 0,
+          create_time: '2024-01-15 12:34:56',
+          update_time: '2025-03-14 16:12:35',
+          delete_time: null,
+          order: 1003,
+          category: {
+            id: 5,
+            name: '手機數碼',
+            status: 0,
+            create_time: '2021-12-19 15:45:43',
+            update_time: '2025-03-14 17:11:11',
+            category_id: 0,
+            order: 0,
+          },
+          goods_banner: [
+            {
+              id: 2103,
+              goods_id: 3,
+              url: 'https://picsum.photos/200?random=13',
+              create_time: '2025-03-14 21:41:41',
+              update_time: '2025-03-14 21:41:41',
+            },
+          ],
+          goods_attrs: [],
+          goods_skus: [],
+          goods_skus_card: [
+            {
+              id: 1730,
+              goods_id: 3,
+              name: '顏色',
+              type: 0,
+              order: 50,
+              goods_skus_card_value: [
+                {
+                  id: 4271,
+                  goods_skus_card_id: 1730,
+                  name: '顏色',
+                  value: '黑色',
+                  order: 50,
+                },
+              ],
+            },
+          ],
+        },
+      ];
+
+      // 根據 tab 參數篩選商品
+      let filteredGoods = goodsList;
+      switch (tab) {
+        case 'checking':
+          filteredGoods = goodsList.filter((g) => g.status === 0); // 待審核
+          break;
+        case 'saling':
+          filteredGoods = goodsList.filter((g) => g.status === 1); // 銷售中
+          break;
+        case 'off':
+          filteredGoods = goodsList.filter((g) => g.status === 2); // 已下架
+          break;
+        case 'delete':
+          filteredGoods = goodsList.filter((g) => g.status === 3); // 已刪除
+          break;
+        case 'all':
+        default:
+          break; // 查詢所有商品
+      }
+
+      return {
+        msg: 'ok',
+        data: {
+          list: filteredGoods,
         },
       };
     },
