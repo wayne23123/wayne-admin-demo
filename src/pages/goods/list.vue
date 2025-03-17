@@ -214,7 +214,7 @@ const tabBars = [
         </el-table-column>
         <el-table-column label="操作" align="center">
           <template #default="scope">
-            <div>
+            <div v-if="searchForm.tab !='delete' "">
               <el-button
                 @click="handleEdit(scope.row)"
                 class="px-1"
@@ -254,6 +254,8 @@ const tabBars = [
                 </template>
               </el-popconfirm>
             </div>
+
+            <span v-else>暫無操作</span>
           </template>
         </el-table-column>
       </el-table>
