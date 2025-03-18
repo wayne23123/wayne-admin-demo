@@ -193,7 +193,12 @@ const tabBars = [
             }}</el-tag>
           </template>
         </el-table-column>
-        <el-table-column label="審核狀態" width="120" align="center">
+        <el-table-column
+          v-if="searchForm.tab != 'delete'"
+          label="審核狀態"
+          width="120"
+          align="center"
+        >
           <template #default="{ row }">
             <div v-if="row.status == 0">
               <div>
@@ -214,7 +219,7 @@ const tabBars = [
         </el-table-column>
         <el-table-column label="操作" align="center">
           <template #default="scope">
-            <div v-if="searchForm.tab !='delete' "">
+            <div v-if="searchForm.tab != 'delete'">
               <el-button
                 @click="handleEdit(scope.row)"
                 class="px-1"
