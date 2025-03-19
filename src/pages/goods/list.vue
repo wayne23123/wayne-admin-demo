@@ -9,6 +9,8 @@ import {
   deleteGoods,
 } from '@/api/goods';
 
+import { getCategoryList } from '@/api/category';
+
 import FormDrawer from '@/components/FormDrawer.vue';
 
 import ChooseImage from '@/components/ChooseImage.vue';
@@ -98,6 +100,15 @@ const tabBars = [
     name: '垃圾桶',
   },
 ];
+
+// 商品分類
+const categoryList = ref([]);
+
+getCategoryList().then((response) => {
+  console.log('response', response);
+
+  categoryList.value = response?.data?.data?.list;
+});
 </script>
 
 <template>

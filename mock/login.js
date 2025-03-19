@@ -4608,4 +4608,60 @@ export default [
       };
     },
   },
+
+  {
+    url: '/api/admin/category',
+    method: 'get',
+    response: ({ query }) => {
+      try {
+        const categories = [
+          {
+            id: 5,
+            name: '手機數碼',
+            status: 0,
+            create_time: '2021-12-19 15:45:43',
+            update_time: '2025-03-19 14:01:45',
+            category_id: 0,
+            order: 0,
+            child: [],
+          },
+          {
+            id: 3,
+            name: '運動旅行',
+            status: 1,
+            create_time: '2019-08-17 00:57:12',
+            update_time: '2025-03-14 16:11:56',
+            category_id: 0,
+            order: 3,
+            child: [],
+          },
+        ];
+
+        if (query.id) {
+          const category = categories.find((c) => c.id == query.id);
+          if (!category) {
+            return {
+              code: 404,
+              message: '分類未找到',
+            };
+          }
+          return {
+            code: 200,
+            data: category,
+          };
+        }
+
+        return {
+          code: 200,
+          data: categories,
+        };
+      } catch (error) {
+        console.error('Mock API 錯誤:', error);
+        return {
+          code: 500,
+          message: '服務器錯誤',
+        };
+      }
+    },
+  },
 ];
