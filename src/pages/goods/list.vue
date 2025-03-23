@@ -9,7 +9,7 @@ import {
   deleteGoods,
 } from '@/api/goods';
 
-import { getCategoryList } from '@/api/category';
+import { getCategoryList } from '@/api/category.js';
 
 import FormDrawer from '@/components/FormDrawer.vue';
 
@@ -105,10 +105,12 @@ const tabBars = [
 const categoryList = ref([]);
 
 getCategoryList().then((response) => {
-  console.log('response', response);
+  // console.log('response', response);
 
-  categoryList.value = response?.data?.data?.list;
+  categoryList.value = response?.data?.data;
 });
+
+const isShowSearch = ref(false);
 </script>
 
 <template>
@@ -138,10 +140,41 @@ getCategoryList().then((response) => {
               ></el-input>
             </el-form-item>
           </el-col>
-          <el-col :span="8" :offset="8">
+          <el-col :span="8" :offset="0" v-if="isShowSearch">
+            <el-form-item label="商品分類" prop="category_id">
+              <!-- eps -->
+              <el-select
+                v-model="searchForm.category_id"
+                placeholder="請選擇商品分類"
+                clearable
+              >
+                <el-option
+                  v-for="item in categoryList"
+                  :key="item.id"
+                  :label="item.name"
+                  :value="item.id"
+                >
+                </el-option>
+              </el-select>
+            </el-form-item>
+          </el-col>
+          <el-col :span="8" :offset="isShowSearch ? 0 : 8">
             <div class="flex justify-end items-center">
+              <!-- epb -->
               <el-button type="primary" @click="getData">搜尋</el-button>
               <el-button @click="resetSearchForm">重置</el-button>
+              <el-button
+                type="primary"
+                text
+                @click="isShowSearch = !isShowSearch"
+              >
+                {{ isShowSearch ? '收起' : '展開' }}
+
+                <el-icon>
+                  <ArrowUp v-if="isShowSearch" />
+                  <ArrowDown v-else />
+                </el-icon>
+              </el-button>
             </div>
           </el-col>
         </el-row>
