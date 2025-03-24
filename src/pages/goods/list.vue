@@ -19,6 +19,8 @@ import ListHeader from '@/components/ListHeader.vue';
 
 import { useInitTable, useInitForm } from '@/composables/useCommon';
 
+import Search from '@/components/Search.vue';
+
 const roles = ref([]);
 
 const {
@@ -110,7 +112,7 @@ getCategoryList().then((response) => {
   categoryList.value = response?.data?.data;
 });
 
-const isShowSearch = ref(false);
+// const isShowSearch = ref(false);
 </script>
 
 <template>
@@ -127,9 +129,42 @@ const isShowSearch = ref(false);
 
     <!-- rpcard -->
     <el-card shadow="never" class="border-0">
+      <Search @search="getData" @reset="resetSearchForm">
+        <el-col :span="8" :offset="0">
+          <el-form-item label="關鍵字">
+            <el-input
+              v-model="searchForm.title"
+              placeholder="商品名稱"
+              clearable
+            ></el-input>
+          </el-form-item>
+        </el-col>
+
+        <template #show>
+          <div>
+            <el-col :span="8" :offset="0">
+              <el-form-item label="商品分類" prop="category_id">
+                <el-select
+                  v-model="searchForm.category_id"
+                  placeholder="請選擇商品分類"
+                  clearable
+                >
+                  <el-option
+                    v-for="item in categoryList"
+                    :key="item.id"
+                    :label="item.name"
+                    :value="item.id"
+                  >
+                  </el-option>
+                </el-select>
+              </el-form-item>
+            </el-col>
+          </div>
+        </template>
+      </Search>
+
       <!-- epf -->
-      <el-form :model="searchForm" label-width="80px" class="mb-3" size="small">
-        <!-- eprow -->
+      <!-- <el-form :model="searchForm" label-width="80px" class="mb-3" size="small">
         <el-row :gutter="20">
           <el-col :span="8" :offset="0">
             <el-form-item label="關鍵字">
@@ -142,7 +177,6 @@ const isShowSearch = ref(false);
           </el-col>
           <el-col :span="8" :offset="0" v-if="isShowSearch">
             <el-form-item label="商品分類" prop="category_id">
-              <!-- eps -->
               <el-select
                 v-model="searchForm.category_id"
                 placeholder="請選擇商品分類"
@@ -160,7 +194,6 @@ const isShowSearch = ref(false);
           </el-col>
           <el-col :span="8" :offset="isShowSearch ? 0 : 8">
             <div class="flex justify-end items-center">
-              <!-- epb -->
               <el-button type="primary" @click="getData">搜尋</el-button>
               <el-button @click="resetSearchForm">重置</el-button>
               <el-button
@@ -178,7 +211,7 @@ const isShowSearch = ref(false);
             </div>
           </el-col>
         </el-row>
-      </el-form>
+      </el-form> -->
 
       <ListHeader @create="handleCreate" @refresh="getData"></ListHeader>
 
