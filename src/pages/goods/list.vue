@@ -21,6 +21,8 @@ import { useInitTable, useInitForm } from '@/composables/useCommon';
 
 import Search from '@/components/Search.vue';
 
+import SearchItem from '../../components/SearchItem.vue';
+
 const roles = ref([]);
 
 const {
@@ -130,7 +132,20 @@ getCategoryList().then((response) => {
     <!-- rpcard -->
     <el-card shadow="never" class="border-0">
       <Search @search="getData" @reset="resetSearchForm">
-        <el-col :span="8" :offset="0">
+        <SearchItem
+          label="關鍵字"
+          v-model="searchForm.title"
+          placeholder="商品名稱"
+          clearable
+        >
+          <el-input
+            v-model="searchForm.title"
+            placeholder="商品名稱"
+            clearable
+          ></el-input>
+        </SearchItem>
+
+        <!-- <el-col :span="8" :offset="0">
           <el-form-item label="關鍵字">
             <el-input
               v-model="searchForm.title"
@@ -138,9 +153,27 @@ getCategoryList().then((response) => {
               clearable
             ></el-input>
           </el-form-item>
-        </el-col>
+        </el-col> -->
 
         <template #show>
+          <SearchItem label="商品分類">
+            <el-select
+              v-model="searchForm.category_id"
+              placeholder="請選擇商品分類"
+              clearable
+            >
+              <el-option
+                v-for="item in categoryList"
+                :key="item.id"
+                :label="item.name"
+                :value="item.id"
+              >
+              </el-option>
+            </el-select>
+          </SearchItem>
+        </template>
+
+        <!-- <template #show>
           <div>
             <el-col :span="8" :offset="0">
               <el-form-item label="商品分類" prop="category_id">
@@ -160,7 +193,7 @@ getCategoryList().then((response) => {
               </el-form-item>
             </el-col>
           </div>
-        </template>
+        </template> -->
       </Search>
 
       <!-- epf -->
