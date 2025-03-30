@@ -17,6 +17,11 @@ import ListHeader from '@/components/ListHeader.vue';
 
 import { useInitTable, useInitForm } from '@/composables/useCommon';
 
+import Search from '@/components/Search.vue';
+
+import SearchItem from '@/components/SearchItem.vue';
+import { el } from 'element-plus/es/locales.mjs';
+
 const roles = ref([]);
 
 const {
@@ -78,9 +83,17 @@ const {
 <template>
   <!-- rpcard -->
   <el-card shadow="never" class="border-0">
-    <!-- epf -->
-    <el-form :model="searchForm" label-width="80px" class="mb-3" size="small">
-      <!-- eprow -->
+    <Search :model="searchForm" @search="getData" @reset="resetSearchForm">
+      <SearchItem label="關鍵字">
+        <el-input
+          v-model="searchForm.keyword"
+          placeholder="管理員暱稱"
+          clearable
+        ></el-input>
+      </SearchItem>
+    </Search>
+
+    <!-- <el-form :model="searchForm" label-width="80px" class="mb-3" size="small">
       <el-row :gutter="20">
         <el-col :span="8" :offset="0">
           <el-form-item label="關鍵字">
@@ -98,7 +111,7 @@ const {
           </div>
         </el-col>
       </el-row>
-    </el-form>
+    </el-form> -->
 
     <ListHeader @create="handleCreate" @refresh="getData"></ListHeader>
 

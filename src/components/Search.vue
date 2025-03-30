@@ -1,14 +1,24 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, useSlots } from 'vue';
+
+defineProps({
+  model: Object,
+});
 
 defineEmits(['search', 'reset']);
 
 const isShowSearch = ref(false);
+
+const slots = useSlots();
+// console.log('slots', slots);
+
+const hasShowSearch = ref(!!slots.show);
 </script>
 
 <template>
   <div>
-    <el-form :model="searchForm" label-width="80px" class="mb-3" size="small">
+    <!-- <el-form :model="searchForm" label-width="80px" class="mb-3" size="small"> -->
+    <el-form :model="model" label-width="80px" class="mb-3" size="small">
       <el-row :gutter="20">
         <slot></slot>
 
@@ -47,6 +57,7 @@ const isShowSearch = ref(false);
             <el-button type="primary" @click="$emit('search')">搜尋</el-button>
             <el-button @click="$emit('reset')">重置</el-button>
             <el-button
+              v-if="hasShowSearch"
               type="primary"
               text
               @click="isShowSearch = !isShowSearch"

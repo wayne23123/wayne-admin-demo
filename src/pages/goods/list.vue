@@ -131,7 +131,7 @@ getCategoryList().then((response) => {
 
     <!-- rpcard -->
     <el-card shadow="never" class="border-0">
-      <Search @search="getData" @reset="resetSearchForm">
+      <Search :model="searchForm" @search="getData" @reset="resetSearchForm">
         <SearchItem
           label="關鍵字"
           v-model="searchForm.title"
