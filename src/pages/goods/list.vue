@@ -23,8 +23,6 @@ import Search from '@/components/Search.vue';
 
 import SearchItem from '../../components/SearchItem.vue';
 
-const roles = ref([]);
-
 const {
   searchForm,
   resetSearchForm,
@@ -52,8 +50,6 @@ const {
     });
 
     total.value = response?.data?.data?.totalCount;
-
-    roles.value = response?.data?.data?.roles;
   },
   delete: deleteGoods,
   updateStatus: updateGoodsStatus,
@@ -70,11 +66,17 @@ const {
   handleEdit,
 } = useInitForm({
   form: {
-    username: '',
-    password: '',
-    role_id: null,
+    title: null,
+    category_id: null,
+    cover: null,
+    description: null,
+    unit: '件',
+    stock: 100,
+    min_stock: 10,
     status: 1,
-    avatar: '',
+    stock_display: 1,
+    min_price: 0,
+    min_oprice: 0,
   },
   //getData 從上面 useInitTable 獲取
   getData,
@@ -400,24 +402,19 @@ getCategoryList().then((response) => {
           label-width="80px"
           :inline="false"
         >
-          <el-form-item label="用戶名稱" prop="username">
-            <el-input v-model="form.username" placeholder="用戶名稱"></el-input>
+          <el-form-item label="商品名稱" prop="title">
+            <el-input v-model="form.title" placeholder="商品名稱"></el-input>
           </el-form-item>
 
-          <el-form-item label="密碼" prop="password">
-            <el-input v-model="form.password" placeholder="密碼"></el-input>
+          <el-form-item label="封面" prop="cover">
+            <ChooseImage v-model="form.cover"></ChooseImage>
           </el-form-item>
 
-          <!-- form.avatar@@ {{ form.avatar }} -->
-          <el-form-item label="頭像" prop="avatar">
-            <ChooseImage v-model="form.avatar"></ChooseImage>
-          </el-form-item>
-
-          <el-form-item label="所屬角色" prop="role_id">
+          <el-form-item label="商品分類" prop="category_id">
             <!-- eps -->
-            <el-select v-model="form.role_id" placeholder="選擇所屬角色">
+            <el-select v-model="form.category_id" placeholder="請選擇商品分類">
               <el-option
-                v-for="item in roles"
+                v-for="item in categoryList"
                 :key="item.id"
                 :label="item.name"
                 :value="item.id"
@@ -426,14 +423,62 @@ getCategoryList().then((response) => {
             </el-select>
           </el-form-item>
 
-          <el-form-item label="狀態" prop="content">
-            <!-- epsw -->
-            <el-switch
-              v-model="form.status"
-              :active-value="1"
-              :inactive-value="0"
+          <el-form-item label="商品描述" prop="description">
+            <el-input
+              type="textarea"
+              v-model="form.description"
+              placeholder="商品描述"
+            ></el-input>
+          </el-form-item>
+
+          <el-form-item label="單位" prop="unit">
+            <el-input
+              v-model="form.unit"
+              placeholder="商品單位"
+              style="width: 50%"
+            ></el-input>
+          </el-form-item>
+
+          <el-form-item label="總庫存" prop="stock">
+            <el-input v-model="form.stock" type="number" style="width: 40%">
+              <template #append>件</template>
+            </el-input>
+          </el-form-item>
+
+          <el-form-item label="庫存預警" prop="min_stock">
+            <el-input v-model="form.min_stock" type="number" style="width: 40%">
+              <template #append>件</template>
+            </el-input>
+          </el-form-item>
+
+          <el-form-item label="最低銷售價" prop="min_price">
+            <el-input v-model="form.min_price" type="number" style="width: 40%">
+              <template #append>元</template>
+            </el-input>
+          </el-form-item>
+
+          <el-form-item label="最低原價" prop="min_oprice">
+            <el-input
+              v-model="form.min_oprice"
+              type="number"
+              style="width: 40%"
             >
-            </el-switch>
+              <template #append>元</template>
+            </el-input>
+          </el-form-item>
+
+          <el-form-item label="庫存顯示" prop="stock_display">
+            <el-radio-group v-model="form.stock_display">
+              <el-radio :label="1">顯示</el-radio>
+              <el-radio :label="0">隱藏</el-radio>
+            </el-radio-group>
+          </el-form-item>
+
+          <el-form-item label="是否上架" prop="status">
+            <el-radio-group v-model="form.status">
+              <el-radio :label="1">上架</el-radio>
+              <el-radio :label="0">下架</el-radio>
+            </el-radio-group>
           </el-form-item>
         </el-form>
       </FormDrawer>
