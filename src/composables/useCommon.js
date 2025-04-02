@@ -157,6 +157,26 @@ export function useInitTable(option = {}) {
       });
   };
 
+  // 批量修改狀態 上架/下架
+  const handleMultipleStatusChange = (status) => {
+    isLoading.value = true;
+    option
+      .updateStatus(multipleSelectionIds.value, status)
+      .then((response) => {
+        toast('修改狀態成功');
+
+        // 清空選中
+        if (multipleTableRef.value) {
+          multipleTableRef.value.clearSelection();
+        }
+
+        getData();
+      })
+      .finally(() => {
+        isLoading.value = false;
+      });
+  };
+
   return {
     searchForm,
     resetSearchForm,
@@ -171,6 +191,7 @@ export function useInitTable(option = {}) {
     handleSelectionChange,
     multipleTableRef,
     handleMultipleDelete,
+    handleMultipleStatusChange,
   };
 }
 

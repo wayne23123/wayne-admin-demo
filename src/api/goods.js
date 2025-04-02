@@ -17,7 +17,7 @@ export function getGoodsList(page, query = {}) {
   return axios.get(`/admin/goods/${page}${queryString}`);
 }
 
-// 0禁用 1啟用
+// 批量上架/下架 0禁用 1啟用
 export function updateGoodsStatus(ids, status) {
   return axios.post(`/admin/goods/changestatus`, {
     ids,

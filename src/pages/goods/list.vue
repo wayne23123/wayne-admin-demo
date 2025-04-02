@@ -24,6 +24,9 @@ import Search from '@/components/Search.vue';
 import SearchItem from '../../components/SearchItem.vue';
 
 const {
+  multipleTableRef,
+  handleSelectionChange,
+  handleMultipleDelete,
   searchForm,
   resetSearchForm,
   tableData,
@@ -34,6 +37,7 @@ const {
   getData,
   handleDelete,
   handleStatusChange,
+  handleMultipleStatusChange,
 } = useInitTable({
   searchForm: {
     title: '',
@@ -248,14 +252,29 @@ getCategoryList().then((response) => {
         </el-row>
       </el-form> -->
 
-      <ListHeader @create="handleCreate" @refresh="getData"></ListHeader>
+      <ListHeader
+        layout="create,delete,refresh"
+        @create="handleCreate"
+        @refresh="getData"
+        @delete="handleMultipleDelete"
+      >
+        <el-button size="small" @click="handleMultipleStatusChange(1)"
+          >上架</el-button
+        >
+        <el-button size="small" @click="handleMultipleStatusChange(0)"
+          >下架</el-button
+        >
+      </ListHeader>
 
       <el-table
+        ref="multipleTableRef"
+        @selection-change="handleSelectionChange"
         :data="tableData"
         stripe
         style="width: 100%"
         v-loading="isLoading"
       >
+        <el-table-column type="selection" :selectable="selectable" width="55" />
         <el-table-column label="商品" width="300">
           <template #default="{ row }">
             <div class="flex">
