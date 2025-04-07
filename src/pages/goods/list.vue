@@ -258,10 +258,16 @@ getCategoryList().then((response) => {
         @refresh="getData"
         @delete="handleMultipleDelete"
       >
-        <el-button size="small" @click="handleMultipleStatusChange(1)"
+        <el-button
+          size="small"
+          @click="handleMultipleStatusChange(1)"
+          v-if="searchForm.tab == 'all' || searchForm.tab == 'off'"
           >上架</el-button
         >
-        <el-button size="small" @click="handleMultipleStatusChange(0)"
+        <el-button
+          size="small"
+          @click="handleMultipleStatusChange(0)"
+          v-if="searchForm.tab == 'all' || searchForm.tab == 'saling'"
           >下架</el-button
         >
       </ListHeader>
