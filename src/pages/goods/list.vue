@@ -23,6 +23,8 @@ import Search from '@/components/Search.vue';
 
 import SearchItem from '../../components/SearchItem.vue';
 
+import banners from './banners.vue';
+
 const {
   multipleTableRef,
   handleSelectionChange,
@@ -121,6 +123,13 @@ getCategoryList().then((response) => {
 });
 
 // const isShowSearch = ref(false);
+
+const bannersRef = ref(null);
+
+const handleSetGoodsBanners = (row) => {
+  // console.log('row', row);
+  bannersRef.value.open(row);
+};
 </script>
 
 <template>
@@ -370,7 +379,12 @@ getCategoryList().then((response) => {
                 >商品規格</el-button
               >
 
-              <el-button class="px-1" type="primary" text size="small"
+              <el-button
+                @click="handleSetGoodsBanners(scope.row)"
+                class="px-1"
+                type="primary"
+                text
+                size="small"
                 >設置輪播圖</el-button
               >
 
@@ -508,5 +522,7 @@ getCategoryList().then((response) => {
         </el-form>
       </FormDrawer>
     </el-card>
+
+    <banners ref="bannersRef"></banners>
   </div>
 </template>
