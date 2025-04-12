@@ -4664,4 +4664,37 @@ export default [
       }
     },
   },
+
+  {
+    url: /^\/api\/admin\/goods\/read\/\d+$/,
+    method: 'get',
+    rawResponse: async (req, res) => {
+      const url = req.url || '';
+      const match = url.match(/\/read\/(\d+)$/);
+      const id = match ? match[1] : null;
+
+      if (!id) {
+        res.statusCode = 400;
+        res.end(JSON.stringify({ code: 400, message: '缺少商品 ID' }));
+        return;
+      }
+
+      const data = {
+        code: 200,
+        msg: 'ok',
+        data: {
+          id,
+          title: '測試商品標題',
+          category_id: 5,
+          cover: 'https://picsum.photos/150/150?random=1',
+          stock: 100,
+          min_price: '99.00',
+          desc: '這是測試商品',
+        },
+      };
+
+      res.setHeader('Content-Type', 'application/json');
+      res.end(JSON.stringify(data));
+    },
+  },
 ];
