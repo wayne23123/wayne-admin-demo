@@ -2,6 +2,7 @@
 import { ref } from 'vue';
 import ImageAside from '@/components/ImageAside.vue';
 import ImageMain from '@/components/ImageMain.vue';
+import { remove } from 'nprogress';
 
 const dialogVisible = ref(false);
 
@@ -55,16 +56,47 @@ const submit = () => {
 
   close();
 };
+
+const removeImage = (url) => {
+  emit(
+    'update:modelValue',
+    props.modelValue.filter((u) => {
+      u != url;
+    })
+  );
+};
 </script>
 
 <template>
   <div v-if="modelValue">
     <!-- epim -->
     <el-image
+      v-if="typeof modelValue === 'string'"
       :src="modelValue"
       fit="cover"
       class="w-[100px] h-[100px] rounded border mr-2"
     ></el-image>
+    <div v-else class="flex flex-wrap">
+      <div
+        class="relative mx-1 mb-2 w-[100px] h-[100px]"
+        v-for="(url, index) in modelValue"
+        :key="index"
+      >
+        <el-icon
+          @click="removeImage(url)"
+          class="absolute top-[5px] right-[5px] cursor-pointer bg-white rounded-full"
+          style="z-index: 11"
+        >
+          <CircleClose></CircleClose
+        ></el-icon>
+
+        <el-image
+          :src="url"
+          fit="cover"
+          class="w-[100px] h-[100px] rounded border mr-2"
+        ></el-image>
+      </div>
+    </div>
   </div>
 
   <div class="choose-image-button" @click="open">
