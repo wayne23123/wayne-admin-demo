@@ -45,7 +45,7 @@ defineExpose({
   >
     <el-form :model="form" label-width="80px">
       <el-form-item label="輪播圖">
-        <ChooseImage v-model="form.banner"></ChooseImage>
+        <ChooseImage :limit="9" v-model="form.banner"></ChooseImage>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submit">提交</el-button>

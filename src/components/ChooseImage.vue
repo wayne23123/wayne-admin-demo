@@ -2,7 +2,7 @@
 import { ref } from 'vue';
 import ImageAside from '@/components/ImageAside.vue';
 import ImageMain from '@/components/ImageMain.vue';
-import { remove } from 'nprogress';
+import { toast } from '@/composables/util';
 
 const dialogVisible = ref(false);
 
@@ -33,6 +33,10 @@ const handleUpload = () => ImageMainRef.value.openUploadFile();
 // v-model 功能
 const props = defineProps({
   modelValue: [String, Array],
+  limit: {
+    type: Number,
+    default: 1,
+  },
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -50,9 +54,27 @@ const handleChoose = (event) => {
 };
 
 const submit = () => {
-  if (urls.length) {
-    emit('update:modelValue', urls[0]);
+  let value = [];
+
+  if (props.limit == 1) {
+    limit = url[0];
+  } else {
+    value = [...props.modelValue, ...urls];
+    if (value.length > props.limit) {
+      return toast(
+        `最多還能選擇${props.limit - props.modelValue.length}張圖片`,
+        'error'
+      );
+    }
   }
+
+  if (value) {
+    emit('update:modelValue', value);
+  }
+
+  // if (urls.length) {
+  //   emit('update:modelValue', urls[0]);
+  // }
 
   close();
 };
@@ -118,7 +140,12 @@ const removeImage = (url) => {
       <el-container>
         <ImageAside ref="ImageAsideRef" @change="handleAsideChange" />
 
-        <ImageMain ref="ImageMainRef" openChoose @choose="handleChoose" />
+        <ImageMain
+          :limit="limit"
+          ref="ImageMainRef"
+          openChoose
+          @choose="handleChoose"
+        />
       </el-container>
     </el-container>
 
