@@ -5,6 +5,8 @@ import ChooseImage from '@/components/ChooseImage.vue';
 
 import { readGoods, setGoodsBanner } from '@/api/goods';
 
+import { toast } from '@/composables/util';
+
 const dialogVisible = ref(false);
 
 const form = reactive({
@@ -29,7 +31,18 @@ const open = (row) => {
   });
 };
 
-const submit = () => {};
+const isLoad = ref(false);
+const submit = () => {
+  setGoodsBanner(goodsId.value, form)
+    .then((response) => {
+      toast('設置輪播圖成功');
+
+      dialogVisible.value = false;
+    })
+    .finally(() => {
+      isLoading.value = false;
+    });
+};
 
 defineExpose({
   open,
@@ -48,7 +61,9 @@ defineExpose({
         <ChooseImage :limit="9" v-model="form.banner"></ChooseImage>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary" @click="submit">提交</el-button>
+        <el-button type="primary" @click="submit" :loading="isLoad"
+          >提交</el-button
+        >
       </el-form-item>
     </el-form>
   </el-drawer>
