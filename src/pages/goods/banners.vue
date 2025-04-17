@@ -23,9 +23,13 @@ const open = (row) => {
   readGoods(goodsId.value).then((response) => {
     // console.log('response', reponse);
 
-    response.data.data.goodsBanner.map((object) => {
+    form.banner = response.data.data.goodsBanner.map((object) => {
       return object.url;
     });
+
+    // response.data.data.goodsBanner.map((object) => {
+    //   return object.url;
+    // });
 
     dialogVisible.value = true;
   });
@@ -33,6 +37,8 @@ const open = (row) => {
 
 const isLoad = ref(false);
 const submit = () => {
+  isLoad.value = true;
+
   setGoodsBanner(goodsId.value, form)
     .then((response) => {
       toast('設置輪播圖成功');
