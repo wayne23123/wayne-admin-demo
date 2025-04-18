@@ -51,7 +51,10 @@ const {
     // console.log('response', response);
 
     tableData.value = response?.data?.data?.list.map((object) => {
-      object.statusLoading = false;
+      // object.statusLoading = false;
+
+      object.bannersLoading = false;
+
       return object;
     });
 
@@ -385,6 +388,7 @@ const handleSetGoodsBanners = (row) => {
                 type="primary"
                 text
                 size="small"
+                :loading="scope.row.bannersLoading"
                 >設置輪播圖</el-button
               >
 

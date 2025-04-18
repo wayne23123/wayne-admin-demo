@@ -20,19 +20,25 @@ const open = (row) => {
 
   goodsId.value = row.id;
 
-  readGoods(goodsId.value).then((response) => {
-    // console.log('response', reponse);
+  row.bannersLoading = true;
 
-    form.banner = response.data.data.goodsBanner.map((object) => {
-      return object.url;
+  readGoods(goodsId.value)
+    .then((response) => {
+      // console.log('response', reponse);
+
+      form.banner = response.data.data.goodsBanner.map((object) => {
+        return object.url;
+      });
+
+      // response.data.data.goodsBanner.map((object) => {
+      //   return object.url;
+      // });
+
+      dialogVisible.value = true;
+    })
+    .finally(() => {
+      row.bannersLoading = false;
     });
-
-    // response.data.data.goodsBanner.map((object) => {
-    //   return object.url;
-    // });
-
-    dialogVisible.value = true;
-  });
 };
 
 const isLoad = ref(false);
