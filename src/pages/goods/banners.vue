@@ -41,6 +41,8 @@ const open = (row) => {
     });
 };
 
+const emit = defineEmits(['reloadData'])
+
 const isLoad = ref(false);
 const submit = () => {
   isLoad.value = true;
@@ -50,6 +52,8 @@ const submit = () => {
       toast('設置輪播圖成功');
 
       dialogVisible.value = false;
+
+      emit('reloadData')
     })
     .finally(() => {
       isLoading.value = false;

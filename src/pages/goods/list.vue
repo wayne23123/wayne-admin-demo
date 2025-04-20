@@ -385,10 +385,11 @@ const handleSetGoodsBanners = (row) => {
               <el-button
                 @click="handleSetGoodsBanners(scope.row)"
                 class="px-1"
-                type="primary"
+                :type="scope.row.goods_banner.length == 0 ? 'danger' : 'primary'"
                 text
                 size="small"
                 :loading="scope.row.bannersLoading"
+                
                 >設置輪播圖</el-button
               >
 
@@ -527,6 +528,6 @@ const handleSetGoodsBanners = (row) => {
       </FormDrawer>
     </el-card>
 
-    <banners ref="bannersRef"></banners>
+    <banners ref="bannersRef" @reload-data='getData'></banners>
   </div>
 </template>
