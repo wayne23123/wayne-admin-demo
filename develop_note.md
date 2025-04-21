@@ -290,3 +290,21 @@ https://echarts.apache.org/zh/index.html
 npm install echarts
 
 --- / -----------------------------------------------------------------------------------------------------------------------
+
+-- 安裝 tinymce 編輯器
+
+npm i tinymce
+
+npm i @tinymce/tinymce-vue
+
+在 public 資料夾下新增 tinymce 資料夾
+
+將 node_modules 下 tinymce 下 tinymce.min.js 複製到 public 資料夾下新增 tinymce 資料夾
+
+在 public 資料夾下 tinymce 下新增 langs 資料夾
+
+將 node_modules 下 tinymce 下 skins 複製到 public 資料夾下新增 tinymce 資料夾
+
+https://www.tiny.cloud/get-tiny/language-packages/
+
+Chinese Traditional
