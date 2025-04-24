@@ -25,6 +25,8 @@ import SearchItem from '../../components/SearchItem.vue';
 
 import banners from './banners.vue';
 
+import content from './content.vue';
+
 const {
   multipleTableRef,
   handleSelectionChange,
@@ -54,6 +56,8 @@ const {
       // object.statusLoading = false;
 
       object.bannersLoading = false;
+
+      object.contentLoading = false;
 
       return object;
     });
@@ -127,11 +131,20 @@ getCategoryList().then((response) => {
 
 // const isShowSearch = ref(false);
 
+// 設置輪播圖
 const bannersRef = ref(null);
 
 const handleSetGoodsBanners = (row) => {
   // console.log('row', row);
   bannersRef.value.open(row);
+};
+
+// 設置商品詳情
+const contentRef = ref(null);
+
+const handleSetGoodsContent = (row) => {
+  // console.log('row', row);
+  contentRef.value.open(row);
 };
 </script>
 
@@ -385,15 +398,22 @@ const handleSetGoodsBanners = (row) => {
               <el-button
                 @click="handleSetGoodsBanners(scope.row)"
                 class="px-1"
-                :type="scope.row.goods_banner.length == 0 ? 'danger' : 'primary'"
+                :type="
+                  scope.row.goods_banner.length == 0 ? 'danger' : 'primary'
+                "
                 text
                 size="small"
                 :loading="scope.row.bannersLoading"
-                
                 >設置輪播圖</el-button
               >
 
-              <el-button class="px-1" type="primary" text size="small"
+              <el-button
+                @click="handleSetGoodsContent(scope.row)"
+                class="px-1"
+                :type="!scope.row.content ? 'danger' : 'primary'"
+                text
+                size="small"
+                :loading="scope.row.contentLoading"
                 >商品詳情
               </el-button>
 
@@ -528,6 +548,8 @@ const handleSetGoodsBanners = (row) => {
       </FormDrawer>
     </el-card>
 
-    <banners ref="bannersRef" @reload-data='getData'></banners>
+    <banners ref="bannersRef" @reload-data="getData"></banners>
+
+    <content ref="contentRef" @reload-data="getData"></content>
   </div>
 </template>
