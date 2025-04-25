@@ -1,16 +1,18 @@
 <script setup>
 import { ref, reactive } from 'vue';
 
-import ChooseImage from '@/components/ChooseImage.vue';
+import FormDrawer from '@/components/FormDrawer.vue';
 
-import { readGoods, setGoodsBanner } from '@/api/goods';
+import Editor from '@/components/Editor.vue';
+
+import { readGoods, updateGoods } from '@/api/goods';
 
 import { toast } from '@/composables/util';
 
-const dialogVisible = ref(false);
+const formDrawerRef = ref(null);
 
 const form = reactive({
-  banner: [],
+  content: '',
 });
 
 const goodsId = ref(0);
@@ -20,43 +22,38 @@ const open = (row) => {
 
   goodsId.value = row.id;
 
-  row.bannersLoading = true;
+  row.contentLoading = true;
 
   readGoods(goodsId.value)
     .then((response) => {
       // console.log('response', reponse);
 
-      form.banner = response.data.data.goodsBanner.map((object) => {
-        return object.url;
-      });
+      form.content = response.data.data.content;
 
       // response.data.data.goodsBanner.map((object) => {
       //   return object.url;
       // });
 
-      dialogVisible.value = true;
+      formDrawerRef.value.open();
     })
     .finally(() => {
-      row.bannersLoading = false;
+      row.contentLoading = false;
     });
 };
 
-const emit = defineEmits(['reloadData'])
+const emit = defineEmits(['reloadData']);
 
 const isLoad = ref(false);
 const submit = () => {
-  isLoad.value = true;
-
-  setGoodsBanner(goodsId.value, form)
+  formDrawerRef.value.showLoadingButton();
+  updateGoods(goodsId.value, form)
     .then((response) => {
-      toast('設置輪播圖成功');
-
-      dialogVisible.value = false;
-
-      emit('reloadData')
+      toast('設置商品詳情成功');
+      formDrawerRef.value.close();
+      emit('reloadData');
     })
     .finally(() => {
-      isLoading.value = false;
+      formDrawerRef.value.hideLoadingButton();
     });
 };
 
@@ -66,15 +63,15 @@ defineExpose({
 </script>
 
 <template>
-  <el-drawer
-    title="設置輪播圖"
-    v-model="dialogVisible"
-    size="50%"
+  <FormDrawer
+    ref="formDrawerRef"
+    title="設置商品詳情"
+    @submit="submit"
     destroy-on-close
   >
-    <el-form :model="form" label-width="80px">
-      <el-form-item label="輪播圖">
-        <ChooseImage :limit="9" v-model="form.banner"></ChooseImage>
+    <el-form :model="form">
+      <el-form-item>
+        <Editor v-model="form.content"></Editor>
       </el-form-item>
       <el-form-item>
         <el-button type="primary" @click="submit" :loading="isLoad"
@@ -82,5 +79,5 @@ defineExpose({
         >
       </el-form-item>
     </el-form>
-  </el-drawer>
+  </FormDrawer>
 </template>
