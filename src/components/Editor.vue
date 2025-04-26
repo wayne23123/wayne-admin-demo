@@ -5,6 +5,8 @@
 <script setup>
 import tinymce from 'tinymce/tinymce';
 import Editor from '@tinymce/tinymce-vue';
+
+// 新增額外的圖片添加組件
 import ChooseImage from '@/components/ChooseImage.vue';
 import { ref, watch } from 'vue';
 // 引用主題文件
@@ -94,12 +96,16 @@ const init = {
   resize: false,
   // 隱藏底部狀態欄
   statusbar: false,
+  // 新增的插入圖片方法
   setup: (editor) => {
     editor.ui.registry.addButton('imageUpload', {
       tooltip: '插入圖片',
       icon: 'image',
       onAction() {
-        ChooseImageRef.value.openImage((data) => {
+        console.log('插入圖片');
+        ChooseImageRef.value.open((data) => {
+          // console.log('data', data);
+
           data.forEach((url) => {
             editor.insertContent(`<img src="${url}" style="width:100%">`);
           });

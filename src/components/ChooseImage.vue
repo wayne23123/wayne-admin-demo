@@ -6,7 +6,11 @@ import { toast } from '@/composables/util';
 
 const dialogVisible = ref(false);
 
-const open = () => {
+const callBackFunction = ref(null);
+
+const open = (callback = null) => {
+  callBackFunction.value = callback;
+
   dialogVisible.value = true;
 };
 
@@ -37,6 +41,10 @@ const props = defineProps({
     type: Number,
     default: 1,
   },
+  preview: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const emit = defineEmits(['update:modelValue']);
@@ -59,17 +67,30 @@ const submit = () => {
   if (props.limit == 1) {
     limit = url[0];
   } else {
-    value = [...props.modelValue, ...urls];
+    value = props.preview ? [...props.modelValue, ...urls] : [...urls];
+
     if (value.length > props.limit) {
-      return toast(
-        `最多還能選擇${props.limit - props.modelValue.length}張圖片`,
-        'error'
-      );
+      let limit = props.preview
+        ? props.limit - props.modelValue.length
+        : props.limit;
+
+      return toast(`最多還能選擇${limit}張圖片`, 'error');
     }
+
+    // if (value.length > props.limit) {
+    //   return toast(
+    //     `最多還能選擇${props.limit - props.modelValue.length}張圖片`,
+    //     'error'
+    //   );
+    // }
   }
 
-  if (value) {
+  if (value && props.preview) {
     emit('update:modelValue', value);
+  }
+
+  if (!props.preview && typeof callBackFunction.value === 'function') {
+    callBackFunction.value(value);
   }
 
   // if (urls.length) {
@@ -87,10 +108,14 @@ const removeImage = (url) => {
     })
   );
 };
+
+defineExpose({
+  open,
+});
 </script>
 
 <template>
-  <div v-if="modelValue">
+  <div v-if="modelValue && preview">
     <!-- epim -->
     <el-image
       v-if="typeof modelValue === 'string'"
@@ -121,7 +146,7 @@ const removeImage = (url) => {
     </div>
   </div>
 
-  <div class="choose-image-button" @click="open">
+  <div v-if="preview" class="choose-image-button" @click="open">
     <el-icon :size="25" class="text-gray-500"><Plus /></el-icon>
   </div>
   <!-- epdi -->
