@@ -27,6 +27,8 @@ import banners from './banners.vue';
 
 import content from './content.vue';
 
+import skus from './skus.vue';
+
 const {
   multipleTableRef,
   handleSelectionChange,
@@ -58,6 +60,8 @@ const {
       object.bannersLoading = false;
 
       object.contentLoading = false;
+
+      object.skusLoading = false;
 
       return object;
     });
@@ -145,6 +149,14 @@ const contentRef = ref(null);
 const handleSetGoodsContent = (row) => {
   // console.log('row', row);
   contentRef.value.open(row);
+};
+
+// 設置商品規格
+const skusRef = ref(null);
+
+const handleSetGoodsSkus = (row) => {
+  // console.log('row', row);
+  skusRef.value.open(row);
 };
 </script>
 
@@ -391,7 +403,13 @@ const handleSetGoodsContent = (row) => {
                 >修改</el-button
               >
 
-              <el-button class="px-1" type="primary" text size="small"
+              <el-button
+                @click="handleSetGoodsSkus(scope.row)"
+                class="px-1"
+                type="primary"
+                text
+                size="small"
+                :loading="scope.row.skusLoading"
                 >商品規格</el-button
               >
 
@@ -551,5 +569,7 @@ const handleSetGoodsContent = (row) => {
     <banners ref="bannersRef" @reload-data="getData"></banners>
 
     <content ref="contentRef" @reload-data="getData"></content>
+
+    <skus ref="skusRef" @reload-data="getData"></skus>
   </div>
 </template>
