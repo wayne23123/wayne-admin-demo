@@ -3,7 +3,7 @@ import { ref, reactive } from 'vue';
 
 import FormDrawer from '@/components/FormDrawer.vue';
 
-import { readGoods, updateGoods } from '@/api/goods';
+import { readGoods, updateGoodsSkus } from '@/api/goods';
 
 import { toast } from '@/composables/util';
 
@@ -58,9 +58,9 @@ const emit = defineEmits(['reloadData']);
 const isLoad = ref(false);
 const submit = () => {
   formDrawerRef.value.showLoadingButton();
-  updateGoods(goodsId.value, form)
+  updateGoodsSkus(goodsId.value, form)
     .then((response) => {
-      toast('設置商品詳情成功');
+      toast('設置商品規格成功');
       formDrawerRef.value.close();
       emit('reloadData');
     })
