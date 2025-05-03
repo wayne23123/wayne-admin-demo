@@ -7,6 +7,8 @@ import { readGoods, updateGoodsSkus } from '@/api/goods';
 
 import { toast } from '@/composables/util';
 
+import SkuCard from './components/SkuCard.vue';
+
 const formDrawerRef = ref(null);
 
 const form = reactive({
@@ -116,7 +118,9 @@ defineExpose({
           </el-input>
         </el-form-item>
       </template>
-      <template v-else> 多規格 </template>
+      <template v-else>
+        <SkuCard></SkuCard>
+      </template>
       <el-form-item>
         <el-button type="primary" @click="submit" :loading="isLoad"
           >提交</el-button
