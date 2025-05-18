@@ -28,3 +28,9 @@ import SkuCardItem from './SkuCardItem.vue';
     </el-card>
   </el-form-item>
 </template>
+
+<style scoped>
+.el-card__header {
+  @apply !p-2 bg-gray-50;
+}
+</style>
