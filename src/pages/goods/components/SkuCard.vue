@@ -1,13 +1,24 @@
 <script setup>
 import SkuCardItem from './SkuCardItem.vue';
+
+import { sku_card_list } from '@/composables/useSku.js';
 </script>
 
 <template>
   <el-form-item label="規格">
-    <el-card shadow="never" class="w-full mb-3">
+    <el-card
+      shadow="never"
+      class="w-full mb-3"
+      v-for="(item, index) in sku_card_list"
+      :key="index"
+    >
       <template #header>
         <div class="flex items-center">
-          <el-input placeholder="規格名稱" style="width: 200px">
+          <el-input
+            v-model="item.text"
+            placeholder="規格名稱"
+            style="width: 200px"
+          >
             <template #append>
               <el-icon><more /></el-icon>
             </template>
@@ -25,6 +36,8 @@ import SkuCardItem from './SkuCardItem.vue';
       </template>
 
       <SkuCardItem></SkuCardItem>
+
+      <el-button type="success" size="small">新增規格</el-button>
     </el-card>
   </el-form-item>
 </template>

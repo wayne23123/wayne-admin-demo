@@ -9,6 +9,8 @@ import { toast } from '@/composables/util';
 
 import SkuCard from './components/SkuCard.vue';
 
+import { goodsId, initSkuCardList } from '@/composables/useSku.js';
+
 const formDrawerRef = ref(null);
 
 const form = reactive({
@@ -22,7 +24,7 @@ const form = reactive({
   },
 });
 
-const goodsId = ref(0);
+// const goodsId = ref(0);
 
 const open = (row) => {
   // console.log('row', row);
@@ -47,6 +49,8 @@ const open = (row) => {
       // response.data.data.goodsBanner.map((object) => {
       //   return object.url;
       // });
+
+      initSkuCardList(response.data.data.sku_list || []);
 
       formDrawerRef.value.open();
     })
