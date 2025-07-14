@@ -35,7 +35,7 @@ const open = (row) => {
 
   readGoods(goodsId.value)
     .then((response) => {
-      // console.log('response', reponse);
+      // console.log('response', response);
 
       form.sku_type = response.data.data.sku_type || 0;
       form.sku_value = response.data.data.sku_value || {
@@ -50,7 +50,7 @@ const open = (row) => {
       //   return object.url;
       // });
 
-      initSkuCardList(response.data.data.sku_list || []);
+      initSkuCardList(response.data.data || []);
 
       formDrawerRef.value.open();
     })
