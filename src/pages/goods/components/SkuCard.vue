@@ -10,7 +10,7 @@ import { sku_card_list } from '@/composables/useSku.js';
       shadow="never"
       class="w-full mb-3"
       v-for="(item, index) in sku_card_list"
-      :key="index"
+      :key="item.id"
     >
       <template #header>
         <div class="flex items-center">
