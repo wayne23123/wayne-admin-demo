@@ -20,3 +20,13 @@ export function initSkuCardList(data) {
     return item;
   });
 }
+
+export function initSkusCardItem(id) {
+  // console.log('id', id);
+
+  const item = sku_card_list.value.find((item) => item.id === id);
+
+  return {
+    item,
+  };
+}

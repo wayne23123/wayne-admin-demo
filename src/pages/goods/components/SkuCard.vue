@@ -35,7 +35,7 @@ import { sku_card_list } from '@/composables/useSku.js';
         </div>
       </template>
 
-      <SkuCardItem></SkuCardItem>
+      <SkuCardItem :skuCardId="item.id"></SkuCardItem>
 
       <el-button type="success" size="small">新增規格</el-button>
     </el-card>
