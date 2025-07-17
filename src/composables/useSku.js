@@ -30,3 +30,9 @@ export function initSkusCardItem(id) {
     item,
   };
 }
+
+export function createGoodsSkusCard(data) {
+  // console.log('data', data);
+
+  return axios.post(`/admin/goods_skus_card`, data);
+}
